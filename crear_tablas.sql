@@ -77,7 +77,7 @@ CREATE TABLE COMPETICION_FAV (
 CREATE TABLE MENSAJE (
     id_mensaje INTEGER PRIMARY KEY,
     nombre_usuario REFERENCES JUGADOR(nombre_usuario) ON DELETE CASCADE,
-    mensaje TEXT ,
+    mensaje TEXT NOT NULL,
     hora TIME,
     fecha DATE
 );
