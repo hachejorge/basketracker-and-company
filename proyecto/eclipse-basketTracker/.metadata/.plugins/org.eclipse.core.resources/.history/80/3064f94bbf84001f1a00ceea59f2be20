@@ -1,0 +1,15 @@
+INSERT INTO sisinf_db.USUARIO (nombre_usuario, correo_elec, password)
+VALUES ('admin', '872838@unizar.es', 'admin');
+
+-- Crear el perfil del Jugador 1
+INSERT INTO sisinf_db.USUARIO (nombre_usuario, correo_elec, password)
+VALUES ('jugador1', 'jugador1@example.com', 'password1');
+
+-- Crear el perfil del Jugador 2
+INSERT INTO sisinf_db.USUARIO (nombre_usuario, correo_elec, password)
+VALUES ('jugador2', 'jugador2@example.com', 'password2');
+
+-- Crear el perfil del Jugador 3
+INSERT INTO sisinf_db.USUARIO (nombre_usuario, correo_elec, password)
+VALUES ('jugador3', 'jugador3@example.com', 'password3');
+

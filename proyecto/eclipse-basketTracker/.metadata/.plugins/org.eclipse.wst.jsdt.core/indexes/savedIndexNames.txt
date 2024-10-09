@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+/home/jorge/eclipse-basketTracker/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+2457454625.index
+418556852.index
+2227182997.index
+2594813701.index
+2868309463.index
+1606289656.index

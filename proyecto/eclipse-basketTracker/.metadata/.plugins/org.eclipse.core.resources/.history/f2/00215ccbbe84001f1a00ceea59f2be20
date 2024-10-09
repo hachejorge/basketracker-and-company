@@ -1,0 +1,2 @@
+INSERT INTO sisinf_db.USUARIO (nombre_usuario, correo_elec, password)
+VALUES ('admin', 'jorgeh2004hsj@example.com', 'admin');
