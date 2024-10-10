@@ -1,3 +1,0 @@
-INDEX VERSION 1.134+/home/jorge/eclipse-basketTracker/.metadata/.plugins/org.eclipse.jdt.core
-4157032228.index
-2868309463.index
