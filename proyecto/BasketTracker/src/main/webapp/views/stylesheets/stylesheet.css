@@ -86,7 +86,7 @@ body {
 .form-group button {
     width: 100%;
     padding: 10px;
-    background-color: var(--color-primary); /* Cambia el color de fondo a la variable */
+    background-color: var(--color-secondary); /* Cambia el color de fondo a la variable */
     border: none;
     color: white;
     border-radius: 20px;
@@ -116,4 +116,13 @@ body {
 
 .form-links a:hover {
     text-decoration: underline;
+}
+
+.header-container {
+	background: var(--color-secondary);
+	
+}
+
+.logo-container {
+	    height: 40px; /* Ajusta el tamaño del logo */
 }
