@@ -13,7 +13,7 @@
 	<%@ include file="header.jsp" %>
 <div class="container">
         <div class="image-section">
-            <img src="<%= request.getContextPath() %>/views/images/imagen-login.png" alt="Imagen de Baloncesto">
+            <img src="<%= request.getContextPath() %>/views/images/imagen-register.png" alt="Imagen de Baloncesto">
         </div>
         <div class="form-section">
             <h2>Registrarse</h2>
@@ -37,13 +37,23 @@
                     <i class="fa fa-eye toggle-password" id="toggle-password" onclick="togglePassword()"></i>
                 </div>
                 
-                <div class="search-container">
-			        <img src="https://via.placeholder.com/20" alt="Jupyter Icon" class="icon"> <!-- You can replace this link with the actual icon -->
-			        <input type="text" class="search-input" placeholder="Buscador">
-			        <button class="search-btn">
-			            <i class="fa fa-search"></i>
-			        </button>
+			    <div class="outer-container">
+			        <div class="checkbox-wrapper">
+			            <label class="checkbox-label">
+			                <input type="checkbox" id="jugador" name="jugador">
+			                Jugador
+			            </label>
+			        </div>
+			        <div class="search-container">
+			            <input type="text" class="search-input" placeholder="Buscador" id="searchInput" disabled>
+			            <button class="search-btn" id="searchBtn" disabled>
+			                <i class="fa fa-search"></i>
+			            </button>
+			        </div>
 			    </div>
+
+
+
                 <hr>
                 <div class="form-group">
                     <button type="button" onclick="location.href='RegistroServlet'">Registrarse</button>
@@ -67,7 +77,34 @@
                 toggleIcon.classList.add("fa-eye");
             }
         }
-    </script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkbox = document.getElementById('jugador');
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+
+            // Función para habilitar o deshabilitar el campo de búsqueda
+            function toggleSearchInput() {
+                if (checkbox.checked) {
+                    searchInput.disabled = false; // Habilitar el campo de búsqueda
+                    searchBtn.disabled = false;   // Habilitar el botón
+                    searchInput.style.opacity = 1; // Hacer visible el campo de búsqueda
+                    searchBtn.style.opacity = 1;   // Hacer visible el botón
+                } else {
+                    searchInput.disabled = true;  // Deshabilitar el campo de búsqueda
+                    searchBtn.disabled = true;    // Deshabilitar el botón
+                    searchInput.style.opacity = 0.5; // Reducir opacidad para indicar que está deshabilitado
+                    searchBtn.style.opacity = 0.5;   // Reducir opacidad para indicar que está deshabilitado
+                }
+            }
+
+            // Añadir un evento 'change' para la casilla de verificación
+            checkbox.addEventListener('change', toggleSearchInput);
+            
+            // Inicializar el estado al cargar la página
+            toggleSearchInput();
+        });	
+</script>
     
 </body>
 </html>
