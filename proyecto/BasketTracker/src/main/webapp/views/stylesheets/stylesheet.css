@@ -11,13 +11,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-   	padding-top: 180px; /* Ajusta este valor según la altura de la cabecera */
-    margin: 0; /* Asegúrate de que no haya margen en el cuerpo */
-    display: flex; /* Flexbox para centrar el contenido */
-    justify-content: center; /* Centrar horizontalmente */
-    align-items: center; /* Centrar verticalmente */
+    padding-top: 330px;
     height: calc(100vh - 180px); /* Ajusta la altura para evitar superposición */
     background-color: #f0f0f0; /* Color de fondo */
 }
@@ -49,14 +43,17 @@ body {
 }
 
 
-
+.thecontainer {
+	display: flex;
+	flex-direction: column;
+	margin-top: 180px; /* Añade margen superior para evitar superposición con la cabecera */
+}
 .container {
     display: flex;
     width: auto; /* Asegura que el contenedor ocupe el 100% */
     height: auto;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: auto; /* Añade margen superior para evitar superposición con la cabecera */
 }
 
 .image-section {
@@ -154,23 +151,6 @@ body {
     text-decoration: underline;
 }
 
-.footer-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: rgba(214, 214, 214, 1);
-    border-top: 1px solid rgba(212, 64, 0, 0.72);
-    position: relative; /* Added for footer positioning */
-    bottom: 0; /* Keeps footer at the bottom */
-    width: 100%; /* Makes footer full width */
-}
-
-.footer-title {
-    font-size: 2em;
-    color: rgb(35, 35, 35);
-}
-
 .contact-info {
     font-size: 1em;
     color: rgb(35, 35, 35);
@@ -213,16 +193,12 @@ body {
     box-sizing: border-box;
 }
 
-body {
-    font-family: Arial, sans-serif;
-}
-
 .outer-container {
+	background-color: transparent; /* Asegura que no haya ningún fondo gris */
     display: flex;                  /* Usar flexbox para la disposición */
     align-items: center;           /* Centrar verticalmente los elementos */
     width: 100%;                   /* Ancho del contenedor */
     padding: 10px;                 /* Espaciado interno para el contenedor */
-    background-color: #f9f9f9;     /* Color de fondo del contenedor */
 }
 
 .checkbox-wrapper {
@@ -234,8 +210,7 @@ body {
     flex: 1;                       /* Cada sub-div ocupará el mismo espacio */
     display: flex;                 /* Usar flexbox para el input y el botón */
     align-items: center;           /* Centrar verticalmente los elementos en el contenedor de búsqueda */
-    border: 1px solid #ccc;        /* Borde del contenedor de búsqueda */
-    border-radius: 5px;            /* Bordes redondeados */
+    border-radius: 10px;            /* Bordes redondeados */
     padding: 5px;                  /* Espaciado interno */
 }
 
@@ -264,3 +239,23 @@ body {
 .search-btn:disabled {
     cursor: not-allowed;           /* Cambiar cursor cuando está deshabilitado */
 }
+
+.endpage {
+	width: auto;
+	height: 136px;
+	background-color: #D6D6D6;
+	flex-direction: row;
+	
+}
+
+
+.endpage_logo {
+    flex: 2;
+}
+
+.endpage_logo img {
+    width: auto;
+    height: 136px;
+    object-fit: cover;
+}
+

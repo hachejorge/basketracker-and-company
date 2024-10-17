@@ -10,8 +10,8 @@
     
 </head>
 <body>
-	<%@ include file="header.jsp" %>
-<div class="container">
+<%@ include file="header.jsp" %>
+	<div class="container">
         <div class="image-section">
             <img src="<%= request.getContextPath() %>/views/images/imagen-register.png" alt="Imagen de Baloncesto">
         </div>
@@ -23,18 +23,18 @@
                     <input type="text" id="usuario" name="usuario" placeholder="Usuario" required>
                 </div>
                 <div class="form-group">
-                    <label for="usuario">Correo electrónico (@)</label>
+                    <label for="correo">Correo electrónico (@)</label>
                     <input type="email" id="correo" name="correo" placeholder="Correo Electrónico" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Contraseña</label>
                     <input type="password" id="password" name="password" placeholder="Contraseña" required>
-                    <i class="fa fa-eye toggle-password" id="toggle-password" onclick="togglePassword()"></i>
+                    <i class="fa fa-eye toggle-password" id="toggle-password1" onclick="togglePassword('password', 'toggle-password1')"></i>
                 </div>
                  <div class="form-group">
-                    <label for="password">Repetir Contraseña</label>
-                    <input type="password" id="password" name="password" placeholder="Contraseña" required>
-                    <i class="fa fa-eye toggle-password" id="toggle-password" onclick="togglePassword()"></i>
+                    <label for="repeat-password">Repetir Contraseña</label>
+                    <input type="password" id="repeat-password" name="repeat-password" placeholder="Contraseña" required>
+                    <i class="fa fa-eye toggle-password" id="toggle-password2" onclick="togglePassword('repeat-password', 'toggle-password2')"></i>
                 </div>
                 
 			    <div class="outer-container">
@@ -52,8 +52,6 @@
 			        </div>
 			    </div>
 
-
-
                 <hr>
                 <div class="form-group">
                     <button type="button" onclick="location.href='RegistroServlet'">Registrarse</button>
@@ -63,9 +61,10 @@
     </div>
 
     <script>
-        function togglePassword() {
-            var passwordInput = document.getElementById("password");
-            var toggleIcon = document.getElementById("toggle-password");
+        // Función para alternar la visibilidad de la contraseña
+        function togglePassword(passwordFieldId, toggleIconId) {
+            var passwordInput = document.getElementById(passwordFieldId);
+            var toggleIcon = document.getElementById(toggleIconId);
 
             if (passwordInput.type === "password") {
                 passwordInput.type = "text";
@@ -77,7 +76,7 @@
                 toggleIcon.classList.add("fa-eye");
             }
         }
-        
+
         document.addEventListener('DOMContentLoaded', function() {
             const checkbox = document.getElementById('jugador');
             const searchInput = document.getElementById('searchInput');
@@ -104,9 +103,7 @@
             // Inicializar el estado al cargar la página
             toggleSearchInput();
         });	
-</script>
+    </script>
     
 </body>
 </html>
-
-

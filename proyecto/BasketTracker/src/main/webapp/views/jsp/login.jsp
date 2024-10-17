@@ -11,36 +11,53 @@
 </head>
 <body>
 	<%@ include file="header.jsp" %>
-<div class="container">
-        <div class="image-section">
-            <img src="<%= request.getContextPath() %>/views/images/imagen-login.png" alt="Imagen de Baloncesto">
-        </div>
-        <div class="form-section">
-            <h2>Iniciar Sesión</h2>
-            <form action="LoginServlet" method="post">
-                <div class="form-group">
-                    <label for="usuario">Nombre de Usuario</label>
-                    <input type="text" id="usuario" name="usuario" placeholder="Usuario" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Contraseña</label>
-                    <input type="password" id="password" name="password" placeholder="Contraseña" required>
-                    <i class="fa fa-eye toggle-password" id="toggle-password" onclick="togglePassword()"></i>
-                </div>
-                <div class="form-group">
-                    <button type="submit">Iniciar Sesión</button>
-                </div>
-                <div class="form-links">
-                    <a href="#">¿Has olvidado tu contraseña?</a>
-                </div>
-                <hr>
-                <div class="form-group">
-                    <label>Todavía no tienes cuenta</label>
-                    <button class="register" type="button" onclick="location.href='<%= request.getContextPath() %>/views/jsp/register.jsp'">Registrarse</button>
-                </div>
-            </form>
-        </div>
+	<div class="thecontainer">
+		<div class="container">
+	        <div class="image-section">
+	            <img src="<%= request.getContextPath() %>/views/images/imagen-login.png" alt="Imagen de Baloncesto">
+	        </div>
+	        <div class="form-section">
+	            <h2>Iniciar Sesión</h2>
+	            <form action="LoginServlet" method="post">
+	                <div class="form-group">
+	                    <label for="usuario">Nombre de Usuario</label>
+	                    <input type="text" id="usuario" name="usuario" placeholder="Usuario" required>
+	                </div>
+	                <div class="form-group">
+	                    <label for="password">Contraseña</label>
+	                    <input type="password" id="password" name="password" placeholder="Contraseña" required>
+	                    <i class="fa fa-eye toggle-password" id="toggle-password" onclick="togglePassword()"></i>
+	                </div>
+	                
+	                <!-- Mostrar el mensaje de error si existe -->
+		            <% if (request.getAttribute("error") != null) { %>
+		                <div class="error">
+		                    <%= request.getAttribute("error") %>
+		                </div>
+		            <% } %>
+            
+	                <div class="form-group">
+	                    <button type="submit">Iniciar Sesión</button>
+	                </div>
+	                <div class="form-links">
+	                    <a href="#">¿Has olvidado tu contraseña?</a>
+	                </div>
+	                <hr>
+	                <div class="form-group">
+	                    <label>Todavía no tienes cuenta</label>
+	                    <button class="register" type="button" onclick="location.href='<%= request.getContextPath() %>/views/jsp/register.jsp'">Registrarse</button>
+	                </div>
+	            </form>
+	        </div>
+	    </div>
+	    <div class ="endpage">
+	    	<div>
+	    		<img class="endpage_logo" src="<%= request.getContextPath() %>/views/images/logo-color.png" alt="Logo Basketracker">
+	    	</div>
+	    </div>
     </div>
+    
+    
 
     <script>
         function togglePassword() {
