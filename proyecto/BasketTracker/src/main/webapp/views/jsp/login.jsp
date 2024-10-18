@@ -28,13 +28,6 @@
 	                    <input type="password" id="password" name="password" placeholder="Contraseña" required>
 	                    <i class="fa fa-eye toggle-password" id="toggle-password" onclick="togglePassword()"></i>
 	                </div>
-	                
-	                <!-- Mostrar el mensaje de error si existe -->
-		            <% if (request.getAttribute("error") != null) { %>
-		                <div class="error">
-		                    <%= request.getAttribute("error") %>
-		                </div>
-		            <% } %>
             
 	                <div class="form-group">
 	                    <button type="submit">Iniciar Sesión</button>
@@ -51,7 +44,7 @@
 	        </div>
 	    </div>
 	    <div class ="endpage">
-	    	<div>
+	    	<div >
 	    		<img class="endpage_logo" src="<%= request.getContextPath() %>/views/images/logo-color.png" alt="Logo Basketracker">
 	    	</div>
 	    </div>
