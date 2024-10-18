@@ -1,10 +1,10 @@
-public class Usuario {
+public class UsuarioVO {
     private String nombreUsuario;
     private String correoElect;
     private String password;
 
     // Constructor
-    public Usuario(String nombreUsuario, String correoElect, String password) {
+    public UsuarioVO(String nombreUsuario, String correoElect, String password) {
         this.nombreUsuario = nombreUsuario;
         this.correoElect = correoElect;
         this.password = password;

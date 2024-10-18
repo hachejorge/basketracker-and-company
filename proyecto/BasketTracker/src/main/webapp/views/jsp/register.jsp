@@ -67,7 +67,7 @@
 		</div>
     </div>
 
-    <script>
+    <script>LoginServlet
         // Función para alternar la visibilidad de la contraseña
         function togglePassword(passwordFieldId, toggleIconId) {
             var passwordInput = document.getElementById(passwordFieldId);

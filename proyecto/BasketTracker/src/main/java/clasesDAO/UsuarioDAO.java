@@ -1,6 +1,6 @@
-package src.main.clasesDAO;
+package clasesDAO;
 
-import src.main.clasesVO.Usuario;
+import clasesVO.UsuarioVO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,7 +13,7 @@ public class UsuarioDAO {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
 
     // Método para guardar un usuario
-    public void guardarUsuario(Usuario usuario) {
+    public void guardarUsuario(UsuarioVO usuario) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -25,10 +25,10 @@ public class UsuarioDAO {
     }
 
     // Método para obtener un usuario por su nombre de usuario
-    public Usuario obtenerUsuarioPorNombre(String nombreUsuario) {
+    public UsuarioVO obtenerUsuarioPorNombre(String nombreUsuario) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = :nombreUsuario", Usuario.class)
+            return em.createQuery("SELECT u FROM Usuario u WHERE u.nombreUsuario = :nombreUsuario", UsuarioVO.class)
                     .setParameter("nombreUsuario", nombreUsuario)
                     .getSingleResult();
         } finally {
@@ -40,14 +40,14 @@ public class UsuarioDAO {
     public List<Usuario> listarUsuarios() {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.createQuery("FROM Usuario", Usuario.class).getResultList();
+            return em.createQuery("FROM Usuario", UsuarioVO.class).getResultList();
         } finally {
             em.close();
         }
     }
 
     // Método para actualizar la información de un usuario
-    public void actualizarUsuario(Usuario usuario) {
+    public void actualizarUsuario(UsuarioVO usuario) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -62,7 +62,7 @@ public class UsuarioDAO {
     public void eliminarUsuario(String nombreUsuario) {
         EntityManager em = emf.createEntityManager();
         try {
-            Usuario usuario = obtenerUsuarioPorNombre(nombreUsuario);
+            UsuarioVO usuario = obtenerUsuarioPorNombre(nombreUsuario);
             if (usuario != null) {
                 em.getTransaction().begin();
                 em.remove(usuario);
