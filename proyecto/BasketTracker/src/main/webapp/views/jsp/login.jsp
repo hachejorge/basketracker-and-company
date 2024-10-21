@@ -43,11 +43,7 @@
 	            </form>
 	        </div>
 	    </div>
-	    <div class ="endpage">
-	    	<div >
-	    		<img class="endpage_logo" src="<%= request.getContextPath() %>/views/images/logo-color.png" alt="Logo Basketracker">
-	    	</div>
-	    </div>
+	    <%@ include file="footer.jsp" %>
     </div>
     
     

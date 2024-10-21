@@ -242,7 +242,7 @@ body {
 }
 
 .endpage {
-	display:flex;
+	display: flex;
 	width: auto;
 	height: 136px;
 	background-color: #D6D6D6;
@@ -263,22 +263,23 @@ body {
 }
 
 .location {
-	width: 136px;
+	margin-left: 25px;
+	width: 170px;
 	height: 136px;
     font-size: 13px;
     color: #333; /* Color de texto */
     display: flex; /* Usamos Flexbox para el centrado */
-    justify-content: center; /* Centra horizontalmente */
+    justify-content: flex-start; /* Centra horizontalmente */
     align-items: center; /* Centra verticalmente */
 }
 
 .contact {
-	width: 180px;
+	width: 250px;
 	height: 136px;
     font-size: 13px;
     color: #333; /* Color de texto */
     display: flex; /* Usamos Flexbox para el centrado */
-    justify-content: center; /* Centra horizontalmente */
+    justify-content: flex-start; /* Centra horizontalmente */
     align-items: center; /* Centra verticalmente */
 }
 
@@ -291,6 +292,7 @@ body {
     border-radius: 50%; /* Hace el div circular */
     margin-right: 10px; /* Espacio entre el círculo y el texto */
     border: 1px solid #000;
+    margin: 0 20px;
 }
 
 .who {
@@ -301,6 +303,9 @@ body {
     display: flex; /* Usamos Flexbox para el centrado */
     justify-content: center; /* Centra horizontalmente */
     align-items: center; /* Centra verticalmente */
+    margin: 10 20px;
+    margin-left: 150px;
+    
 }
 
 .help {
@@ -311,10 +316,11 @@ body {
     display: flex; /* Usamos Flexbox para el centrado */
     justify-content: center; /* Centra horizontalmente */
     align-items: center; /* Centra verticalmente */
+    margin: 0 20px;
 }
 
 .social-icons {
-    margin: 10px 0;
+   margin-left: 50px;
 }
 
 .social-icons a {
