@@ -12,7 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     padding-top: 330px;
-    height: calc(100vh - 180px); /* Ajusta la altura para evitar superposición */
+    height: calc(100vh - 138px); /* Ajusta la altura para evitar superposición */
     background-color: #f0f0f0; /* Color de fondo */
 }
 
@@ -25,7 +25,7 @@ body {
     background-color: var(--color-primary); /* Color de fondo usando la variable */
     text-align: center; /* Centra el contenido */
     z-index: 1000; /* Asegura que esté por encima de otros elementos */
-    height: 180px; /* Establece una altura fija para la cabecera */
+    height: 138px; /* Establece una altura fija para la cabecera */
     
 }
 
@@ -212,6 +212,7 @@ body {
     align-items: center;           /* Centrar verticalmente los elementos en el contenedor de búsqueda */
     border-radius: 10px;            /* Bordes redondeados */
     padding: 5px;                  /* Espaciado interno */
+    border: 1px solid #ccc;
 }
 
 .search-input {
@@ -241,20 +242,89 @@ body {
 }
 
 .endpage {
+	display:flex;
 	width: auto;
 	height: 136px;
 	background-color: #D6D6D6;
 	flex-direction: row;
-	
+	align-items: center;
+	justify-content: flex-start;
+	padding: 0 20px; /* Agrega un poco de espacio a los lados */
 }
 
 .endpage_logo {
-	flex: 2;
+	width: 136px;
+	height: 136px;
 }
 
 .endpage_logo img {
-    width: auto;
-    height: 136px;
+	width: 136px;
     object-fit: cover;
 }
+
+.location {
+	width: 136px;
+	height: 136px;
+    font-size: 13px;
+    color: #333; /* Color de texto */
+    display: flex; /* Usamos Flexbox para el centrado */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+}
+
+.contact {
+	width: 180px;
+	height: 136px;
+    font-size: 13px;
+    color: #333; /* Color de texto */
+    display: flex; /* Usamos Flexbox para el centrado */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+}
+
+/* Círculo antes de .location y .contact */
+.location::before, .contact::before {
+    content: ''; /* Crea el pseudo-elemento */
+    width: 13px;
+    height: 13px;
+    background-color: var(--color-primary); /* Color del círculo */
+    border-radius: 50%; /* Hace el div circular */
+    margin-right: 10px; /* Espacio entre el círculo y el texto */
+    border: 1px solid #000;
+}
+
+.who {
+	width: 136px;
+	height: 136px;
+    font-size: 13px;
+    color: #333; /* Color de texto */
+    display: flex; /* Usamos Flexbox para el centrado */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+}
+
+.help {
+	width: 180px;
+	height: 136px;
+    font-size: 13px;
+    color: #333; /* Color de texto */
+    display: flex; /* Usamos Flexbox para el centrado */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+}
+
+.social-icons {
+    margin: 10px 0;
+}
+
+.social-icons a {
+    margin: 0 10px;
+    display: inline-block;
+}
+
+.social-icons img {
+    width: 20px;
+    height: 20px;
+}
+
 
