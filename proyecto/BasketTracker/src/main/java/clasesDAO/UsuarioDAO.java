@@ -37,7 +37,7 @@ public class UsuarioDAO {
     }
 
     // Método para listar todos los usuarios
-    public List<Usuario> listarUsuarios() {
+    public List<UsuarioVO> listarUsuarios() {
         EntityManager em = emf.createEntityManager();
         try {
             return em.createQuery("FROM Usuario", UsuarioVO.class).getResultList();

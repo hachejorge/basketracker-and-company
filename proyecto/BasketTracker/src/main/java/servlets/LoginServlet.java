@@ -4,13 +4,13 @@ import clasesVO.UsuarioVO;
 import clasesDAO.UsuarioDAO;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -23,13 +23,16 @@ public class LoginServlet extends HttpServlet {
         	if ((usuario != null) && (!usuario.trim().equals("")) && 
         	   (password != null) && (!password.trim().equals("")) ) {
         		
+        		UsuarioDAO usuarioDAO = new UsuarioDAO();
+        		
         		// Comprobar si existe el usuario en la base de datos y tiene vinculada su contraseña
-                UsuarioVO usuarioEncontrado = UsuarioDAO.obtenerUsuarioPorNombre(usuario);
+                UsuarioVO usuarioEncontrado = usuarioDAO.obtenerUsuarioPorNombre(usuario);
                 
                 // Comprobar si el usuario existe y la contraseña coincide
                 if (usuarioEncontrado != null && usuarioEncontrado.getPassword().equals(password)) {
                     // El usuario y la contraseña son correctos
-                    response.getWriter().write("Login exitoso");
+                	RequestDispatcher dispatcher = request.getRequestDispatcher("hello.jsp");
+                    dispatcher.forward(request, response);
                 } else {
                     // El usuario no existe o la contraseña no coincide
                     response.getWriter().write("Usuario o contraseña incorrectos");
@@ -38,7 +41,7 @@ public class LoginServlet extends HttpServlet {
         	else{
                 response.getWriter().write("Nombre de usuario o contraseña no pueden estar vacíos");
         	}
-        } catch Exception e { 
+        } catch (Exception e) { 
         	e.printStackTrace();
             response.getWriter().write("Error en el servidor");
         }
