@@ -33,7 +33,7 @@
 	                    <button type="submit">Iniciar Sesión</button>
 	                </div>
 	                <div class="form-links">
-	                    <a href="#">¿Has olvidado tu contraseña?</a>
+	                    <a href="<%= request.getContextPath() %>/views/jsp/recuperar_password.jsp">¿Has olvidado tu contraseña?</a>
 	                </div>
 	                <hr>
 	                <div class="form-group">

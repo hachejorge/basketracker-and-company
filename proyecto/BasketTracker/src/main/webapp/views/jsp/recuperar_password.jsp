@@ -10,14 +10,16 @@
 </head>
 <body>
 	<%@ include file="header.jsp" %>
-	<div class="container">
-		<div class="form-section">
-			<div class="form-group">
-				<label for="correo">Introduce tu correo electrónico:</label>
-				<input type="email" id="correo" name="correo" placeholder="Correo Electrónico" required>			
-			</div>
-			<div class="form-group">
-				<button type="submit">Enviar correo de recuperación de contraseña</button>
+	<div class="thecontainer">	
+		<div class="container">
+			<div class="form-section">
+				<div class="form-group">
+					<label for="correo">Introduce tu correo electrónico:</label>
+					<input type="email" id="correo" name="correo" placeholder="Correo Electrónico" required>			
+				</div>
+				<div class="form-group">
+					<button type="submit">Enviar correo de recuperación de contraseña</button>
+				</div>
 			</div>
 		</div>
 	</div>
