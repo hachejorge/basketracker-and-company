@@ -1,6 +1,6 @@
 <!-- views/jsp/header.jsp -->
 <head>
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/views/stylesheets/stylesheet.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/views/stylesheets/basketracker.css">
 </head>
 <div class="cabecera2-section">
     <div class="cabecera2-rect">
@@ -10,7 +10,7 @@
         </form>
     </div>
     <div class="user-account">
-          <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Mi Cuenta" class="user-icon">
-          <span class="user-text">Mi Cuenta</span>
+          <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=FFFFFF" alt="Mi Cuenta" class="user-icon">
+          <span class="user-text"><b>Mi Cuenta</b></span>
     </div>
 </div>

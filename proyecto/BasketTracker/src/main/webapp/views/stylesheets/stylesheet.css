@@ -425,6 +425,7 @@ body {
     align-items: center; /* Centra verticalmente el contenido */
     margin-left: 20px; /* Espacio entre el logo y la barra de búsqueda */
     flex-grow: 1; /* Permite que la barra de búsqueda crezca */
+    padding-top: 11px;
 }
 
 .search-icon-wrapper {
@@ -467,7 +468,65 @@ body {
 
 .user-text {
     font-size: 12px; /* Ajusta el tamaño de la fuente para el texto */
-    color: #333; /* Cambia el color del texto según sea necesario */
+    color: rgb(255, 255, 255); /* Cambia el color del texto según sea necesario */
     margin-top: 5px; /* Espacio entre el icono y el texto */
 }
 
+.container-inicio {
+	width: 100vw;
+	height: calc(100vh - 276px);
+	background-color: #FFFFFF;
+	
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dcdcdc;
+    padding: 10px 0;
+    margin: 0 500px;
+}
+
+.recuadro {
+	 border: 1px solid #000;
+}
+
+.navbar-item {
+    display: flex;
+    align-items: center;
+    color: black;
+    font-size: 14px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.navbar-item img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.navbar-item.active {
+    background-color: #d84315;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+.navbar-item span {
+    margin-left: 5px;
+}
+
+.info {
+	display: flex;
+	width: auto;
+	height: 100%;
+	flex-direction: row;
+	
+}
+.info-item {
+	width: calc(100vw /3);
+	height: auto;
+}
