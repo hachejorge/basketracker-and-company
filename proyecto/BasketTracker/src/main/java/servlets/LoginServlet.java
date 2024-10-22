@@ -7,12 +7,13 @@ import java.io.IOException;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
+//import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(description = "Servlet de autenticación del usuario", urlPatterns = { "/LoginServlet" })
+//@WebServlet(description = "Servlet de autenticación del usuario", urlPatterns = { "/LoginServlet" })
+//@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
@@ -24,7 +25,7 @@ public class LoginServlet extends HttpServlet {
     		HttpServletResponse response) throws IOException, ServletException {
         String usuario = request.getParameter("usuario");
         String password = request.getParameter("password");
-        
+        System.out.println("Holaaaa");
         try { 
         	if ((usuario != null) && (!usuario.trim().equals("")) && 
         	   (password != null) && (!password.trim().equals("")) ) {

@@ -18,7 +18,7 @@
 	        </div>
 	        <div class="form-section">
 	            <h2>Iniciar Sesión</h2>
-	            <form action="LoginServlet" method="post">
+				<form action="<%= request.getContextPath() %>/LoginServlet" method="post">
 	                <div class="form-group">
 	                    <label for="usuario">Nombre de Usuario</label>
 	                    <input type="text" id="usuario" name="usuario" placeholder="Usuario" required>
