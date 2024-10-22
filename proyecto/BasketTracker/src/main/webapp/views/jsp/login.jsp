@@ -10,8 +10,8 @@
     
 </head>
 <body>
-	<%@ include file="header.jsp" %>
 	<div class="thecontainer">
+		<%@ include file="header.jsp" %>
 		<div class="container">
 	        <div class="image-section">
 	            <img src="<%= request.getContextPath() %>/views/images/imagen-login.png" alt="Imagen de Baloncesto">

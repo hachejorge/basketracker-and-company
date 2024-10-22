@@ -9,19 +9,11 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 330px;
-    height: calc(100vh - 138px); /* Ajusta la altura para evitar superposición */
     background-color: #f0f0f0; /* Color de fondo */
 }
 
 /* Cabecera */
-.header-section {
-    position: fixed;  /* Mantiene la cabecera en la parte superior al hacer scroll */
-    top: 0;  /* Se asegura de que esté en la parte superior */
-    left: 0; /* Alinea al lado izquierdo */
-    right: 0; /* Alinea al lado derecho */
+.cabecera-section {
     background-color: var(--color-primary); /* Color de fondo usando la variable */
     text-align: center; /* Centra el contenido */
     z-index: 1000; /* Asegura que esté por encima de otros elementos */
@@ -29,25 +21,25 @@ body {
     
 }
 
-.header-rect {
+.cabecera-rect {
     margin: 0 auto; /* Centra el div horizontalmente */
     height: 100%; /* Asegura que el div de la cabecera ocupe el 100% de la altura de la cabecera */
     display: flex; /* Flexbox para centrar verticalmente la imagen */
     justify-content: center; /* Centra horizontalmente la imagen */
     align-items: center; /* Centra verticalmente la imagen */
 }
-.header-image {
+
+.cabecera-image {
     height: 100%; /* Ajusta la altura de la imagen al 100% de la cabecera */
-    width: auto; /* Mantiene la proporción de la imagen */
+    width: 136px; /* Mantiene la proporción de la imagen */
     border-radius: 5px; /* Esquinas redondeadas */
 }
-
 
 .thecontainer {
 	display: flex;
 	flex-direction: column;
-	margin-top: 180px; /* Añade margen superior para evitar superposición con la cabecera */
 }
+
 .container {
     display: flex;
     width: auto; /* Asegura que el contenedor ocupe el 100% */
@@ -331,5 +323,151 @@ body {
 .social-icons img {
     width: 20px;
     height: 20px;
+}
+
+.olvidar-container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw; /* Ocupa el 100% del ancho de la pantalla */
+    height: calc(100vh - 276px); /* Ocupa el 100% del alto de la pantalla */
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Asegura que el padding se incluya en las dimensiones */
+    padding: 20px; /* Opcional, para un margen interno */
+    align-items: center;
+    justify-content: center;
+}
+
+.olvidar-section {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    width: 100vw;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.olvidar-group {
+	width: 700px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.olvidar-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-left: 8px;
+}
+
+.olvidar-group input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    padding-right: 40px;
+    padding-left: 15px;
+    border: 1px solid rgb(232, 232, 232);
+    border-radius: 20px;
+}
+
+.olvidar-group input:focus {
+    outline: none;
+    border-bottom: 1px solid var(--color-primary);
+    border-right: 1px solid var(--color-primary);
+}
+
+.olvidar-group button {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--color-primary);
+    border: none;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.olvidar-group button:hover {
+    opacity: 80%;
+}
+
+.cabecera2-section {
+    background-color: var(--color-primary); /* Color de fondo usando la variable */
+    text-align: left; /* Alineación del texto a la izquierda */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    width: 100vw; /* Ocupa el 100% del ancho de la pantalla */
+    height: 138px; /* Establece una altura fija para la cabecera */
+    display: flex; /* Usa flexbox para la alineación */
+    align-items: center; /* Centra verticalmente el contenido */
+    justify-content: flex-start;
+}
+
+.cabecera2-rect {
+    width: 15800px;
+    height: 100%; /* Asegura que el div de la cabecera ocupe el 100% de la altura de la cabecera */
+    display: flex; /* Flexbox para centrar verticalmente la imagen */
+    justify-content: flex-start; /* Alinea el contenido a la izquierda */
+    align-items: center; /* Centra verticalmente la imagen */
+    padding-left: 60px; /* Espaciado opcional a la izquierda */
+    margin-right: 419px;
+}
+
+.cabecera2-image {
+    height: 100%; /* Ajusta la altura de la imagen al 100% de la cabecera */
+    width: 136px; /* Mantiene la proporción de la imagen */
+    border-radius: 5px; /* Esquinas redondeadas */
+}
+
+.cabecera-search-form {
+    display: flex; /* Usar flexbox para alinear el input y el botón */
+    align-items: center; /* Centra verticalmente el contenido */
+    margin-left: 20px; /* Espacio entre el logo y la barra de búsqueda */
+    flex-grow: 1; /* Permite que la barra de búsqueda crezca */
+}
+
+.search-icon-wrapper {
+    display: flex; /* Usar flexbox para alinear el icono */
+    align-items: center; /* Centra verticalmente el icono */
+    padding: 10px; /* Espacio alrededor del icono */
+}
+
+.search-icon {
+    width: 20px; /* Ajusta el tamaño del icono */
+    height: 20px; /* Ajusta el tamaño del icono */
+    margin-right: 20px;
+}
+
+.cabecera-search-input {
+    padding: 15px; /* Aumentar el espaciado interno para hacerla más cómoda */
+    border: 1px solid rgb(232, 232, 232); /* Borde del input */
+    border-radius: 20px; /* Bordes redondeados */
+    outline: none; /* Sin contorno cuando está enfocado */
+    flex-grow: 1; /* Hace que el input ocupe el espacio restante */
+    font-size: 16px; /* Aumentar el tamaño de la fuente para mejorar la legibilidad */
+    margin-left: 10px; /* Espacio entre el icono y el input */
+    width: auto;
+}
+
+.user-account {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column; /* Para alinear el icono y el texto en vertical */
+    align-items: center; /* Centra horizontalmente el contenido */
+    margin-left: 165px; /* Espacio entre el buscador y el icono de usuario */
+    justify-content: center;
+}
+
+.user-icon {
+    width: 60px; /* Ajusta el tamaño del icono de usuario */
+    height: 60px; /* Ajusta el tamaño del icono de usuario */
+}
+
+.user-text {
+    font-size: 12px; /* Ajusta el tamaño de la fuente para el texto */
+    color: #333; /* Cambia el color del texto según sea necesario */
+    margin-top: 5px; /* Espacio entre el icono y el texto */
 }
 

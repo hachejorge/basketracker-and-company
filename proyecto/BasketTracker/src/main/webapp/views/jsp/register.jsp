@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,11 +6,10 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/views/stylesheets/stylesheet.css">
     <title>Registrarse | Basketracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
 </head>
 <body>
-<%@ include file="header.jsp" %>
 	<div class="thecontainer">
+		<%@ include file="header.jsp" %>
 		<div class="container">
 	        <div class="image-section">
 	            <img src="<%= request.getContextPath() %>/views/images/imagen-register.png" alt="Imagen de Baloncesto">
@@ -24,17 +22,17 @@
 	                    <input type="text" id="usuario" name="usuario" placeholder="Usuario" required>
 	                </div>
 	                <div class="form-group">
-	                    <label for="correo">Correo electrÃ³nico (@)</label>
-	                    <input type="email" id="correo" name="correo" placeholder="Correo ElectrÃ³nico" required>
+	                    <label for="correo">Correo electrónico (@)</label>
+	                    <input type="email" id="correo" name="correo" placeholder="Correo Electrónico" required>
 	                </div>
 	                <div class="form-group">
-	                    <label for="password">ContraseÃ±a</label>
-	                    <input type="password" id="password" name="password" placeholder="ContraseÃ±a" required>
+	                    <label for="password">Contraseña</label>
+	                    <input type="password" id="password" name="password" placeholder="Contraseña" required>
 	                    <i class="fa fa-eye toggle-password" id="toggle-password1" onclick="togglePassword('password', 'toggle-password1')"></i>
 	                </div>
 	                 <div class="form-group">
-	                    <label for="repeat-password">Repetir ContraseÃ±a</label>
-	                    <input type="password" id="repeat-password" name="repeat-password" placeholder="ContraseÃ±a" required>
+	                    <label for="repeat-password">Repetir Contraseña</label>
+	                    <input type="password" id="repeat-password" name="repeat-password" placeholder="Contraseña" required>
 	                    <i class="fa fa-eye toggle-password" id="toggle-password2" onclick="togglePassword('repeat-password', 'toggle-password2')"></i>
 	                </div>
 	                
@@ -55,7 +53,7 @@
 	
 	                <hr>
 	                <div class="form-group">
-	                    <button type="button" onclick="location.href='RegistroServlet'">Registrarse</button>
+	                    <button type="submit">Registrarse</button> <!-- Cambiado a submit -->
 	                </div>
 	            </form>
 	        </div>
@@ -63,8 +61,8 @@
 	    <%@ include file="footer.jsp" %> 
 	</div>
 
-    <script>LoginServlet
-        // FunciÃ³n para alternar la visibilidad de la contraseÃ±a
+    <script>
+        // Función para alternar la visibilidad de la contraseña
         function togglePassword(passwordFieldId, toggleIconId) {
             var passwordInput = document.getElementById(passwordFieldId);
             var toggleIcon = document.getElementById(toggleIconId);
@@ -85,25 +83,25 @@
             const searchInput = document.getElementById('searchInput');
             const searchBtn = document.getElementById('searchBtn');
 
-            // FunciÃ³n para habilitar o deshabilitar el campo de bÃºsqueda
+            // Función para habilitar o deshabilitar el campo de búsqueda
             function toggleSearchInput() {
                 if (checkbox.checked) {
-                    searchInput.disabled = false; // Habilitar el campo de bÃºsqueda
-                    searchBtn.disabled = false;   // Habilitar el botÃ³n
-                    searchInput.style.opacity = 1; // Hacer visible el campo de bÃºsqueda
-                    searchBtn.style.opacity = 1;   // Hacer visible el botÃ³n
+                    searchInput.disabled = false; // Habilitar el campo de búsqueda
+                    searchBtn.disabled = false;   // Habilitar el botón
+                    searchInput.style.opacity = 1; // Hacer visible el campo de búsqueda
+                    searchBtn.style.opacity = 1;   // Hacer visible el botón
                 } else {
-                    searchInput.disabled = true;  // Deshabilitar el campo de bÃºsqueda
-                    searchBtn.disabled = true;    // Deshabilitar el botÃ³n
-                    searchInput.style.opacity = 0.5; // Reducir opacidad para indicar que estÃ¡ deshabilitado
-                    searchBtn.style.opacity = 0.5;   // Reducir opacidad para indicar que estÃ¡ deshabilitado
+                    searchInput.disabled = true;  // Deshabilitar el campo de búsqueda
+                    searchBtn.disabled = true;    // Deshabilitar el botón
+                    searchInput.style.opacity = 0.5; // Reducir opacidad para indicar que está deshabilitado
+                    searchBtn.style.opacity = 0.5;   // Reducir opacidad para indicar que está deshabilitado
                 }
             }
 
-            // AÃ±adir un evento 'change' para la casilla de verificaciÃ³n
+            // Añadir un evento 'change' para la casilla de verificación
             checkbox.addEventListener('change', toggleSearchInput);
             
-            // Inicializar el estado al cargar la pÃ¡gina
+            // Inicializar el estado al cargar la página
             toggleSearchInput();
         });	
     </script>
