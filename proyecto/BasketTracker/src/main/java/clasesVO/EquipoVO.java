@@ -1,11 +1,13 @@
-public class Equipo {
+package clasesVO;
+
+public class EquipoVO {
     private int idEquipo;
     private String nombreEquipo;
     private String ubicacion;
     private String competicion;
 
     // Constructor
-    public Equipo(int idEquipo, String nombreEquipo, String ubicacion, String competicion) {
+    public EquipoVO(int idEquipo, String nombreEquipo, String ubicacion, String competicion) {
         this.idEquipo = idEquipo;
         this.nombreEquipo = nombreEquipo;
         this.ubicacion = ubicacion;

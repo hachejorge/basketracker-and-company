@@ -1,7 +1,6 @@
-package src.main.clasesDAO;
+package clasesDAO;
 
-import src.main.clasesVO.Equipo; // Asegúrate de importar la clase desde el paquete correcto.
-import src.main.clasesVO.Jugador; // Asegúrate de importar la clase Jugador
+import clasesVO.EquipoVO; // Asegúrate de importar la clase desde el paquete correcto.
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,7 +13,7 @@ public class EquipoDAO {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
 
     // Método para guardar un equipo
-    public void guardarEquipo(Equipo equipo) {
+    public void guardarEquipo(EquipoVO equipo) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -26,27 +25,27 @@ public class EquipoDAO {
     }
 
     // Método para obtener un equipo por su ID
-    public Equipo obtenerEquipoPorId(int idEquipo) {
+    public EquipoVO obtenerEquipoPorId(int idEquipo) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.find(Equipo.class, idEquipo);
+            return em.find(EquipoVO.class, idEquipo);
         } finally {
             em.close();
         }
     }
 
     // Método para listar todos los equipos
-    public List<Equipo> listarEquipos() {
+    public List<EquipoVO> listarEquipos() {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.createQuery("FROM Equipo", Equipo.class).getResultList();
+            return em.createQuery("FROM Equipo", EquipoVO.class).getResultList();
         } finally {
             em.close();
         }
     }
 
     // Método para actualizar un equipo
-    public void actualizarEquipo(Equipo equipo) {
+    public void actualizarEquipo(EquipoVO equipo) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -61,7 +60,7 @@ public class EquipoDAO {
     public void eliminarEquipo(int idEquipo) {
         EntityManager em = emf.createEntityManager();
         try {
-            Equipo equipo = obtenerEquipoPorId(idEquipo);
+            EquipoVO equipo = obtenerEquipoPorId(idEquipo);
             if (equipo != null) {
                 em.getTransaction().begin();
                 em.remove(em.contains(equipo) ? equipo : em.merge(equipo));
@@ -73,10 +72,10 @@ public class EquipoDAO {
     }
 
     // Método para buscar equipos por nombre de jugador
-    public List<Equipo> obtenerEquiposPorJugador(String nombreJugador) {
+    public List<EquipoVO> obtenerEquiposPorJugador(String nombreJugador) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.createQuery("SELECT e FROM Equipo e JOIN e.jugadores j WHERE j.nombreJugador = :nombreJugador", Equipo.class)
+            return em.createQuery("SELECT e FROM Equipo e JOIN e.jugadores j WHERE j.nombreJugador = :nombreJugador", EquipoVO.class)
                     .setParameter("nombreJugador", nombreJugador)
                     .getResultList();
         } finally {

@@ -1,9 +1,11 @@
-public class JugadorFav {
+package clasesVO;
+
+public class JugadorFavVO {
     private String nombreUsuario; // Se refiere a la tabla USUARIO
     private String jugador; // Se refiere a la tabla JUGADOR
 
     // Constructor
-    public JugadorFav(String nombreUsuario, String jugador) {
+    public JugadorFavVO(String nombreUsuario, String jugador) {
         this.nombreUsuario = nombreUsuario;
         this.jugador = jugador;
     }

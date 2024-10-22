@@ -1,10 +1,12 @@
-public class Comentario {
+package clasesVO;
+
+public class ComentarioVO {
     private String nombreUsuario; // Se refiere a la tabla USUARIO
     private int idPartido; // Se refiere a la tabla PARTIDO
     private String comentario;
 
     // Constructor
-    public Comentario(String nombreUsuario, int idPartido, String comentario) {
+    public ComentarioVO(String nombreUsuario, int idPartido, String comentario) {
         this.nombreUsuario = nombreUsuario;
         this.idPartido = idPartido;
         this.comentario = comentario;

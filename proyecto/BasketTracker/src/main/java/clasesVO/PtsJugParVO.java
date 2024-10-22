@@ -1,4 +1,6 @@
-public class PtsJugPar {
+package clasesVO;
+
+public class PtsJugParVO {
     private int idPartido; // Se refiere a la tabla PARTIDO
     private String nombreUsuario; // Se refiere a la tabla JUGADOR
     private Integer ptsAnt; // Puede ser null
@@ -9,7 +11,7 @@ public class PtsJugPar {
     private Integer mntJd; // Puede ser null
 
     // Constructor
-    public PtsJugPar(int idPartido, String nombreUsuario, Integer ptsAnt, Integer trpAnt,
+    public PtsJugParVO(int idPartido, String nombreUsuario, Integer ptsAnt, Integer trpAnt,
                      Integer tlbLan, Integer tlbAnt, Integer faltas, Integer mntJd) {
         this.idPartido = idPartido;
         this.nombreUsuario = nombreUsuario;

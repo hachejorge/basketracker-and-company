@@ -1,4 +1,6 @@
-public class Partido {
+package clasesVO;
+
+public class PartidoVO {
     private int idPartido;
     private int equipoLocal;
     private int equipoVisitante;
@@ -13,7 +15,7 @@ public class Partido {
     private int ptsC4Visit;
 
     // Constructor
-    public Partido(int idPartido, int equipoLocal, int equipoVisitante, int jornada,
+    public PartidoVO(int idPartido, int equipoLocal, int equipoVisitante, int jornada,
                    int ptsC1Local, int ptsC2Local, int ptsC3Local, int ptsC4Local,
                    int ptsC1Visit, int ptsC2Visit, int ptsC3Visit, int ptsC4Visit) {
         this.idPartido = idPartido;

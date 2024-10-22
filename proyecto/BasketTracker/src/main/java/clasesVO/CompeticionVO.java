@@ -1,8 +1,10 @@
-public class Competicion {
+package clasesVO;
+
+public class CompeticionVO {
     private String nombre;
 
     // Constructor
-    public Competicion(String nombre) {
+    public CompeticionVO(String nombre) {
         this.nombre = nombre;
     }
 

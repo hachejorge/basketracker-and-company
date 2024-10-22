@@ -1,7 +1,7 @@
-package src.main.clasesDAO;
+package clasesDAO;
 
-import src.main.clasesVO.EquipoFav; // Asegúrate de importar la clase desde el paquete correcto.
-import src.main.clasesVO.Usuario; // Importa la clase Usuario
+import clasesVO.EquipoFavVO; // Asegúrate de importar la clase desde el paquete correcto.
+import clasesVO.UsuarioVO; // Importa la clase Usuario
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,7 +14,7 @@ public class EquipoFavDAO {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
 
     // Método para guardar un equipo favorito
-    public void guardarEquipoFav(EquipoFav equipoFav) {
+    public void guardarEquipoFav(EquipoFavVO equipoFav) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -26,10 +26,10 @@ public class EquipoFavDAO {
     }
 
     // Método para obtener equipos favoritos por nombre de usuario
-    public List<EquipoFav> obtenerEquiposFavPorUsuario(String nombreUsuario) {
+    public List<EquipoFavVO> obtenerEquiposFavPorUsuario(String nombreUsuario) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.createQuery("SELECT ef FROM EquipoFav ef WHERE ef.nombreUsuario = :nombreUsuario", EquipoFav.class)
+            return em.createQuery("SELECT ef FROM EquipoFav ef WHERE ef.nombreUsuario = :nombreUsuario", EquipoFavVO.class)
                     .setParameter("nombreUsuario", nombreUsuario)
                     .getResultList();
         } finally {
@@ -38,10 +38,10 @@ public class EquipoFavDAO {
     }
     
     // Método para listar equipos favoritos de un usuario
-    public void listarEquiposFavPorUsuario(Usuario usuario) {
-        List<EquipoFav> equiposFavoritos = obtenerEquiposFavPorUsuario(usuario.getNombreUsuario());
-        System.out.println("Equipos favoritos de " + usuario.getNombreCompleto() + ":");
-        for (EquipoFav equipoFav : equiposFavoritos) {
+    public void listarEquiposFavPorUsuario(UsuarioVO usuario) {
+        List<EquipoFavVO> equiposFavoritos = obtenerEquiposFavPorUsuario(usuario.getNombreUsuario());
+        System.out.println("Equipos favoritos de " + usuario.getNombreUsuario() + ":");
+        for (EquipoFavVO equipoFav : equiposFavoritos) {
             System.out.println(equipoFav.toString());
         }
     }
@@ -50,8 +50,8 @@ public class EquipoFavDAO {
     public void eliminarEquipoFav(String nombreUsuario, int equipoId) {
         EntityManager em = emf.createEntityManager();
         try {
-            List<EquipoFav> equiposFav = obtenerEquiposFavPorUsuario(nombreUsuario);
-            for (EquipoFav equipoFav : equiposFav) {
+            List<EquipoFavVO> equiposFav = obtenerEquiposFavPorUsuario(nombreUsuario);
+            for (EquipoFavVO equipoFav : equiposFav) {
                 if (equipoFav.getEquipo() == equipoId) {
                     em.getTransaction().begin();
                     em.remove(em.contains(equipoFav) ? equipoFav : em.merge(equipoFav));

@@ -1,6 +1,6 @@
-package src.main.clasesDAO;
+package clasesDAO;
 
-import src.main.clasesVO.Mensaje; // Asegúrate de importar la clase desde el paquete correcto.
+import clasesVO.MensajeVO; // Asegúrate de importar la clase desde el paquete correcto.
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,7 +13,7 @@ public class MensajeDAO {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
 
     // Método para guardar un mensaje
-    public void guardarMensaje(Mensaje mensaje) {
+    public void guardarMensaje(MensajeVO mensaje) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -25,27 +25,27 @@ public class MensajeDAO {
     }
 
     // Método para obtener un mensaje por ID
-    public Mensaje obtenerMensajePorId(int idMensaje) {
+    public MensajeVO obtenerMensajePorId(int idMensaje) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.find(Mensaje.class, idMensaje);
+            return em.find(MensajeVO.class, idMensaje);
         } finally {
             em.close();
         }
     }
 
     // Método para listar todos los mensajes
-    public List<Mensaje> listarMensajes() {
+    public List<MensajeVO> listarMensajes() {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.createQuery("FROM Mensaje", Mensaje.class).getResultList();
+            return em.createQuery("FROM Mensaje", MensajeVO.class).getResultList();
         } finally {
             em.close();
         }
     }
 
     // Método para actualizar un mensaje
-    public void actualizarMensaje(Mensaje mensaje) {
+    public void actualizarMensaje(MensajeVO mensaje) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -60,7 +60,7 @@ public class MensajeDAO {
     public void eliminarMensaje(int idMensaje) {
         EntityManager em = emf.createEntityManager();
         try {
-            Mensaje mensaje = obtenerMensajePorId(idMensaje);
+            MensajeVO mensaje = obtenerMensajePorId(idMensaje);
             if (mensaje != null) {
                 em.getTransaction().begin();
                 em.remove(em.contains(mensaje) ? mensaje : em.merge(mensaje));

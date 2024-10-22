@@ -1,7 +1,9 @@
+package clasesVO;
+
 import java.sql.Date;
 import java.sql.Time;
 
-public class Mensaje {
+public class MensajeVO {
     private int idMensaje;
     private String nombreUsuario; // Se refiere a la tabla JUGADOR
     private String mensaje;
@@ -9,7 +11,7 @@ public class Mensaje {
     private Date fecha;
 
     // Constructor
-    public Mensaje(int idMensaje, String nombreUsuario, String mensaje, Time hora, Date fecha) {
+    public MensajeVO(int idMensaje, String nombreUsuario, String mensaje, Time hora, Date fecha) {
         this.idMensaje = idMensaje;
         this.nombreUsuario = nombreUsuario;
         this.mensaje = mensaje;

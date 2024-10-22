@@ -1,8 +1,8 @@
-package src.main.clasesDAO;
+package clasesDAO;
 
-import src.main.clasesVO.Comentario;
-import src.main.clasesVO.Usuario;
-import src.main.clasesVO.Partido;
+import clasesVO.ComentarioVO;
+import clasesVO.UsuarioVO;
+import clasesVO.PartidoVO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,7 +14,7 @@ public class ComentarioDAO {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
 
     // Método para guardar un comentario
-    public void guardarComentario(Comentario comentario) {
+    public void guardarComentario(ComentarioVO comentario) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(comentario);
@@ -23,25 +23,25 @@ public class ComentarioDAO {
     }
 
     // Método para obtener un comentario por su ID
-    public Comentario obtenerComentarioPorId(Long id) {
+    public ComentarioVO obtenerComentarioPorId(Long id) {
         EntityManager em = emf.createEntityManager();
-        Comentario comentario = em.find(Comentario.class, id);
+        ComentarioVO comentario = em.find(ComentarioVO.class, id);
         em.close();
         return comentario;
     }
 
     // Método para listar todos los comentarios
-    public List<Comentario> listarComentarios() {
+    public List<ComentarioVO> listarComentarios() {
         EntityManager em = emf.createEntityManager();
-        List<Comentario> comentarios = em.createQuery("from Comentario", Comentario.class).getResultList();
+        List<ComentarioVO> comentarios = em.createQuery("from Comentario", ComentarioVO.class).getResultList();
         em.close();
         return comentarios;
     }
 
     // Método para listar comentarios por un usuario
-    public List<Comentario> listarComentariosPorUsuario(Usuario usuario) {
+    public List<ComentarioVO> listarComentariosPorUsuario(UsuarioVO usuario) {
         EntityManager em = emf.createEntityManager();
-        List<Comentario> comentarios = em.createQuery("SELECT c FROM Comentario c WHERE c.usuario = :usuario", Comentario.class)
+        List<ComentarioVO> comentarios = em.createQuery("SELECT c FROM Comentario c WHERE c.usuario = :usuario", ComentarioVO.class)
                 .setParameter("usuario", usuario)
                 .getResultList();
         em.close();
@@ -49,9 +49,9 @@ public class ComentarioDAO {
     }
 
     // Listar comentarios por partido
-    public List<Comentario> listarComentariosPorPartido(Partido partido) {
+    public List<ComentarioVO> listarComentariosPorPartido(PartidoVO partido) {
         EntityManager em = emf.createEntityManager();
-        List<Comentario> comentarios = em.createQuery("SELECT c FROM Comentario c WHERE c.partido = :partido", Comentario.class)
+        List<ComentarioVO> comentarios = em.createQuery("SELECT c FROM Comentario c WHERE c.partido = :partido", ComentarioVO.class)
                 .setParameter("partido", partido)
                 .getResultList();
         em.close();
@@ -61,7 +61,7 @@ public class ComentarioDAO {
     // Método para Eliminar un comentario
     public void eliminarComentario(Long id) {
         EntityManager em = emf.createEntityManager();
-        Comentario comentario = em.find(Comentario.class, id);
+        ComentarioVO comentario = em.find(ComentarioVO.class, id);
         if (comentario != null) {
             em.getTransaction().begin();
             em.remove(comentario);

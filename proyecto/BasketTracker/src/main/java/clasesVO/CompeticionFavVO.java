@@ -1,9 +1,11 @@
-public class CompeticionFav {
+package clasesVO;
+
+public class CompeticionFavVO {
     private String nombreUsuario; // Se refiere a la tabla USUARIO
     private String competicion; // Se refiere a la tabla COMPETICION
 
     // Constructor
-    public CompeticionFav(String nombreUsuario, String competicion) {
+    public CompeticionFavVO(String nombreUsuario, String competicion) {
         this.nombreUsuario = nombreUsuario;
         this.competicion = competicion;
     }

@@ -1,7 +1,7 @@
-package src.main.clasesDAO;
+package clasesDAO;
 
-import src.main.clasesVO.JugadorFav; // Asegúrate de importar la clase desde el paquete correcto.
-import src.main.clasesVO.Usuario; // Importa la clase Usuario
+import clasesVO.JugadorFavVO; // Asegúrate de importar la clase desde el paquete correcto.
+import clasesVO.UsuarioVO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -14,7 +14,7 @@ public class JugadorFavDAO {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
 
     // Método para guardar un jugador favorito
-    public void guardarJugadorFav(JugadorFav jugadorFav) {
+    public void guardarJugadorFav(JugadorFavVO jugadorFav) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -26,10 +26,10 @@ public class JugadorFavDAO {
     }
 
     // Método para obtener jugadores favoritos por nombre de usuario
-    public List<JugadorFav> obtenerJugadoresFavPorUsuario(String nombreUsuario) {
+    public List<JugadorFavVO> obtenerJugadoresFavPorUsuario(String nombreUsuario) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.createQuery("SELECT jf FROM JugadorFav jf WHERE jf.nombreUsuario = :nombreUsuario", JugadorFav.class)
+            return em.createQuery("SELECT jf FROM JugadorFav jf WHERE jf.nombreUsuario = :nombreUsuario", JugadorFavVO.class)
                     .setParameter("nombreUsuario", nombreUsuario)
                     .getResultList();
         } finally {
@@ -38,10 +38,10 @@ public class JugadorFavDAO {
     }
     
     // Método para listar jugadores favoritos de un usuario
-    public void listarJugadoresFavPorUsuario(Usuario usuario) {
-        List<JugadorFav> jugadoresFavoritos = obtenerJugadoresFavPorUsuario(usuario.getNombreUsuario());
-        System.out.println("Jugadores favoritos de " + usuario.getNombreCompleto() + ":");
-        for (JugadorFav jugadorFav : jugadoresFavoritos) {
+    public void listarJugadoresFavPorUsuario(UsuarioVO usuario) {
+        List<JugadorFavVO> jugadoresFavoritos = obtenerJugadoresFavPorUsuario(usuario.getNombreUsuario());
+        System.out.println("Jugadores favoritos de " + usuario.getNombreUsuario() + ":");
+        for (JugadorFavVO jugadorFav : jugadoresFavoritos) {
             System.out.println(jugadorFav.toString());
         }
     }
@@ -50,8 +50,8 @@ public class JugadorFavDAO {
     public void eliminarJugadorFav(String nombreUsuario, String nombreJugador) {
         EntityManager em = emf.createEntityManager();
         try {
-            List<JugadorFav> jugadoresFav = obtenerJugadoresFavPorUsuario(nombreUsuario);
-            for (JugadorFav jugadorFav : jugadoresFav) {
+            List<JugadorFavVO> jugadoresFav = obtenerJugadoresFavPorUsuario(nombreUsuario);
+            for (JugadorFavVO jugadorFav : jugadoresFav) {
                 if (jugadorFav.getJugador().equals(nombreJugador)) {
                     em.getTransaction().begin();
                     em.remove(em.contains(jugadorFav) ? jugadorFav : em.merge(jugadorFav));

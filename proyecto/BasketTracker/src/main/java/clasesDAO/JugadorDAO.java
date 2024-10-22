@@ -1,71 +1,71 @@
-package src.main.clasesDAO;
+package clasesDAO;
 
-import src.main.clasesVO.Competicion;
+import clasesVO.JugadorVO; // Asegúrate de importar la clase desde el paquete correcto.
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
 
-public class CompeticionDAO {
+public class JugadorDAO {
 
     // Crear una fábrica de EntityManagers
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
 
-    // Método para guardar una competición
-    public void guardarCompeticion(Competicion competicion) {
+    // Método para guardar un jugador
+    public void guardarJugador(JugadorVO jugador) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.persist(competicion);
+            em.persist(jugador);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
 
-    // Método para obtener una competición por su nombre
-    public Competicion obtenerCompeticionPorNombre(String nombre) {
+    // Método para obtener un jugador por su nombre de usuario
+    public JugadorVO obtenerJugadorPorNombreUsuario(String nombreUsuario) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.createQuery("SELECT c FROM Competicion c WHERE c.nombre = :nombre", Competicion.class)
-                    .setParameter("nombre", nombre)
+            return em.createQuery("SELECT j FROM Jugador j WHERE j.nombreUsuario = :nombreUsuario", JugadorVO.class)
+                    .setParameter("nombreUsuario", nombreUsuario)
                     .getSingleResult();
         } finally {
             em.close();
         }
     }
 
-    // Método para listar todas las competiciones
-    public List<Competicion> listarCompeticiones() {
+    // Método para listar todos los jugadores
+    public List<JugadorVO> listarJugadores() {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.createQuery("FROM Competicion", Competicion.class).getResultList();
+            return em.createQuery("FROM Jugador", JugadorVO.class).getResultList();
         } finally {
             em.close();
         }
     }
 
-    // Método para actualizar una competición
-    public void actualizarCompeticion(Competicion competicion) {
+    // Método para actualizar un jugador
+    public void actualizarJugador(JugadorVO jugador) {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.merge(competicion);
+            em.merge(jugador);
             em.getTransaction().commit();
         } finally {
             em.close();
         }
     }
 
-    // Método para eliminar una competición por su nombre
-    public void eliminarCompeticion(String nombre) {
+    // Método para eliminar un jugador por nombre de usuario
+    public void eliminarJugador(String nombreUsuario) {
         EntityManager em = emf.createEntityManager();
         try {
-            Competicion competicion = obtenerCompeticionPorNombre(nombre);
-            if (competicion != null) {
+            JugadorVO jugador = obtenerJugadorPorNombreUsuario(nombreUsuario);
+            if (jugador != null) {
                 em.getTransaction().begin();
-                em.remove(competicion);
+                em.remove(em.contains(jugador) ? jugador : em.merge(jugador));
                 em.getTransaction().commit();
             }
         } finally {
