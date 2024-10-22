@@ -5,20 +5,27 @@ import clasesDAO.UsuarioDAO;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+//import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
+//@WebServlet(description = "Servlet de autenticación del usuario", urlPatterns = { "/LoginServlet" })
+//@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
+    
+    public LoginServlet() {
+    	super();
+    }
+    
     protected void doPost(HttpServletRequest request, 
     		HttpServletResponse response) throws IOException, ServletException {
         String usuario = request.getParameter("usuario");
         String password = request.getParameter("password");
-        
+        System.out.println("Holaaaa");
         try { 
         	if ((usuario != null) && (!usuario.trim().equals("")) && 
         	   (password != null) && (!password.trim().equals("")) ) {

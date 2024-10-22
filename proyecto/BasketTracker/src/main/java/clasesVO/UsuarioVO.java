@@ -1,3 +1,5 @@
+package clasesVO;
+
 public class UsuarioVO {
     private String nombreUsuario;
     private String correoElect;
