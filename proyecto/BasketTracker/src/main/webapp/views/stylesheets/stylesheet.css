@@ -1,6 +1,7 @@
 :root {
     --color-primary: #D44000; /* Color principal */
     --color-secondary: #F2743D;  /* Color secundario */
+	--color-admin: #001E2B;
 }
 
 /* Aquí puedes usar las variables en lugar de los colores hexadecimales */
@@ -479,18 +480,18 @@ body {
 	
 }
 
+.recuadro {
+	height: 62px;
+	border-bottom: 1px solid #000;
+}
+
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-around;
     background-color: #ffffff;
-    border-bottom: 1px solid #dcdcdc;
     padding: 10px 0;
-    margin: 0 500px;
-}
-
-.recuadro {
-	 border: 1px solid #000;
+    margin: 0 700px;
 }
 
 .navbar-item {
@@ -515,18 +516,404 @@ body {
     padding: 10px 20px;
 }
 
+.navbar-item.active img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
 .navbar-item span {
+    margin-left: 5px;
+}
+
+.navbar2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #ffffff;
+    padding: 10px 0;
+    margin: 0 500px;
+}
+
+.navbar-item2 {
+    display: flex;
+    align-items: center;
+    color: black;
+    font-size: 14px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.navbar-item2 img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.navbar-item2.active {
+    background-color: #d84315;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+.navbar-item2.active img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.navbar-item2 span {
     margin-left: 5px;
 }
 
 .info {
 	display: flex;
 	width: auto;
-	height: 100%;
+	height: calc(100vh - 400px);
+	justify-content: center;
+	align-items: center;
 	flex-direction: row;
+	margin-right: 230px;
+	margin-left: 230px;
+	gap: 70px;
 	
 }
 .info-item {
 	width: calc(100vw /3);
 	height: auto;
+	
 }
+
+.jugadores, .equipos, .competiciones {
+	display: flex;
+    background-color: white;
+    border: 1px solid #aaa;
+    padding: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.jugadores img:last-of-type {
+	width: 40px; /* Cambia este valor según el tamaño que desees */
+	height: auto; /* Mantiene la proporción de la imagen */
+}
+
+.jugadores p {
+	width: 200px; /* Ajusta este valor según el ancho máximo deseado */
+}
+
+.equipos img:last-of-type {
+	width: 40px; /* Tamaño más pequeño para el icono de favorito */
+	height: auto;
+}
+
+.equipos p {
+	width: 200px; /* Ajusta este valor según el ancho máximo deseado */
+}
+
+.competiciones img:last-of-type {
+	width: 40px; /* Tamaño más pequeño para el icono de favorito */
+	height: auto;
+}
+
+.competiciones p {
+	width: 200px; /* Ajusta este valor según el ancho máximo deseado */
+}
+
+.info-perfiles {
+	display: flex;
+	flex-direction: row;
+}
+
+.proximos-partidos{
+	width: 300px;
+	height: calc(100vh - 338px);
+	border-right: 1px solid #000;
+}
+
+.datos-equipo {
+	width: calc(100vw - 650px);
+	height: calc(100vh - 338px);
+}
+
+.anuncio {
+	width: 350px;
+	height: calc(100vh - 338px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.anuncio img {
+	width: 310px;
+}
+
+.equipo-header {
+    display: flex;
+    background-color: #fff;
+    border-bottom: 1px solid #000;
+    position: relative;
+    flex-direction: column;
+}
+
+.equipo-info {
+	width: auto;
+	display: flex;
+	flex-direction: column;
+	margin-left: 86px;
+	margin-top: -4px;
+	
+}
+
+.equipo-logo {
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    position: relative;
+    flex-direction: row;
+}
+
+.equipo-logo2 {
+    position: absolute;
+    bottom: 20px; /* Desplaza el logo hacia abajo para que quede dentro del banner */
+    left: -69px; /* Ajusta la posición horizontal */
+    z-index: 1; /* Asegura que el logo esté encima de la imagen del banner */
+}
+
+.equipo-logo img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background-color: #FFFFFF; /* Color de fondo del círculo */
+}
+
+
+.equipo-info h1 {
+    font-size: 30px;
+    margin-bottom: -21px;
+}
+
+.equipo-info p {
+    font-size: 18px;
+    color: #555;
+}
+
+.equipo-follow-btn {
+	display: flex;
+	align-items: center;
+    position: absolute;
+    right: 3px;
+    padding: 10px 20px;
+    background-color: var(--color-admin);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    bottom: 40px;
+}
+
+.equipo-follow-btn i {
+	margin-right: 8px;
+	color: white;
+}
+
+.equipo-menu {
+    display: flex;
+    justify-content: flex-start;
+    margin: 20px;
+}
+
+.equipo-team-btn, .equipo-calendar-btn {
+    padding: 10px 20px;
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 1px solid #000;  
+    margin-right: 10px;
+    width: 150px;
+}
+
+.equipo-calendar-btn {
+    background-color: #fff;
+    color: black;
+}
+
+.equipo-background-img {
+    width: 100%;
+    height: 100px;
+    position: relative;
+    z-index: 0;
+}
+
+.equipo-background-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Para asegurar que la imagen se ajuste al contenedor */
+}
+
+.equipo-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding-left: 22px;
+    gap: 40px;
+}
+
+.entrenador-section h2, .jugadores-section h2 {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.entrenador {
+    display: flex;
+    align-items: center;
+}
+
+.entrenador-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.entrenador-card img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 5px;
+}
+
+.jugadores-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+}
+
+.jugador-card {
+    display: flex;
+    width: 190px;
+    height: 142px;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #000;
+    justify-content: center;
+}
+
+.jugador-card img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 5px;
+}
+
+.jugador-card p {
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.partido-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+/* Próximos Partidos */
+.partido-proximos-partidos {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.partido-proximos-partidos h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.partido-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.partido-fecha {
+    background-color: #ff6600;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.partido-fecha span {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.partido-info {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.partido-info p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.partido-ubicacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.partido-ubicacion img {
+    margin-left: 5px;
+}
+
+/* Clasificación */
+.partido-clasificacion {
+    background-color: #f1f1f1;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.partido-clasificacion h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+.partido-primer-lugar {
+    background-color: #ffcc00;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+
