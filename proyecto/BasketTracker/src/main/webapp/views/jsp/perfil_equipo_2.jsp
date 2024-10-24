@@ -7,7 +7,6 @@
     <title>Equipo | Basketracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body>
 <div class="thecontainer">
 	<%@ include file="header-buscador.jsp" %>
 	<div class="container-inicio">
@@ -107,36 +106,31 @@
 			    </div>
 		    </div>
 		    <div class="datos-equipo">
-                <div class="equipo-header">
-                    <div class="equipo-background-img">
-                        <img src="<%= request.getContextPath() %>/views/images/banner.png" alt="Background image">
-                    </div>
-                    <div class="equipo-info">
-                        <div class="equipo-logo">
-                            <div class="equipo-logo2">
-                                <img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Team Logo">
-                            </div>
-                            <div class="equipo-info">
-                                <h1>Cristo Rey</h1>
-                                <p>Social Plata</p>
-                            </div>
-                        </div>
-                        <button class="equipo-follow-btn"><i class="fa fa-star"></i><strong>Seguido</strong></button>
-                    </div>
-                </div>
-                <div class="equipo-menu">
-                    <button class="equipo-team-btn active">Equipo</button>
-                    <button class="equipo-calendar-btn">Calendario</button>
-                </div>
-                <div class="equipo-content">
-                    <div class="equipo-team active"> <!-- Aquí 'active' para mostrar por defecto -->
-                        <%@ include file="equipo_1.jsp" %>
-                    </div>
-                    <div class="equipo-calendar">
-                        <%@ include file="equipo_2.jsp" %>
-                    </div>
-                </div>
-            </div>
+				<div class="equipo-header">
+					<div class="equipo-background-img">
+			        	<img src="<%= request.getContextPath() %>/views/images/banner.png" alt="Background image">
+			   		 </div>
+			   		 <div class="equipo-info">
+			   		 	<div class="equipo-logo">
+			   		 		<div class="equipo-logo2">
+				            	<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Team Logo">
+					        </div>
+					        <div class="equipo-info">
+					            <h1>Cristo Rey</h1>
+					            <p>Social Plata</p>
+					        </div>
+				        </div>
+			        <button class="equipo-follow-btn"><i class="fa fa-star"></i><strong>Seguido</strong></button>
+			   		 </div>
+			    </div>
+			    <div class="equipo-menu">
+			        <button id="equipo-btn" class="equipo-calendar-btn">Equipo</button>
+			        <button id="calendario-btn" class="equipo-team-btn"><strong>Calendario</strong></button>
+			    </div>
+			    <div id="contenido-equipo">
+				    <%@ include file="equipo_1.jsp" %> <!-- Esto aparecerá inicialmente -->
+				</div>
+		    </div>
 		    <div class="anuncio">
 		    <img src="<%= request.getContextPath() %>/views/images/anuncio.png" alt="Anuncio Bianco Zavani">
 	    	</div>
@@ -144,24 +138,3 @@
 	</div>
 	<%@ include file="footer.jsp" %>
 </div>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Mostrar "Equipo" y ocultar "Calendario" al hacer clic en el botón de equipo
-    document.querySelector('.equipo-team-btn').addEventListener('click', function() {
-        document.querySelector('.equipo-team').classList.add('active');
-        document.querySelector('.equipo-calendar').classList.remove('active');
-        document.querySelector('.equipo-team-btn').classList.add('active');
-        document.querySelector('.equipo-calendar-btn').classList.remove('active');
-    });
-
-    // Mostrar "Calendario" y ocultar "Equipo" al hacer clic en el botón de calendario
-    document.querySelector('.equipo-calendar-btn').addEventListener('click', function() {
-        document.querySelector('.equipo-team').classList.remove('active');
-        document.querySelector('.equipo-calendar').classList.add('active');
-        document.querySelector('.equipo-team-btn').classList.remove('active');
-        document.querySelector('.equipo-calendar-btn').classList.add('active');
-    });
-});
-</script>
-</body>
-</html>
