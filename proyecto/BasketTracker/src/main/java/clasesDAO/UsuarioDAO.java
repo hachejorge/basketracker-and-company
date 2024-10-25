@@ -10,8 +10,11 @@ import java.util.List;
 public class UsuarioDAO {
 
     // Crear una fábrica de EntityManagers
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
+    private EntityManagerFactory emf;
     
+    public UsuarioDAO() {
+    	this.emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
+    }
     // Método para guardar un usuario
     public void guardarUsuario(UsuarioVO usuario) {
         EntityManager em = emf.createEntityManager();
