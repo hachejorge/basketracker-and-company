@@ -27,7 +27,7 @@ public class RegisterServlet extends HttpServlet {
         // Validar que las contraseñas coincidan
         if (!password.equals(repeatPassword)) {
             request.setAttribute("error", "Las contraseñas no coinciden.");
-            request.getRequestDispatcher("register.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/jsp/register.jsp").forward(request, response);
             return;
         }
 
@@ -39,7 +39,7 @@ public class RegisterServlet extends HttpServlet {
             UsuarioVO usuarioExistente = usuarioDAO.obtenerUsuarioPorNombre(nombreUsuario);
             if (usuarioExistente != null) {
                 request.setAttribute("error", "El nombre de usuario ya está en uso.");
-                request.getRequestDispatcher("register.jsp").forward(request, response);
+                request.getRequestDispatcher("views/jsp/register.jsp").forward(request, response);
                 return;
             }
 
@@ -47,11 +47,12 @@ public class RegisterServlet extends HttpServlet {
             usuarioDAO.guardarUsuario(usuario);
 
             // Redirigir al usuario a la página de inicio o login después del registro
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("views/jsp/login.jsp");
+            
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "Hubo un problema al registrar el usuario. Intente nuevamente.");
-            request.getRequestDispatcher("register.jsp").forward(request, response);
+            request.getRequestDispatcher("views/jsp/register.jsp").forward(request, response);
         }
     }
 }

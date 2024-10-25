@@ -1,4 +1,4 @@
-package conectDB;
+package utils;
  
 import java.sql.*;
 import javax.naming.Context;

@@ -33,6 +33,11 @@ public class LoginServlet extends HttpServlet {
         		UsuarioDAO usuarioDAO = new UsuarioDAO();
         		// Comprobar si existe el usuario en la base de datos y tiene vinculada su contraseña
                 UsuarioVO usuarioEncontrado = usuarioDAO.obtenerUsuarioPorNombre(usuario);
+                                
+                if(usuarioEncontrado == null) {
+                    response.getWriter().write("usuario encontrado null");
+                }
+
                 
                 // Comprobar si el usuario existe y la contraseña coincide
                 if (usuarioEncontrado != null && usuarioEncontrado.getPassword().equals(password)) {
