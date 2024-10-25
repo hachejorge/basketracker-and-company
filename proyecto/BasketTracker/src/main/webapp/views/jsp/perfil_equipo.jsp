@@ -114,7 +114,7 @@
                     <div class="equipo-info">
                         <div class="equipo-logo">
                             <div class="equipo-logo2">
-                                <img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Team Logo">
+                                <img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=FFFFFF" alt="Team Logo">
                             </div>
                             <div class="equipo-info">
                                 <h1>Cristo Rey</h1>
