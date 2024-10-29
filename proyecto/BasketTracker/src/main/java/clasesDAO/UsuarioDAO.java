@@ -1,11 +1,6 @@
 package clasesDAO;
 
 import clasesVO.UsuarioVO;
-import conectDB.PoolConnectionManager;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,85 +1,161 @@
 package clasesDAO;
 
-import clasesVO.EquipoVO; // Asegúrate de importar la clase desde el paquete correcto.
+import clasesVO.EquipoVO;
+import utils.PoolConnectionManager;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EquipoDAO {
 
-    // Crear una fábrica de EntityManagers
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
-
     // Método para guardar un equipo
     public void guardarEquipo(EquipoVO equipo) {
-        EntityManager em = emf.createEntityManager();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
         try {
-            em.getTransaction().begin();
-            em.persist(equipo);
-            em.getTransaction().commit();
+            conn = PoolConnectionManager.getConnection();
+            String query = "INSERT INTO sisinf_db.equipo (id_equipo, nombre_equipo, ubicacion, competicion) VALUES (?, ?, ?, ?)";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, equipo.getIdEquipo());
+            ps.setString(2, equipo.getNombreEquipo());
+            ps.setString(3, equipo.getUbicacion());
+            ps.setString(4, equipo.getCompeticion());
+            
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
     }
 
     // Método para obtener un equipo por su ID
-    public EquipoVO obtenerEquipoPorId(int idEquipo) {
-        EntityManager em = emf.createEntityManager();
+    public static EquipoVO obtenerEquipoPorId(int idEquipo) {
+        EquipoVO equipo = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
-            return em.find(EquipoVO.class, idEquipo);
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.equipo WHERE id_equipo = ?";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, idEquipo);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String nombreEquipo = rs.getString("nombre_equipo");
+                String ubicacion = rs.getString("ubicacion");
+                String competicion = rs.getString("competicion");
+                equipo = new EquipoVO(idEquipo, nombreEquipo, ubicacion, competicion);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
+        return equipo;
     }
 
     // Método para listar todos los equipos
     public List<EquipoVO> listarEquipos() {
-        EntityManager em = emf.createEntityManager();
+        List<EquipoVO> equipos = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
-            return em.createQuery("FROM Equipo", EquipoVO.class).getResultList();
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.equipo";
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int idEquipo = rs.getInt("id_equipo");
+                String nombreEquipo = rs.getString("nombre_equipo");
+                String ubicacion = rs.getString("ubicacion");
+                String competicion = rs.getString("competicion");
+                equipos.add(new EquipoVO(idEquipo, nombreEquipo, ubicacion, competicion));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
+        return equipos;
     }
 
     // Método para actualizar un equipo
     public void actualizarEquipo(EquipoVO equipo) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.merge(equipo);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
-    }
+        Connection conn = null;
+        PreparedStatement ps = null;
 
-    // Método para eliminar un equipo por su ID
-    public void eliminarEquipo(int idEquipo) {
-        EntityManager em = emf.createEntityManager();
         try {
-            EquipoVO equipo = obtenerEquipoPorId(idEquipo);
-            if (equipo != null) {
-                em.getTransaction().begin();
-                em.remove(em.contains(equipo) ? equipo : em.merge(equipo));
-                em.getTransaction().commit();
+            conn = PoolConnectionManager.getConnection();
+            String query = "UPDATE sisinf_db.equipo SET nombre_equipo = ?, ubicacion = ?, competicion = ? WHERE id_equipo = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, equipo.getNombreEquipo());
+            ps.setString(2, equipo.getUbicacion());
+            ps.setString(3, equipo.getCompeticion());
+            ps.setInt(4, equipo.getIdEquipo());
+            
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-        } finally {
-            em.close();
-        }
-    }
-
-    // Método para buscar equipos por nombre de jugador
-    public List<EquipoVO> obtenerEquiposPorJugador(String nombreJugador) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            return em.createQuery("SELECT e FROM Equipo e JOIN e.jugadores j WHERE j.nombreJugador = :nombreJugador", EquipoVO.class)
-                    .setParameter("nombreJugador", nombreJugador)
-                    .getResultList();
-        } finally {
-            em.close();
+            PoolConnectionManager.releaseConnection(conn);
         }
     }
 }
+

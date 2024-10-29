@@ -1,1 +1,1 @@
-{"resources":{"Scripts/Script.sql":{"default-datasource":"postgres-jdbc-1926748251f-546cc385807b169a"}}}
+{"resources":{"Scripts/borrarTablas.sql":{"default-schema":"public","default-datasource":"postgres-jdbc-192677c9933-10a9eaaeff270fda","default-catalog":"BasketTracker DB"},"Scripts/crearTablas.sql":{"default-schema":"public","default-datasource":"postgres-jdbc-192677c9933-10a9eaaeff270fda","default-catalog":"BasketTracker DB"},"Scripts/inserts.sql":{"default-schema":"public","default-datasource":"postgres-jdbc-1926784a853-25cd8e7d3db30c59","default-catalog":"postgres"}}}

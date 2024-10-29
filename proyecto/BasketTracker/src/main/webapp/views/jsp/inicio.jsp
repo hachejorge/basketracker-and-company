@@ -1,3 +1,55 @@
+<%@ page import="clasesDAO.JugadorFavDAO" %>
+<%@ page import="clasesDAO.EquipoFavDAO" %>
+<%@ page import="clasesDAO.CompeticionFavDAO" %>
+<%@ page import="clasesDAO.JugadorDAO" %>
+<%@ page import="clasesDAO.EquipoDAO" %>
+
+<%@ page import="clasesVO.UsuarioVO" %>
+<%@ page import="clasesVO.EquipoVO" %>
+<%@ page import="clasesVO.JugadorVO" %>
+<%@ page import="clasesVO.JugadorFavVO" %>
+<%@ page import="clasesVO.EquipoFavVO" %>
+<%@ page import="clasesVO.CompeticionVO" %>
+
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page session="true" %>
+
+<%
+    // Recuperar el objeto UsuarioVO de la sesión
+    UsuarioVO usuario = (UsuarioVO) session.getAttribute("usuario");
+
+    // Comprobar si el usuario está autenticado
+    if (usuario == null) {
+        // Redirigir a la página de login si no hay un usuario autenticado
+        response.sendRedirect(request.getContextPath() + "/views/jsp/login.jsp");
+        return;
+    }
+
+    // Comprobar favoritos de jugadores
+    String[] jugadores = { "andrea", "jorge", "mario" };
+    Map<String, Boolean> favoritosJugadores = new HashMap<>();
+    for (String jugador : jugadores) {
+        favoritosJugadores.put(jugador, JugadorFavDAO.esFavorito(usuario.getNombreUsuario(), jugador));
+    }
+
+    // Comprobar favoritos de equipos
+    int[] equipos = { 1, 2, 3 };
+    Map<Integer, Boolean> favoritosEquipos = new HashMap<>();
+    for (int equipo : equipos) {
+        favoritosEquipos.put(equipo, EquipoFavDAO.esFavorito(usuario.getNombreUsuario(), equipo));
+    }
+
+    // Comprobar favoritos de competiciones
+    String[] competiciones = { "2a Aragonesa Femenina", "Social Plata", "3a Aragonesa Masculina" };
+    Map<String, Boolean> favoritosCompeticiones = new HashMap<>();
+    for (String competicion : competiciones) {
+        favoritosCompeticiones.put(competicion, CompeticionFavDAO.esFavorito(usuario.getNombreUsuario(), competicion));
+    }
+    
+    
+%>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,6 +59,7 @@
     <title>Inicio | Basketracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+<body>
 <div class="thecontainer">
 	<%@ include file="header-buscador.jsp" %>
 	<div class="container-inicio">
@@ -26,119 +79,69 @@
 		        </div>
 		    </div>
 	    </div>
-		<div class="recuadro">
-		    <div class="navbar2">
-		        <div class="navbar-item2 active">
-		            <span><b>Todos</b></span>
-		        </div>
-		        <div class="navbar-item2">
-		            <img src="https://img.icons8.com/?size=100&id=978&format=png&color=000000" alt="Jugadores">
-		            <span>Jugadores</span>
-		        </div>
-		        <div class="navbar-item2">
-		            <img src="https://img.icons8.com/?size=100&id=vy6OvJYHSJ8I&format=png&color=000000" alt="Equipos">
-		            <span>Equipos</span>
-		        </div>
-		        <div class="navbar-item2">
-		            <img src="https://img.icons8.com/?size=100&id=6YtrB5VnlPqY&format=png&color=000000" alt="Competiciones">
-		            <span>Competiciones</span>
-		        </div>
-		    </div>
-	    </div>
+
 	    <div class="info">
 			<div class="info-item">
-				<div class="jugadores">
-                    <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Perfil">
-                    <p><strong>Andrea Hernández Artal</strong><br>Boscos<br>2a Aragonesa Femenina</p>
-                    <img src="https://img.icons8.com/?size=100&id=85784&format=png&color=<%= jugadorFavDAO.esFavorito(usuario.getId(), "jugador_1") ? "000000" : "FFFFFF" %>" 
+				<% for (String jugador : jugadores) { %>
+					<div class="jugadores">
+	                    <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Perfil">
+				        
+				        <% 
+				            // Obtener información del jugador a partir del nombre de usuario
+				            JugadorVO jugadorVO = JugadorDAO.obtenerJugadorPorNombreUsuario(jugador);
+				        	if (jugadorVO != null) {
+				        		EquipoVO equipoVO = EquipoDAO.obtenerEquipoPorId(jugadorVO.getEquipo());
+								if (equipoVO != null) {
+				 
+				        %>
+
+	                    <p><strong><%= jugadorVO.getNombreJugador() %></strong><br><%= equipoVO.getNombreEquipo() %><br><%= equipoVO.getCompeticion() %></p>
+	                    <img src="https://img.icons8.com/?size=100&id=<%= favoritosJugadores.get(jugador) ? "19416" : "85784" %>&format=png&color=000000" 
                          alt="Favorito" 
                          class="icono-favorito" 
-                         data-id="jugador_1" 
+                         data-id="<%= jugador %>" 
                          data-tipo="jugador" 
-                         data-favorito="<%= JugadorFavDAO.esFavorito(usuario.getId(), "jugador_1") %>">
-                </div>
-				<div class="jugadores">
-					<img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Perfil">
-                    <p><strong>Jorge Clavero Agudo</strong><br>Cristo Rey<br>Social Plata</p>
-                    <img src="https://img.icons8.com/?size=100&id=85784&format=png&color=<%= usuarioDAO.usuarioTieneFavorito(usuario.getId(), "jugador_1") ? "000000" : "FFFFFF" %>" 
-                         alt="Favorito" 
-                         class="icono-favorito" 
-                         data-id="jugador_2" 
-                         data-favorito="<%= JugadorFavDAO.esFavorito(usuario.getId(), "jugador_2") ? "true" : "false" %>">
-				</div>
-				<div class="jugadores">
-					<img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Perfil">
-                    <p><strong>Mario Ferradas Aznar</strong><br>Boscos<br>3a Aragonesa Masculina</p>
-                    <img src="https://img.icons8.com/?size=100&id=85784&format=png&color=<%= usuarioDAO.usuarioTieneFavorito(usuario.getId(), "jugador_1") ? "000000" : "FFFFFF" %>" 
-                         alt="Favorito" 
-                         class="icono-favorito" 
-                         data-id="jugador_3" 
-                         data-favorito="<%= JugadorFavDAO.esFavorito(usuario.getId(), "jugador_3") ? "true" : "false" %>">
-				</div>
+                         data-favorito="<%= favoritosJugadores.get(jugador) %>">
+	                </div>
+				<% }}} %>
 			</div>
+
 			<div class="info-item">
-				<div class="equipos">
-					<img src="https://img.icons8.com/?size=100&id=vy6OvJYHSJ8I&format=png&color=000000" alt="Logo Equipo">
-				    <p><strong>Boscos</strong><br>2a Aragonesa Femenina</p>
- 					<img src="https://img.icons8.com/?size=100&id=85784&format=png&color=<%= equipoFavDAO.esFavorito(usuario.getId(), "equipo_1") ? "000000" : "FFFFFF" %>" 
+				<% for (int equipo : equipos) { %>
+					<div class="equipos">
+						<img src="https://img.icons8.com/?size=100&id=vy6OvJYHSJ8I&format=png&color=000000" alt="Logo Equipo">
+						
+						<% 
+				            // Obtener información del jugador a partir del nombre de usuario
+				            EquipoVO equipoVO = EquipoDAO.obtenerEquipoPorId(equipo);
+							if (equipoVO != null) {
+				        %>
+				        
+					    <p><strong><%= equipoVO.getNombreEquipo() %></strong><br><%= equipoVO.getCompeticion() %></p>
+					    <img src="https://img.icons8.com/?size=100&id=<%= favoritosEquipos.get(equipo) ? "19416" : "85784" %>&format=png&color=000000" 
                          alt="Favorito" 
                          class="icono-favorito" 
-                         data-id="equipo_1" 
+                         data-id="<%= equipo %>" 
                          data-tipo="equipo" 
-                         data-favorito="<%= equipoFavDAO.esFavorito(usuario.getId(), "equipo_1") %>">			
-                </div>
-				<div class="equipos">
-					<img src="https://img.icons8.com/?size=100&id=vy6OvJYHSJ8I&format=png&color=000000" alt="Logo Equipo">
-				    <p><strong>Cristo Rey</strong><br>Social Plata</p>
-				    <img src="https://img.icons8.com/?size=100&id=85784&format=png&color=<%= equipoFavDAO.esFavorito(usuario.getId(), "equipo_1") ? "000000" : "FFFFFF" %>" 
-                         alt="Favorito" 
-                         class="icono-favorito" 
-                         data-id="equipo_2" 
-                         data-tipo="equipo" 
-                         data-favorito="<%= equipoFavDAO.esFavorito(usuario.getId(), "equipo_2") %>">			
-				</div>
-				<div class="equipos">
-					<img src="https://img.icons8.com/?size=100&id=vy6OvJYHSJ8I&format=png&color=000000" alt="Logo Equipo">
-				    <p><strong>Boscos 3</strong><br>3a Aragonesa Masculina</p>
-				    <img src="https://img.icons8.com/?size=100&id=85784&format=png&color=<%= equipoFavDAO.esFavorito(usuario.getId(), "equipo_1") ? "000000" : "FFFFFF" %>" 
-                         alt="Favorito" 
-                         class="icono-favorito" 
-                         data-id="equipo_3" 
-                         data-tipo="equipo" 
-                         data-favorito="<%= equipoFavDAO.esFavorito(usuario.getId(), "equipo_3") %>">			
-				</div>
+                         data-favorito="<%= favoritosEquipos.get(equipo) %>">			
+					</div>
+				<% }} %>
 			</div>
+
 			<div class="info-item">
-				<div class="competiciones">
-					<img src="https://img.icons8.com/?size=100&id=6YtrB5VnlPqY&format=png&color=000000" alt="Logo Competición">
-				    <p><strong>2a Aragonesa Femenina</strong></p>
-                    <img src="https://img.icons8.com/?size=100&id=85784&format=png&color=<%= competicionFavDAO.esFavorito(usuario.getId(), "competicion_1") ? "000000" : "FFFFFF" %>" 
+				<% for (String competicion : competiciones) { %>
+					<div class="competiciones">
+						<img src="https://img.icons8.com/?size=100&id=6YtrB5VnlPqY&format=png&color=000000" alt="Logo Competición">
+				        
+					    <p><strong><%= competicion %></strong></p>
+                        <img src="https://img.icons8.com/?size=100&id=<%= favoritosCompeticiones.get(competicion) ? "19416" : "85784" %>&format=png&color=000000" 
                          alt="Favorito" 
                          class="icono-favorito" 
-                         data-id="competicion_1" 
+                         data-id="<%= competicion %>" 
                          data-tipo="competicion" 
-                         data-favorito="<%= competicionFavDAO.esFavorito(usuario.getId(), "competicion_1") %>">
-				</div>
-				<div class="competiciones">
-					<img src="https://img.icons8.com/?size=100&id=6YtrB5VnlPqY&format=png&color=000000" alt="Logo Competición">
-				    <p><strong>Social Plata</strong></p>
-                    <img src="https://img.icons8.com/?size=100&id=85784&format=png&color=<%= competicionFavDAO.esFavorito(usuario.getId(), "competicion_1") ? "000000" : "FFFFFF" %>" 
-                         alt="Favorito" 
-                         class="icono-favorito" 
-                         data-id="competicion_2" 
-                         data-tipo="competicion" 
-                         data-favorito="<%= competicionFavDAO.esFavorito(usuario.getId(), "competicion_2") %>">
-				</div>
-				<div class="competiciones">
-					<img src="https://img.icons8.com/?size=100&id=6YtrB5VnlPqY&format=png&color=000000" alt="Logo Competición">
-				    <p><strong>3a Aragonesa Masculina</strong></p>
-                    <img src="https://img.icons8.com/?size=100&id=85784&format=png&color=<%= competicionFavDAO.esFavorito(usuario.getId(), "competicion_1") ? "000000" : "FFFFFF" %>" 
-                         alt="Favorito" 
-                         class="icono-favorito" 
-                         data-id="competicion_3" 
-                         data-tipo="competicion" 
-                         data-favorito="<%= competicionFavDAO.esFavorito(usuario.getId(), "competicion_3") %>">
-				</div>
+                         data-favorito="<%= favoritosCompeticiones.get(competicion) %>">
+					</div>
+				<% } %>
 			</div>
 	    </div>
 	</div>
@@ -153,27 +156,46 @@ document.addEventListener('DOMContentLoaded', () => {
         icono.addEventListener('click', () => {
             const favoritoId = icono.getAttribute('data-id');
             const esFavorito = icono.getAttribute('data-favorito') === 'true';
+            const tipoFavorito = icono.getAttribute('data-tipo');
+            const nombreUsuario = '<%= usuario.getNombreUsuario() %>'; // Asegúrate de que esto esté definido
 
-            // Enviar la solicitud AJAX para actualizar favorito
-            fetch('<%= request.getContextPath() %>/actualizarFavorito', {
+            fetch('<%= request.getContextPath() %>/ActualizarFavoritoServlet', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: JSON.stringify({ id: favoritoId, esFavorito: !esFavorito })
+                body: new URLSearchParams({
+                    id: favoritoId,
+                    esFavorito: esFavorito,
+                    tipo: tipoFavorito,
+                    nombreUsuario: nombreUsuario
+                })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(`Error en la red: ${response.status} - ${text}`);
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log(data);
                 if (data.success) {
-                    // Cambiar el estado visual de la estrella
-                    icono.setAttribute('data-favorito', !esFavorito);
-                    icono.src = esFavorito
-                        ? 'https://img.icons8.com/?size=100&id=85784&format=png&color=FFFFFF'
+                    icono.setAttribute('data-favorito', (!esFavorito).toString());
+                    icono.src = !esFavorito
+                        ? 'https://img.icons8.com/?size=100&id=19416&format=png&color=000000'
                         : 'https://img.icons8.com/?size=100&id=85784&format=png&color=000000';
+                } else {
+                    alert(data.message || 'No se pudo actualizar el estado del favorito.');
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error al intentar actualizar el favorito: ' + error.message);
+            });
         });
     });
 });
+
 </script>

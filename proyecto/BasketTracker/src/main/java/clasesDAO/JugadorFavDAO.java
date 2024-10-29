@@ -3,40 +3,90 @@ package clasesDAO;
 import clasesVO.JugadorFavVO; // Asegúrate de importar la clase desde el paquete correcto.
 import clasesVO.UsuarioVO;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import java.sql.Connection;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
+import utils.PoolConnectionManager;
 
 public class JugadorFavDAO {
 
-    // Crear una fábrica de EntityManagers
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
-
     // Método para guardar un jugador favorito
     public void guardarJugadorFav(JugadorFavVO jugadorFav) {
-        EntityManager em = emf.createEntityManager();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
         try {
-            em.getTransaction().begin();
-            em.persist(jugadorFav);
-            em.getTransaction().commit();
+            conn = PoolConnectionManager.getConnection();
+            // SQL para insertar un nuevo jugador favorito
+            String query = "INSERT INTO sisinf_db.jugador_fav (nombre_usuario, jugador) VALUES (?, ?)";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, jugadorFav.getNombreUsuario());  // Nombre de usuario
+            ps.setString(2, jugadorFav.getJugador());  // Nombre del jugador
+            
+            // Ejecutar la inserción
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
     }
 
     // Método para obtener jugadores favoritos por nombre de usuario
     public List<JugadorFavVO> obtenerJugadoresFavPorUsuario(String nombreUsuario) {
-        EntityManager em = emf.createEntityManager();
+        List<JugadorFavVO> jugadoresFavoritos = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
-            return em.createQuery("SELECT jf FROM JugadorFav jf WHERE jf.nombreUsuario = :nombreUsuario", JugadorFavVO.class)
-                    .setParameter("nombreUsuario", nombreUsuario)
-                    .getResultList();
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.jugador_fav WHERE nombre_usuario = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, nombreUsuario);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String jugador = rs.getString("jugador");
+                // Crear un nuevo objeto JugadorFavVO y añadirlo a la lista
+                jugadoresFavoritos.add(new JugadorFavVO(nombreUsuario, jugador));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
+        return jugadoresFavoritos;
     }
-    
+
     // Método para listar jugadores favoritos de un usuario
     public void listarJugadoresFavPorUsuario(UsuarioVO usuario) {
         List<JugadorFavVO> jugadoresFavoritos = obtenerJugadoresFavPorUsuario(usuario.getNombreUsuario());
@@ -47,20 +97,52 @@ public class JugadorFavDAO {
     }
 
     // Método para eliminar un jugador favorito por nombre de usuario y nombre del jugador
-    public void eliminarJugadorFav(String nombreUsuario, String nombreJugador) {
-        EntityManager em = emf.createEntityManager();
+    public void eliminarJugadorFav(String nombreUsuario, String jugador) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+
         try {
-            List<JugadorFavVO> jugadoresFav = obtenerJugadoresFavPorUsuario(nombreUsuario);
-            for (JugadorFavVO jugadorFav : jugadoresFav) {
-                if (jugadorFav.getJugador().equals(nombreJugador)) {
-                    em.getTransaction().begin();
-                    em.remove(em.contains(jugadorFav) ? jugadorFav : em.merge(jugadorFav));
-                    em.getTransaction().commit();
-                    break; // Salimos del bucle después de eliminar
+            conn = PoolConnectionManager.getConnection();
+            String query = "DELETE FROM sisinf_db.jugador_fav WHERE nombre_usuario = ? AND jugador = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, nombreUsuario);
+            ps.setString(2, jugador);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
-        } finally {
-            em.close();
+            PoolConnectionManager.releaseConnection(conn);
         }
+    }
+
+    // Método para verificar si un jugador es favorito para un usuario específico
+    public static boolean esFavorito(String nombreUsuario, String jugador) {
+        boolean esFavorito = false;
+        String query = "SELECT COUNT(*) FROM sisinf_db.jugador_fav WHERE nombre_usuario = ? AND jugador = ?";
+
+        try (Connection conn = PoolConnectionManager.getConnection(); 
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, nombreUsuario);
+            pstmt.setString(2, jugador);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                esFavorito = rs.getInt(1) > 0; // Si hay al menos un registro, es favorito
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return esFavorito;
     }
 }

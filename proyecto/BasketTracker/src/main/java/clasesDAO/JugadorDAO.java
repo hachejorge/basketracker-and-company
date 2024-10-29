@@ -1,75 +1,215 @@
 package clasesDAO;
 
-import clasesVO.JugadorVO; // Asegúrate de importar la clase desde el paquete correcto.
+import clasesVO.JugadorVO;
+import utils.PoolConnectionManager;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JugadorDAO {
 
-    // Crear una fábrica de EntityManagers
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
+    public JugadorDAO() {
+        // Constructor vacío
+    }
 
     // Método para guardar un jugador
     public void guardarJugador(JugadorVO jugador) {
-        EntityManager em = emf.createEntityManager();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
         try {
-            em.getTransaction().begin();
-            em.persist(jugador);
-            em.getTransaction().commit();
+            conn = PoolConnectionManager.getConnection();
+
+            // SQL para insertar un nuevo jugador en la base de datos
+            String query = "INSERT INTO sisinf_db.jugador (nombre_usuario, nombre_jugador, equipo) VALUES (?, ?, ?)";
+
+            ps = conn.prepareStatement(query);
+            ps.setString(1, jugador.getNombreUsuario());  // Nombre de usuario
+            ps.setString(2, jugador.getNombreJugador());  // Nombre del jugador
+            ps.setInt(3, jugador.getEquipo());            // ID del equipo
+
+            // Ejecutar la inserción
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
     }
 
     // Método para obtener un jugador por su nombre de usuario
-    public JugadorVO obtenerJugadorPorNombreUsuario(String nombreUsuario) {
-        EntityManager em = emf.createEntityManager();
+    public static JugadorVO obtenerJugadorPorNombreUsuario(String nombreUsuario) {
+        JugadorVO jugador = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
-            return em.createQuery("SELECT j FROM Jugador j WHERE j.nombreUsuario = :nombreUsuario", JugadorVO.class)
-                    .setParameter("nombreUsuario", nombreUsuario)
-                    .getSingleResult();
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.jugador WHERE nombre_usuario = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, nombreUsuario);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String nombreUsuarioDb = rs.getString("nombre_usuario");
+                String nombreJugador = rs.getString("nombre_jugador");
+                int equipo = rs.getInt("equipo");
+                jugador = new JugadorVO(nombreUsuarioDb, nombreJugador, equipo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
+        return jugador;
     }
 
     // Método para listar todos los jugadores
     public List<JugadorVO> listarJugadores() {
-        EntityManager em = emf.createEntityManager();
+        List<JugadorVO> jugadores = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
-            return em.createQuery("FROM Jugador", JugadorVO.class).getResultList();
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.jugador";
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String nombreUsuario = rs.getString("nombre_usuario");
+                String nombreJugador = rs.getString("nombre_jugador");
+                int equipo = rs.getInt("equipo");
+                jugadores.add(new JugadorVO(nombreUsuario, nombreJugador, equipo));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
+        return jugadores;
     }
 
     // Método para actualizar un jugador
     public void actualizarJugador(JugadorVO jugador) {
-        EntityManager em = emf.createEntityManager();
+        Connection conn = null;
+        PreparedStatement psCheck = null;
+        PreparedStatement psUpdate = null;
+        ResultSet rs = null;
+
         try {
-            em.getTransaction().begin();
-            em.merge(jugador);
-            em.getTransaction().commit();
+            conn = PoolConnectionManager.getConnection();
+
+            // Verificar si el jugador existe en la base de datos
+            String checkQuery = "SELECT 1 FROM sisinf_db.jugador WHERE nombre_usuario = ?";
+            psCheck = conn.prepareStatement(checkQuery);
+            psCheck.setString(1, jugador.getNombreUsuario());
+            rs = psCheck.executeQuery();
+
+            if (rs.next()) {
+                // Si el jugador existe, proceder con la actualización
+                String updateQuery = "UPDATE sisinf_db.jugador SET nombre_jugador = ?, equipo = ? WHERE nombre_usuario = ?";
+                psUpdate = conn.prepareStatement(updateQuery);
+                psUpdate.setString(1, jugador.getNombreJugador());
+                psUpdate.setInt(2, jugador.getEquipo());
+                psUpdate.setString(3, jugador.getNombreUsuario());
+                psUpdate.executeUpdate();
+                System.out.println("Jugador actualizado correctamente.");
+            } else {
+                System.out.println("El jugador con nombre '" + jugador.getNombreUsuario() + "' no existe en la base de datos.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (psCheck != null) {
+                try {
+                    psCheck.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (psUpdate != null) {
+                try {
+                    psUpdate.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
     }
 
     // Método para eliminar un jugador por nombre de usuario
     public void eliminarJugador(String nombreUsuario) {
-        EntityManager em = emf.createEntityManager();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
         try {
-            JugadorVO jugador = obtenerJugadorPorNombreUsuario(nombreUsuario);
-            if (jugador != null) {
-                em.getTransaction().begin();
-                em.remove(em.contains(jugador) ? jugador : em.merge(jugador));
-                em.getTransaction().commit();
-            }
+            conn = PoolConnectionManager.getConnection();
+            String query = "DELETE FROM sisinf_db.jugador WHERE nombre_usuario = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, nombreUsuario);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
     }
 }

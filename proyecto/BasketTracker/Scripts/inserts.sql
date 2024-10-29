@@ -1,29 +1,41 @@
 INSERT INTO sisinf_db.USUARIO (nombre_usuario, correo_elec, password)
-VALUES ('admin', '872838@unizar.es', 'admin');
-
--- Crear el perfil del Jugador 1
-INSERT INTO sisinf_db.USUARIO (nombre_usuario, correo_elec, password)
-VALUES ('jugador1', 'jugador1@example.com', 'password1');
-
--- Crear el perfil del Jugador 2
-INSERT INTO sisinf_db.USUARIO (nombre_usuario, correo_elec, password)
-VALUES ('jugador2', 'jugador2@example.com', 'password2');
-
--- Crear el perfil del Jugador 3
-INSERT INTO sisinf_db.USUARIO (nombre_usuario, correo_elec, password)
-VALUES ('jugador3', 'jugador3@example.com', 'password3');
-
+VALUES ('admin', '872838@unizar.es', 'admin'),
+		('andrea', 'andrea@gmail.com', 'andrea'),
+		('mario', 'mario@gmail.com', 'mario'),
+		('jorge', 'jorge@gmail.com', 'jorge');
+		
 -- Crear la competición
 INSERT INTO sisinf_db.COMPETICION (nombre)
-VALUES ('Liga de Ejemplo');
+VALUES ('2a Aragonesa Femenina'),
+		('Social Plata'),
+		('3a Aragonesa Masculina');
 
 -- Crear el equipo
 INSERT INTO sisinf_db.EQUIPO (id_equipo, nombre_equipo, ubicacion, competicion)
-VALUES (1, 'Equipo A', 'Ciudad X', 'Liga de Ejemplo');
-
+VALUES (1, 'Boscos', 'Zaragoza', '2a Aragonesa Femenina'),
+		(2, 'Cristo Rey', 'Zaragoza', 'Social Plata'),
+		(3, 'Black Lions', 'Zaragoza', '2a Aragonesa Femenina');
+		
 -- Crear los jugadores
 INSERT INTO sisinf_db.JUGADOR (nombre_usuario, nombre_jugador, equipo)
 VALUES 
-    ('jugador1', 'Jugador 1', 1),  -- Jugador 1
-    ('jugador2', 'Jugador 2', 1),  -- Jugador 2
-    ('jugador3', 'Jugador 3', 1);  -- Jugador 3
+    ('andrea', 'Andrea Hernández Artal', 1),  -- Jugador 1
+    ('mario', 'Mario Ferradas Aznar', 1),  -- Jugador 2
+    ('jorge', 'Jorge Clavero Agudo', 2);  -- Jugador 3
+		
+
+    
+INSERT INTO sisinf_db.competicion_fav (nombre_usuario, competicion)
+VALUES 
+    ('admin', '2a Aragonesa Femenina'),
+    ('admin', '3a Aragonesa Masculina');
+   
+INSERT INTO sisinf_db.jugador_fav (nombre_usuario, jugador)
+VALUES 
+    ('admin', 'andrea'),
+    ('admin', 'mario');
+   
+INSERT INTO sisinf_db.equipo_fav (nombre_usuario, equipo)
+VALUES 
+    ('admin', '1'),
+    ('admin', '2');

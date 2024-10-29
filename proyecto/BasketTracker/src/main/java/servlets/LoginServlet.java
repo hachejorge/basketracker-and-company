@@ -22,41 +22,41 @@ public class LoginServlet extends HttpServlet {
     }
     
     protected void doPost(HttpServletRequest request, 
-    		HttpServletResponse response) throws IOException, ServletException {
-        String usuario = request.getParameter("usuario");
-        String password = request.getParameter("password");
-        System.out.println("Holaaaa");
-        try { 
-        	if ((usuario != null) && (!usuario.trim().equals("")) && 
-        	   (password != null) && (!password.trim().equals("")) ) {
-        		
-        		UsuarioDAO usuarioDAO = new UsuarioDAO();
-        		// Comprobar si existe el usuario en la base de datos y tiene vinculada su contraseña
-                UsuarioVO usuarioEncontrado = usuarioDAO.obtenerUsuarioPorNombre(usuario);
-                                
-                if(usuarioEncontrado == null) {
-                    response.getWriter().write("usuario encontrado null");
-                }
-
-                
-                // Comprobar si el usuario existe y la contraseña coincide
-                if (usuarioEncontrado != null && usuarioEncontrado.getPassword().equals(password)) {
-                //if(usuario.equals("admin") && password.equals("admin")) {
-        			// El usuario y la contraseña son correctos
-                	RequestDispatcher dispatcher = request.getRequestDispatcher("/views/jsp/inicio.jsp");
-                    dispatcher.forward(request, response);
-                } else {
-                    // El usuario no existe o la contraseña no coincide
-                    response.getWriter().write("Usuario o contraseña incorrectos");
-                }
-        	} 
-        	else{
-                response.getWriter().write("Nombre de usuario o contraseña no pueden estar vacíos");
-        	}
-        } catch (Exception e) { 
-        	e.printStackTrace();
-            response.getWriter().write("Error en el servidor");
-        }
+            HttpServletResponse response) throws IOException, ServletException {
+		String usuario = request.getParameter("usuario");
+		String password = request.getParameter("password");
+		try { 
+			if ((usuario != null) && (!usuario.trim().equals("")) && 
+			 (password != null) && (!password.trim().equals("")) ) {
+			  
+			  UsuarioDAO usuarioDAO = new UsuarioDAO();
+			  // Comprobar si existe el usuario en la base de datos y tiene vinculada su contraseña
+			  UsuarioVO usuarioEncontrado = usuarioDAO.obtenerUsuarioPorNombre(usuario);
+			                  
+			  if(usuarioEncontrado == null) {
+			      response.getWriter().write("usuario encontrado null");
+			  }
+			
+			  // Comprobar si el usuario existe y la contraseña coincide
+			  if (usuarioEncontrado != null && usuarioEncontrado.getPassword().equals(password)) {
+			      // Usuario y contraseña son correctos
+			      // Guardar el objeto UsuarioVO en la sesión
+			      request.getSession().setAttribute("usuario", usuarioEncontrado);
+			
+			      // Redirigir al inicio
+			      RequestDispatcher dispatcher = request.getRequestDispatcher("/views/jsp/inicio.jsp");
+			      dispatcher.forward(request, response);
+			  } else {
+			      // Usuario no existe o la contraseña no coincide
+			      response.getWriter().write("Usuario o contraseña incorrectos");
+			  }
+			} else {
+			  response.getWriter().write("Nombre de usuario o contraseña no pueden estar vacíos");
+			}
+		} catch (Exception e) { 
+			e.printStackTrace();
+			response.getWriter().write("Error en el servidor");
+		}
     }
-}
 
+}
