@@ -65,15 +65,15 @@
 	<div class="container-inicio">
 		<div class="recuadro">
 		    <div class="navbar">
-		        <div class="navbar-item active">
+		        <div class="navbar-item active" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/inicio.jsp'">
 		        	<img src="https://img.icons8.com/?size=100&id=131&format=png&color=FFFFFF" alt="Jugadores">
 		            <span><b>Buscar</b></span>
 		        </div>
-		        <div class="navbar-item">
+		        <div class="navbar-item" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/favoritos.jsp'">
 		            <img src="https://img.icons8.com/?size=100&id=84925&format=png&color=000000" alt="Jugadores">
 		            <span>Favoritos</span>
 		        </div>
-		        <div class="navbar-item">
+		        <div class="navbar-item" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/mensajes.jsp'">
 		            <img src="https://img.icons8.com/?size=100&id=87193&format=png&color=000000" alt="Equipos">
 		            <span>Mensajes</span>
 		        </div>
