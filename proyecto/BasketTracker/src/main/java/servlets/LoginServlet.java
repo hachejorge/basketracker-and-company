@@ -37,8 +37,16 @@ public class LoginServlet extends HttpServlet {
 			      response.getWriter().write("usuario encontrado null");
 			  }
 			
+			  
+			  if (usuarioEncontrado != null && usuarioEncontrado.getNombreUsuario().equals("admin") && usuarioEncontrado.getPassword().equals("admin")) {
+				  request.getSession().setAttribute("usuario", usuarioEncontrado);
+					
+			      // Redirigir al inicio
+			      RequestDispatcher dispatcher = request.getRequestDispatcher("/views/jsp/inicioAdmin.jsp");
+			      dispatcher.forward(request, response);
+			  }
 			  // Comprobar si el usuario existe y la contraseña coincide
-			  if (usuarioEncontrado != null && usuarioEncontrado.getPassword().equals(password)) {
+			  else if (usuarioEncontrado != null && usuarioEncontrado.getPassword().equals(password)) {
 			      // Usuario y contraseña son correctos
 			      // Guardar el objeto UsuarioVO en la sesión
 			      request.getSession().setAttribute("usuario", usuarioEncontrado);
