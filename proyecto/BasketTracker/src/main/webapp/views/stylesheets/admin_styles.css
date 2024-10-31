@@ -1,0 +1,91 @@
+:root {
+    --color-primary: #001E2B; /* Color principal */
+    --color-secondary: #F2743D;  /* Color secundario */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0; /* Color de fondo */
+}
+
+/* Cabecera */
+.cabecera-section {
+    background-color: var(--color-primary); /* Color de fondo usando la variable */
+    text-align: center; /* Centra el contenido */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    height: 138px; /* Establece una altura fija para la cabecera */
+}
+
+.cabecera-rect {
+    margin: 0 auto; /* Centra el div horizontalmente */
+    height: 100%; /* Asegura que el div de la cabecera ocupe el 100% de la altura de la cabecera */
+    display: flex; /* Flexbox para centrar verticalmente la imagen */
+    justify-content: center; /* Centra horizontalmente la imagen */
+    align-items: center; /* Centra verticalmente la imagen */
+}
+
+.cabecera-image {
+    height: 100%; /* Ajusta la altura de la imagen al 100% de la cabecera */
+    width: 136px; /* Mantiene la proporción de la imagen */
+    border-radius: 5px; /* Esquinas redondeadas */
+}
+
+.thecontainer {
+	display: flex;
+	flex-direction: column;
+}
+
+.container-inicio {
+	width: 100vw;
+	height: calc(100vh - 276px);
+	background-color: #FFFFFF;
+}
+
+
+.recuadro {
+	height: 62px;
+	border-bottom: 1px solid #000;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #ffffff;
+    padding: 10px 0;
+    margin: 0 700px;
+}
+
+.navbar-item {
+    display: flex;
+    align-items: center;
+    color: black;
+    font-size: 14px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.navbar-item img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.navbar-item.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+.navbar-item.active img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.navbar-item span {
+    margin-left: 5px;
+}
