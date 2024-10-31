@@ -57,11 +57,11 @@
 		    <div class="navbar">
 		        <div class="navbar-item" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/inicio.jsp'">
 		        	<img src="https://img.icons8.com/?size=100&id=131&format=png&color=000000" alt="Jugadores">
-		            <span><b>Buscar</b></span>
+		            <span>Buscar</span>
 		        </div>
 		        <div class="navbar-item active" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/favoritos.jsp'">
 		            <img src="https://img.icons8.com/?size=100&id=84925&format=png&color=FFFFFF" alt="Jugadores">
-		            <span>Favoritos</span>
+		            <span><b>Favoritos</b></span>
 		        </div>
 		        <div class="navbar-item" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/mensajes.jsp'">
 		            <img src="https://img.icons8.com/?size=100&id=87193&format=png&color=000000" alt="Equipos">
@@ -75,7 +75,6 @@
 				<div class="info-item-favorito">
 					<% for (JugadorFavVO jugador : jugadoresFavoritos) { %>
 						<div class="jugadores-favorito">
-		                    <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Perfil">
 					        
 					        <%
 								JugadorVO jugadorVO = JugadorDAO.obtenerJugadorPorNombreUsuario(jugador.getJugador());
@@ -84,14 +83,39 @@
 									if (equipoVO != null) {
 					 
 					        %>
-	
-		                    <p><strong><%= jugadorVO.getNombreJugador() %></strong><br><%= equipoVO.getNombreEquipo() %><br><%= equipoVO.getCompeticion() %></p>
-		                    <img src="https://img.icons8.com/?size=100&id=<%= JugadorFavDAO.esFavorito(usuario.getNombreUsuario(), jugadorVO.getNombreUsuario()) ? "19416" : "85784" %>&format=png&color=000000" 
-	                         alt="Favorito" 
-	                         class="icono-favorito" 
-	                         data-id="<%= jugadorVO.getNombreUsuario() %>" 
-	                         data-tipo="jugador" 
-	                         data-favorito="<%= JugadorFavDAO.esFavorito(usuario.getNombreUsuario(), jugadorVO.getNombreJugador()) %>">
+					        <div class="player-info-favorito">
+					            <div class="avatar-favorito">
+					                <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Perfil">
+					            </div>
+					            <div class="details-favorito">
+					                <p><strong><%= jugadorVO.getNombreJugador() %></strong>
+					                <br><%= equipoVO.getNombreEquipo() %>
+					                <br><%= equipoVO.getCompeticion() %></p>
+					            </div>
+					        </div>
+					        <div class="estrella-favorito">
+			                    <img src="https://img.icons8.com/?size=100&id=<%= JugadorFavDAO.esFavorito(usuario.getNombreUsuario(), jugadorVO.getNombreUsuario()) ? "19416" : "85784" %>&format=png&color=000000" 
+		                         alt="Favorito" 
+		                         class="icono-favorito" 
+		                         data-id="<%= jugadorVO.getNombreUsuario() %>" 
+		                         data-tipo="jugador" 
+		                         data-favorito="<%= JugadorFavDAO.esFavorito(usuario.getNombreUsuario(), jugadorVO.getNombreUsuario()) %>">
+					 		</div>
+					 		<div class="stats-favorito">
+					            <div class="section-favorito last-game-favorito">
+					                <label>Último partido</label>
+					                <p class="stat-favorito">PT <span>12</span></p>
+					                <p class="stat-favorito">MIN <span>22:23</span></p>
+					                <button>Ver más</button>
+					            </div>
+					            <div class="section-favorito history-favorito">
+					                <label>Histórico</label>
+					                <p class="stat-favorito">P/P <span>9.3</span></p>
+					                <p class="stat-favorito">M/P <span>19:12</span></p>
+					                <p class="stat-favorito">PJ <span>12</span></p>
+					                <button>Ver más</button>
+					            </div>
+					        </div>
 		                </div>
 					<% }}} %>
 				</div>

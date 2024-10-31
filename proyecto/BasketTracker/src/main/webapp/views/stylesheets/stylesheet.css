@@ -1263,20 +1263,16 @@ tr:nth-child(even) {
 	display: flex;
     background-color: white;
     border: 1px solid #aaa;
-    padding: 15px;
+    padding-left: 15px;
     margin-bottom: 20px;
     align-items: center;
     justify-content: center;
     gap: 20px;
-}
-
-.jugadores-favorito img:last-of-type {
-	width: 40px; /* Cambia este valor según el tamaño que desees */
-	height: auto; /* Mantiene la proporción de la imagen */
+    width: auto;
 }
 
 .jugadores-favorito p {
-	width: 200px; /* Ajusta este valor según el ancho máximo deseado */
+	width: auto; /* Ajusta este valor según el ancho máximo deseado */
 }
 
 .equipos-favorito img:last-of-type {
@@ -1285,7 +1281,7 @@ tr:nth-child(even) {
 }
 
 .equipos-favorito p {
-	width: 200px; /* Ajusta este valor según el ancho máximo deseado */
+	width: auto; /* Ajusta este valor según el ancho máximo deseado */
 }
 
 .competiciones-favorito img:last-of-type {
@@ -1294,5 +1290,96 @@ tr:nth-child(even) {
 }
 
 .competiciones-favorito p {
-	width: 200px; /* Ajusta este valor según el ancho máximo deseado */
+	width: auto; /* Ajusta este valor según el ancho máximo deseado */
+}
+
+.estrella-favorito {
+	height: 100%;
+	display: flex;
+	
+}
+
+.icono-favorito {
+	margin-top: 20px;
+	width: 20px;
+	height: 20px;
+	display: flex;
+}
+
+.datos-favorito {
+	display: flex;
+	height: 100%;
+	width: auto;
+	
+}
+
+.stats-favorito {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    height: 100%;
+}
+
+.section-favorito {
+    text-align: center;
+    flex: 1;
+    border-left: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+}
+
+.last-game-favorito {
+    color: black;
+}
+
+.history-favorito {
+    color: black;
+}
+
+.section-favorito label {
+	display: flex;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 5px;
+    background-color: var(--color-primary);
+    width: auto;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.stat-favorito {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.stat-favorito span {
+    font-weight: bold;
+}
+.player-info-favorito {
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    flex: 1;
+    flex-direction: column;
+    width: 150px;
+}
+
+.avatar-favorito img {
+    width: 100px;
+    height: 100px;
+}
+
+.details-favorito {
+    margin-left: 10px;
+    align-items: center;
+    display: flex;
+}
+
+.details-favorito p {
+    font-size: 14px;
+    
 }
