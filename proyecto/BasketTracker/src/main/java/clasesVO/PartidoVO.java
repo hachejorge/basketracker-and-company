@@ -1,5 +1,8 @@
 package clasesVO;
 
+import java.sql.Time;
+import java.sql.Date;
+
 public class PartidoVO {
     private int idPartido;
     private int equipoLocal;
@@ -13,11 +16,14 @@ public class PartidoVO {
     private int ptsC2Visit;
     private int ptsC3Visit;
     private int ptsC4Visit;
+    private Time hora;   // Nuevo campo
+    private Date fecha;  // Nuevo campo
 
-    // Constructor
+    // Constructor actualizado
     public PartidoVO(int idPartido, int equipoLocal, int equipoVisitante, int jornada,
-                   int ptsC1Local, int ptsC2Local, int ptsC3Local, int ptsC4Local,
-                   int ptsC1Visit, int ptsC2Visit, int ptsC3Visit, int ptsC4Visit) {
+                     int ptsC1Local, int ptsC2Local, int ptsC3Local, int ptsC4Local,
+                     int ptsC1Visit, int ptsC2Visit, int ptsC3Visit, int ptsC4Visit,
+                     Time hora, Date fecha) {
         this.idPartido = idPartido;
         this.equipoLocal = equipoLocal;
         this.equipoVisitante = equipoVisitante;
@@ -30,104 +36,39 @@ public class PartidoVO {
         this.ptsC2Visit = ptsC2Visit;
         this.ptsC3Visit = ptsC3Visit;
         this.ptsC4Visit = ptsC4Visit;
+        this.hora = hora;
+        this.fecha = fecha;
     }
 
-    // Getters y Setters
-    public int getIdPartido() {
-        return idPartido;
-    }
-
-    public void setIdPartido(int idPartido) {
-        this.idPartido = idPartido;
-    }
-
-    public int getEquipoLocal() {
-        return equipoLocal;
-    }
-
-    public void setEquipoLocal(int equipoLocal) {
-        this.equipoLocal = equipoLocal;
-    }
-
-    public int getEquipoVisitante() {
-        return equipoVisitante;
-    }
-
-    public void setEquipoVisitante(int equipoVisitante) {
-        this.equipoVisitante = equipoVisitante;
-    }
-
-    public int getJornada() {
-        return jornada;
-    }
-
-    public void setJornada(int jornada) {
-        this.jornada = jornada;
-    }
-
-    public int getPtsC1Local() {
-        return ptsC1Local;
-    }
-
-    public void setPtsC1Local(int ptsC1Local) {
-        this.ptsC1Local = ptsC1Local;
-    }
-
-    public int getPtsC2Local() {
-        return ptsC2Local;
-    }
-
-    public void setPtsC2Local(int ptsC2Local) {
-        this.ptsC2Local = ptsC2Local;
-    }
-
-    public int getPtsC3Local() {
-        return ptsC3Local;
-    }
-
-    public void setPtsC3Local(int ptsC3Local) {
-        this.ptsC3Local = ptsC3Local;
-    }
-
-    public int getPtsC4Local() {
-        return ptsC4Local;
-    }
-
-    public void setPtsC4Local(int ptsC4Local) {
-        this.ptsC4Local = ptsC4Local;
-    }
-
-    public int getPtsC1Visit() {
-        return ptsC1Visit;
-    }
-
-    public void setPtsC1Visit(int ptsC1Visit) {
-        this.ptsC1Visit = ptsC1Visit;
-    }
-
-    public int getPtsC2Visit() {
-        return ptsC2Visit;
-    }
-
-    public void setPtsC2Visit(int ptsC2Visit) {
-        this.ptsC2Visit = ptsC2Visit;
-    }
-
-    public int getPtsC3Visit() {
-        return ptsC3Visit;
-    }
-
-    public void setPtsC3Visit(int ptsC3Visit) {
-        this.ptsC3Visit = ptsC3Visit;
-    }
-
-    public int getPtsC4Visit() {
-        return ptsC4Visit;
-    }
-
-    public void setPtsC4Visit(int ptsC4Visit) {
-        this.ptsC4Visit = ptsC4Visit;
-    }
+    // Getters y Setters actualizados
+    public int getIdPartido() { return idPartido; }
+    public void setIdPartido(int idPartido) { this.idPartido = idPartido; }
+    public int getEquipoLocal() { return equipoLocal; }
+    public void setEquipoLocal(int equipoLocal) { this.equipoLocal = equipoLocal; }
+    public int getEquipoVisitante() { return equipoVisitante; }
+    public void setEquipoVisitante(int equipoVisitante) { this.equipoVisitante = equipoVisitante; }
+    public int getJornada() { return jornada; }
+    public void setJornada(int jornada) { this.jornada = jornada; }
+    public int getPtsC1Local() { return ptsC1Local; }
+    public void setPtsC1Local(int ptsC1Local) { this.ptsC1Local = ptsC1Local; }
+    public int getPtsC2Local() { return ptsC2Local; }
+    public void setPtsC2Local(int ptsC2Local) { this.ptsC2Local = ptsC2Local; }
+    public int getPtsC3Local() { return ptsC3Local; }
+    public void setPtsC3Local(int ptsC3Local) { this.ptsC3Local = ptsC3Local; }
+    public int getPtsC4Local() { return ptsC4Local; }
+    public void setPtsC4Local(int ptsC4Local) { this.ptsC4Local = ptsC4Local; }
+    public int getPtsC1Visit() { return ptsC1Visit; }
+    public void setPtsC1Visit(int ptsC1Visit) { this.ptsC1Visit = ptsC1Visit; }
+    public int getPtsC2Visit() { return ptsC2Visit; }
+    public void setPtsC2Visit(int ptsC2Visit) { this.ptsC2Visit = ptsC2Visit; }
+    public int getPtsC3Visit() { return ptsC3Visit; }
+    public void setPtsC3Visit(int ptsC3Visit) { this.ptsC3Visit = ptsC3Visit; }
+    public int getPtsC4Visit() { return ptsC4Visit; }
+    public void setPtsC4Visit(int ptsC4Visit) { this.ptsC4Visit = ptsC4Visit; }
+    public Time getHora() { return hora; }
+    public void setHora(Time hora) { this.hora = hora; }
+    public Date getFecha() { return fecha; }
+    public void setFecha(Date fecha) { this.fecha = fecha; }
 
     @Override
     public String toString() {
@@ -144,6 +85,8 @@ public class PartidoVO {
                 ", ptsC2Visit=" + ptsC2Visit +
                 ", ptsC3Visit=" + ptsC3Visit +
                 ", ptsC4Visit=" + ptsC4Visit +
+                ", hora=" + hora +
+                ", fecha=" + fecha +
                 '}';
     }
 }

@@ -1,78 +1,375 @@
 package clasesDAO;
 
-import clasesVO.PtsJugParVO; // Asegúrate de importar la clase desde el paquete correcto.
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import clasesVO.PtsJugParVO; 
+import clasesVO.HistoricoVO;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+import utils.PoolConnectionManager;
 
 public class PtsJugParDAO {
 
-    // Crear una fábrica de EntityManagers
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
-
     // Método para guardar un registro de puntos de jugador en un partido
     public void guardarPtsJugPar(PtsJugParVO ptsJugPar) {
-        EntityManager em = emf.createEntityManager();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
         try {
-            em.getTransaction().begin();
-            em.persist(ptsJugPar);
-            em.getTransaction().commit();
+            conn = PoolConnectionManager.getConnection();
+            String query = "INSERT INTO sisinf_db.pts_jug_par (id_partido, nombre_usuario, pts_ant, trp_ant, " +
+                           "tlb_lan, tlb_ant, faltas, mnt_jd) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, ptsJugPar.getIdPartido());
+            ps.setString(2, ptsJugPar.getNombreUsuario());
+            ps.setObject(3, ptsJugPar.getPtsAnt());
+            ps.setObject(4, ptsJugPar.getTrpAnt());
+            ps.setObject(5, ptsJugPar.getTlbLan());
+            ps.setObject(6, ptsJugPar.getTlbAnt());
+            ps.setObject(7, ptsJugPar.getFaltas());
+            ps.setObject(8, ptsJugPar.getMntJd());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            // Cerrar recursos directamente aquí
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
         }
     }
 
     // Método para obtener un registro por ID de partido y nombre de usuario
-    public PtsJugParVO obtenerPtsJugPar(int idPartido, String nombreUsuario) {
-        EntityManager em = emf.createEntityManager();
+    public static PtsJugParVO obtenerPtsJugPar(int idPartido, String nombreUsuario) {
+        PtsJugParVO ptsJugPar = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
-            return em.createQuery("SELECT p FROM PtsJugPar p WHERE p.idPartido = :idPartido AND p.nombreUsuario = :nombreUsuario", PtsJugParVO.class)
-                    .setParameter("idPartido", idPartido)
-                    .setParameter("nombreUsuario", nombreUsuario)
-                    .getSingleResult();
-        } catch (Exception e) {
-            return null; // O maneja la excepción de otra manera
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.pts_jug_par WHERE id_partido = ? AND nombre_usuario = ?";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, idPartido);
+            ps.setString(2, nombreUsuario);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                ptsJugPar = new PtsJugParVO(
+                        rs.getInt("id_partido"),
+                        rs.getString("nombre_usuario"),
+                        (Integer) rs.getObject("pts_ant"),
+                        (Integer) rs.getObject("trp_ant"),
+                        (Integer) rs.getObject("tlb_lan"),
+                        (Integer) rs.getObject("tlb_ant"),
+                        (Integer) rs.getObject("faltas"),
+                        (Integer) rs.getObject("mnt_jd")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            // Cerrar recursos directamente aquí
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
         }
+        return ptsJugPar;
     }
 
     // Método para listar todos los registros de puntos de jugadores en partidos
     public List<PtsJugParVO> listarPtsJugPar() {
-        EntityManager em = emf.createEntityManager();
+        List<PtsJugParVO> ptsJugParList = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
-            return em.createQuery("FROM PtsJugPar", PtsJugParVO.class).getResultList();
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.pts_jug_par";
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ptsJugParList.add(new PtsJugParVO(
+                        rs.getInt("id_partido"),
+                        rs.getString("nombre_usuario"),
+                        (Integer) rs.getObject("pts_ant"),
+                        (Integer) rs.getObject("trp_ant"),
+                        (Integer) rs.getObject("tlb_lan"),
+                        (Integer) rs.getObject("tlb_ant"),
+                        (Integer) rs.getObject("faltas"),
+                        (Integer) rs.getObject("mnt_jd")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            // Cerrar recursos directamente aquí
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
         }
+        return ptsJugParList;
     }
 
     // Método para actualizar un registro de puntos de jugador en un partido
     public void actualizarPtsJugPar(PtsJugParVO ptsJugPar) {
-        EntityManager em = emf.createEntityManager();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
         try {
-            em.getTransaction().begin();
-            em.merge(ptsJugPar);
-            em.getTransaction().commit();
+            conn = PoolConnectionManager.getConnection();
+            String query = "UPDATE sisinf_db.pts_jug_par SET pts_ant = ?, trp_ant = ?, tlb_lan = ?, tlb_ant = ?, " +
+                           "faltas = ?, mnt_jd = ? WHERE id_partido = ? AND nombre_usuario = ?";
+            ps = conn.prepareStatement(query);
+            ps.setObject(1, ptsJugPar.getPtsAnt());
+            ps.setObject(2, ptsJugPar.getTrpAnt());
+            ps.setObject(3, ptsJugPar.getTlbLan());
+            ps.setObject(4, ptsJugPar.getTlbAnt());
+            ps.setObject(5, ptsJugPar.getFaltas());
+            ps.setObject(6, ptsJugPar.getMntJd());
+            ps.setInt(7, ptsJugPar.getIdPartido());
+            ps.setString(8, ptsJugPar.getNombreUsuario());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            // Cerrar recursos directamente aquí
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
         }
     }
 
     // Método para eliminar un registro de puntos de jugador en un partido
     public void eliminarPtsJugPar(int idPartido, String nombreUsuario) {
-        EntityManager em = emf.createEntityManager();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
         try {
-            PtsJugParVO ptsJugPar = obtenerPtsJugPar(idPartido, nombreUsuario);
-            if (ptsJugPar != null) {
-                em.getTransaction().begin();
-                em.remove(em.contains(ptsJugPar) ? ptsJugPar : em.merge(ptsJugPar));
-                em.getTransaction().commit();
-            }
+            conn = PoolConnectionManager.getConnection();
+            String query = "DELETE FROM sisinf_db.pts_jug_par WHERE id_partido = ? AND nombre_usuario = ?";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, idPartido);
+            ps.setString(2, nombreUsuario);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            // Cerrar recursos directamente aquí
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
         }
+    }
+
+    // Método para obtener el histórico de un jugador
+    public static List<PtsJugParVO> obtenerHistoricoPorJugador(String nombreUsuario) {
+        List<PtsJugParVO> historico = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT id_partido, nombre_usuario, pts_ant, mnt_jd, trp_ant, tlb_lan, faltas " +
+                           "FROM sisinf_db.pts_jug_par WHERE nombre_usuario = ? ORDER BY id_partido";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, nombreUsuario);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                historico.add(new PtsJugParVO(
+                        rs.getInt("id_partido"),
+                        rs.getString("nombre_usuario"),
+                        (Integer) rs.getObject("pts_ant"),
+                        (Integer) rs.getObject("trp_ant"),
+                        (Integer) rs.getObject("tlb_lan"),
+                        null, // tlb_ant no es necesario, así que lo dejamos como null
+                        (Integer) rs.getObject("faltas"),
+                        (Integer) rs.getObject("mnt_jd")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar recursos directamente aquí
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
+        }
+        return historico;
+    }
+
+    // Método para obtener el historial de puntos del jugador para un partido específico
+    public HistoricoVO obtenerHistorial(int idPartido, String nombreUsuario) {
+        int partidosJugados = 0;
+        int totalPts = 0;
+        int totalMinutos = 0;
+        int totalTirosLibres = 0;
+        int totalTriples = 0;
+        int totalFaltas = 0;
+
+        List<PtsJugParVO> ptsList = obtenerPtsPorPartidoYUsuario(idPartido, nombreUsuario);
+
+        for (PtsJugParVO pts : ptsList) {
+            if (pts != null) {
+                partidosJugados++;
+                totalPts += pts.getPtsAnt() != null ? pts.getPtsAnt() : 0;
+                totalMinutos += pts.getMntJd() != null ? pts.getMntJd() : 0;
+                totalTirosLibres += pts.getTlbLan() != null ? pts.getTlbLan() : 0;
+                totalTriples += pts.getTrpAnt() != null ? pts.getTrpAnt() : 0;
+                totalFaltas += pts.getFaltas() != null ? pts.getFaltas() : 0;
+            }
+        }
+
+        return new HistoricoVO(partidosJugados, totalPts, totalMinutos, totalTirosLibres, totalTriples, totalFaltas);
+    }
+
+    // Método auxiliar para obtener los puntos por partido y usuario
+    private List<PtsJugParVO> obtenerPtsPorPartidoYUsuario(int idPartido, String nombreUsuario) {
+        List<PtsJugParVO> ptsList = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.pts_jug_par WHERE id_partido = ? AND nombre_usuario = ?";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, idPartido);
+            ps.setString(2, nombreUsuario);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ptsList.add(new PtsJugParVO(
+                        rs.getInt("id_partido"),
+                        rs.getString("nombre_usuario"),
+                        (Integer) rs.getObject("pts_ant"),
+                        (Integer) rs.getObject("trp_ant"),
+                        (Integer) rs.getObject("tlb_lan"),
+                        (Integer) rs.getObject("tlb_ant"),
+                        (Integer) rs.getObject("faltas"),
+                        (Integer) rs.getObject("mnt_jd")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar recursos directamente aquí
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
+        }
+        return ptsList;
+    }
+    
+    // Método para calcular las estadísticas del histórico
+    public static HistoricoVO calcularEstadisticasHistorico(List<PtsJugParVO> historico) {
+        int totalPts = 0;
+        int totalMinutos = 0;
+        int partidosJugados = historico.size();
+        int totalTirosLibres = 0;
+        int totalTriples = 0;
+        int totalFaltas = 0;
+
+        for (PtsJugParVO pts : historico) {
+            if (pts.getPtsAnt() != null) {
+                totalPts += pts.getPtsAnt();
+            }
+            if (pts.getMntJd() != null) {
+                totalMinutos += pts.getMntJd();
+            }
+            if (pts.getTlbLan() != null) {
+                totalTirosLibres += pts.getTlbLan();
+            }
+            if (pts.getTrpAnt() != null) {
+                totalTriples += pts.getTrpAnt();
+            }
+            if (pts.getFaltas() != null) {
+                totalFaltas += pts.getFaltas();
+            }
+        }
+
+        return new HistoricoVO(partidosJugados, totalPts, totalMinutos, totalTirosLibres, totalTriples, totalFaltas);
     }
 }

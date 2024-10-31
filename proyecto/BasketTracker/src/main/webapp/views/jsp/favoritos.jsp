@@ -1,16 +1,7 @@
-<%@ page import="clasesDAO.JugadorFavDAO" %>
-<%@ page import="clasesDAO.EquipoFavDAO" %>
-<%@ page import="clasesDAO.CompeticionFavDAO" %>
-<%@ page import="clasesDAO.JugadorDAO" %>
-<%@ page import="clasesDAO.EquipoDAO" %>
-<%@ page import="clasesDAO.CompeticionDAO" %>
+<%@ page import="clasesDAO.*" %>
 
-<%@ page import="clasesVO.UsuarioVO" %>
-<%@ page import="clasesVO.EquipoVO" %>
-<%@ page import="clasesVO.JugadorVO" %>
-<%@ page import="clasesVO.JugadorFavVO" %>
-<%@ page import="clasesVO.EquipoFavVO" %>
-<%@ page import="clasesVO.CompeticionFavVO" %>
+
+<%@ page import="clasesVO.*" %>
 
 <%@ page import="java.util.List" %>
 
@@ -19,6 +10,7 @@
 <%
     // Recuperar el objeto UsuarioVO de la sesión
     UsuarioVO usuario = (UsuarioVO) session.getAttribute("usuario");
+
 
     // Comprobar si el usuario está autenticado
     if (usuario == null) {
@@ -52,7 +44,7 @@
 <body>
 <div class="thecontainer">
 	<%@ include file="header-buscador.jsp" %>
-	<div class="container-inicio">
+	<div class="container-favorito">
 		<div class="recuadro">
 		    <div class="navbar">
 		        <div class="navbar-item" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/inicio.jsp'">
@@ -102,42 +94,99 @@
 		                         data-favorito="<%= JugadorFavDAO.esFavorito(usuario.getNombreUsuario(), jugadorVO.getNombreUsuario()) %>">
 					 		</div>
 					 		<div class="stats-favorito">
+					 			<%
+									PartidoVO partidoVO = PartidoDAO.obtenerUltimoPartidoPorJugador(jugadorVO);
+									if (partidoVO != null) {
+										PtsJugParVO ptsjugparVO = PtsJugParDAO.obtenerPtsJugPar(partidoVO.getIdPartido(), jugadorVO.getNombreUsuario());
+										if (ptsjugparVO != null) {
+						 
+							        %>
 					            <div class="section-favorito last-game-favorito">
+					            
+						            
 					                <label>Último partido</label>
-					                <p class="stat-favorito">PT <span>12</span></p>
-					                <p class="stat-favorito">MIN <span>22:23</span></p>
-					                <button>Ver más</button>
+					                <div class="info-jugador-favorito">
+						                <p class="stat-favorito">PT <span><%= ptsjugparVO.getPtsAnt() %></span></p>
+						                <p class="stat-favorito">MIN <span><%= ptsjugparVO.getMntJd() %></span></p>
+					                </div>
+					                <button onclick="guardarPartido('<%= partidoVO.getIdPartido() %>')">Ver más</button>
+					                
 					            </div>
 					            <div class="section-favorito history-favorito">
+					            	<%
+									List<PtsJugParVO> historicoJugador = PtsJugParDAO.obtenerHistoricoPorJugador(jugadorVO.getNombreUsuario());
+
+									// Calcular y obtener las estadísticas
+									HistoricoVO historico = PtsJugParDAO.calcularEstadisticasHistorico(historicoJugador);						 
+							        %>
 					                <label>Histórico</label>
-					                <p class="stat-favorito">P/P <span>9.3</span></p>
-					                <p class="stat-favorito">M/P <span>19:12</span></p>
-					                <p class="stat-favorito">PJ <span>12</span></p>
-					                <button>Ver más</button>
+					                <div class="info-jugador-favorito">
+						                <p class="stat-favorito">P/P <span><%= historico.getPuntosTotales()/historico.getPartidosJugados() %></span></p>
+						                <p class="stat-favorito">M/P <span><%= historico.getMinutosTotales()/historico.getPartidosJugados() %></span></p>
+						                <p class="stat-favorito">PJ <span><%= historico.getPartidosJugados() %></span></p>
+					                </div>
+					                <button onclick="verMas('<%= jugadorVO.getNombreJugador() %>')">Ver más</button>
 					            </div>
+					            <% }} %>
 					        </div>
+					        <% }} %>
 		                </div>
-					<% }}} %>
+					<% } %>
 				</div>
 	
 				<div class="info-item-favorito">
 					<% for (EquipoFavVO equipo : equiposFavoritos) { %>
 						<div class="equipos-favorito">
-							<img src="https://img.icons8.com/?size=100&id=vy6OvJYHSJ8I&format=png&color=000000" alt="Logo Equipo">
-							
 							<% 
 					            // Obtener información del jugador a partir del nombre de usuario
 					            EquipoVO equipoVO = EquipoDAO.obtenerEquipoPorId(equipo.getEquipo());
 								if (equipoVO != null) {
 					        %>
-					        
-						    <p><strong><%= equipoVO.getNombreEquipo() %></strong><br><%= equipoVO.getCompeticion() %></p>
-						    <img src="https://img.icons8.com/?size=100&id=<%= EquipoFavDAO.esFavorito(usuario.getNombreUsuario(), equipoVO.getIdEquipo()) ? "19416" : "85784" %>&format=png&color=000000" 
-	                         alt="Favorito"
-	                         class="icono-favorito" 
-	                         data-id="<%= equipoVO.getIdEquipo() %>" 
-	                         data-tipo="equipo" 
-	                         data-favorito="<%= EquipoFavDAO.esFavorito(usuario.getNombreUsuario(), equipoVO.getIdEquipo()) %>">			
+					        <div class="player-info-favorito">
+					        	<div class="avatar-favorito">
+					        		<img src="https://img.icons8.com/?size=100&id=vy6OvJYHSJ8I&format=png&color=000000" alt="Logo Equipo">
+						    	</div>
+						    	<div class="details-favorito">
+						    		<p><strong><%= equipoVO.getNombreEquipo() %></strong><br><%= equipoVO.getCompeticion() %></p>
+						    	</div>
+							</div>
+							<div class="estrella-favorito">
+							    <img src="https://img.icons8.com/?size=100&id=<%= EquipoFavDAO.esFavorito(usuario.getNombreUsuario(), equipoVO.getIdEquipo()) ? "19416" : "85784" %>&format=png&color=000000" 
+		                         alt="Favorito"
+		                         class="icono-favorito" 
+		                         data-id="<%= equipoVO.getIdEquipo() %>" 
+		                         data-tipo="equipo" 
+		                         data-favorito="<%= EquipoFavDAO.esFavorito(usuario.getNombreUsuario(), equipoVO.getIdEquipo()) %>">			
+							</div>
+							<div class="stats-favorito">
+								<div class="section2-favorito equipo-datos-favorito">	
+									<%
+									List<EquipoRankingVO> ranking = PartidoDAO.obtenerRanking(equipoVO.getCompeticion());
+									
+									EquipoRankingVO equipoEnRanking = null;
+									int pos = 0;
+								    // Buscar el equipo en el ranking según su id
+								    for (EquipoRankingVO equipoRanking : ranking) {
+								    	pos++;
+								        if (equipoRanking.getIdEquipo() == equipoVO.getIdEquipo()) {
+								            equipoEnRanking = equipoRanking;
+								            break;
+								        }
+								    }
+								    
+								   	if (equipoEnRanking != null) {
+									
+									%>							
+					                <label>Clasificación</label>
+					                <div class="info-jugador-favorito">
+						                <p class="stat-favorito">Posición <span><%= pos %></span></p>
+						                <p class="stat-favorito">PG <span><%= equipoEnRanking.getPartidosGanados() %></span></p>
+						                <p class="stat-favorito">PP <span><%= equipoEnRanking.getPartidosPerdidos() %></span></p>
+					                </div>
+					                <button onclick="verMasEquipo('<%= equipoVO.getIdEquipo() %>')">Ver más</button>
+					                <% } %>
+				                </div>	
+				            </div>
 						</div>
 					<% }} %>
 				</div>
@@ -145,16 +194,55 @@
 				<div class="info-item-favorito">
 					<% for (CompeticionFavVO competicion : competicionesFavoritos) { %>
 						<div class="competiciones-favorito">
-							<img src="https://img.icons8.com/?size=100&id=6YtrB5VnlPqY&format=png&color=000000" alt="Logo Competición">
-	
-					        
-						    <p><strong><%= competicion.getCompeticion() %></strong></p>
-	                        <img src="https://img.icons8.com/?size=100&id=<%= CompeticionFavDAO.esFavorito(usuario.getNombreUsuario(), competicion.getCompeticion()) ? "19416" : "85784" %>&format=png&color=000000" 
-	                         alt="Favorito" 
-	                         class="icono-favorito" 
-	                         data-id="<%= competicion.getCompeticion() %>" 
-	                         data-tipo="competicion" 
-	                         data-favorito="<%= CompeticionFavDAO.esFavorito(usuario.getNombreUsuario(), competicion.getCompeticion()) %>">
+							<div class="player-info-favorito">
+								<div class="avatar-favortio">
+									<img src="https://img.icons8.com/?size=100&id=6YtrB5VnlPqY&format=png&color=000000" alt="Logo Competición">
+								</div>
+					        	<div class="details-favorito">
+						    		<p><strong><%= competicion.getCompeticion() %></strong></p>
+						    	</div>
+						    </div>
+						    <div class="estrella-favorito">
+		                        <img src="https://img.icons8.com/?size=100&id=<%= CompeticionFavDAO.esFavorito(usuario.getNombreUsuario(), competicion.getCompeticion()) ? "19416" : "85784" %>&format=png&color=000000" 
+		                         alt="Favorito" 
+		                         class="icono-favorito" 
+		                         data-id="<%= competicion.getCompeticion() %>" 
+		                         data-tipo="competicion" 
+		                         data-favorito="<%= CompeticionFavDAO.esFavorito(usuario.getNombreUsuario(), competicion.getCompeticion()) %>">
+							</div>
+							<div class="stats-favorito">
+								<div class="section3-favorito equipo-datos-favorito">
+									<%
+									List<EquipoRankingVO> ranking = PartidoDAO.obtenerRanking(competicion.getCompeticion());
+									%>	
+					                <label>Clasificación</label>
+					                <div class="info-competicion-favorito">
+									 	<table class="favorito-tabla">
+								        
+								        <% 
+								        int rankingSize = ranking.size(); // Obtenemos el tamaño de la lista
+								        for (int i = 0; i < rankingSize && i < 4; i++) { 
+								        %>
+								            <tr class="favorito-<%= (i == 0 ? "primero" : (i == 1 ? "segundo" : (i == 2 ? "tercero" : "cuarto"))) %>">
+								                <td><%= (i + 1) + ".<img src='https://img.icons8.com/?size=100&id=851&format=png&color=000000' alt='icono' class='favorito-icono'> " + ranking.get(i).getNombre() %></td>
+								            </tr>
+								        <% 
+								        } 
+								        // Si no hay equipos en el ranking, podemos mostrar un mensaje
+								        if (rankingSize == 0) {
+								        %>
+								            <tr>
+								                <td>No hay equipos en la clasificación.</td>
+								            </tr>
+								        <% 
+								        }
+								        %>
+									       
+									    </table>						     
+					                </div>
+					                <button onclick="verMasCompeticion('<%= competicion.getCompeticion() %>')">Ver más</button>
+					            </div>
+				            </div>
 						</div>
 					<% } %>
 				</div>
@@ -213,5 +301,73 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+function verMas(nombreJugador) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "<%= request.getContextPath() %>/GuardarJugadorServlet", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Redirigir a la página del perfil del jugador
+                window.location.href = "<%= request.getContextPath() %>/views/jsp/perfil_jugador.jsp";
+            } else {
+                alert("Error al guardar el jugador.");
+            }
+        }
+    };
+    xhr.send("nombreJugador=" + encodeURIComponent(nombreJugador));
+}
+
+function verMasEquipo(idEquipo) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "<%= request.getContextPath() %>/GuardarEquipoServlet", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Redirigir a la página del perfil del equipo
+                window.location.href = "<%= request.getContextPath() %>/views/jsp/perfil_equipo.jsp";
+            } else {
+                alert("Error al guardar el equipo.");
+            }
+        }
+    };
+    xhr.send("idEquipo=" + encodeURIComponent(idEquipo));
+}
+
+function verMasCompeticion(nombreCompeticion) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "<%= request.getContextPath() %>/GuardarCompeticionServlet", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Redirigir a la página del perfil de la competición
+                window.location.href = "<%= request.getContextPath() %>/views/jsp/perfil_competicion.jsp";
+            } else {
+                alert("Error al guardar la competición.");
+            }
+        }
+    };
+    xhr.send("nombreCompeticion=" + encodeURIComponent(nombreCompeticion));
+}
+
+function guardarPartido(idPartido) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "<%= request.getContextPath() %>/GuardarPartidoServlet", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Redirigir a la página del perfil del partido
+                window.location.href = "<%= request.getContextPath() %>/views/jsp/partido.jsp";
+            } else {
+                alert("Error al guardar el partido.");
+            }
+        }
+    };
+    xhr.send("idPartido=" + encodeURIComponent(idPartido));
+}
 
 </script>

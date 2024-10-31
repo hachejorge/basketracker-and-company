@@ -51,7 +51,7 @@ public class UsuarioDAO {
     }
 
     // Método para obtener un usuario por su nombre de usuario
-    public UsuarioVO obtenerUsuarioPorNombre(String nombreUsuario) {
+    public static UsuarioVO obtenerUsuarioPorNombre(String nombreUsuario) {
         UsuarioVO user = null;
         ResultSet rs = null;
         Connection conn = null;

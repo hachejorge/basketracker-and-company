@@ -18,7 +18,6 @@
 <%
     // Recuperar el objeto UsuarioVO de la sesión
     UsuarioVO usuario = (UsuarioVO) session.getAttribute("usuario");
-
     // Comprobar si el usuario está autenticado
     if (usuario == null) {
         // Redirigir a la página de login si no hay un usuario autenticado

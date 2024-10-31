@@ -39,6 +39,8 @@ CREATE TABLE sisinf_db.PARTIDO (
     pts_c2_visit INTEGER CHECK (pts_c2_visit >= 0),
     pts_c3_visit INTEGER CHECK (pts_c3_visit >= 0),
     pts_c4_visit INTEGER CHECK (pts_c4_visit >= 0),
+    hora TIME,
+    fecha DATE,
     CHECK (equipo_local != equipo_visitante)
 );
 

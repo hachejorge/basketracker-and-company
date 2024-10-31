@@ -49,20 +49,24 @@ VALUES
     ('mario2', 'Mario López García', 3), 
     ('andrea2', 'Andrea Fernández Torres', 2); 
 
--- Crear partidos (matches)
-INSERT INTO sisinf_db.PARTIDO (id_partido, equipo_local, equipo_visitante, jornada, pts_c1_local, pts_c2_local, pts_c3_local, pts_c4_local, pts_c1_visit, pts_c2_visit, pts_c3_visit, pts_c4_visit)
+-- Crear partidos (matches) con hora y fecha
+INSERT INTO sisinf_db.PARTIDO (id_partido, equipo_local, equipo_visitante, jornada, 
+    pts_c1_local, pts_c2_local, pts_c3_local, pts_c4_local, 
+    pts_c1_visit, pts_c2_visit, pts_c3_visit, pts_c4_visit, hora, fecha)
 VALUES 
-    (1, 1, 3, 1, 25, 30, 28, 20, 18, 20, 22, 30),  -- Partido 1
-    (2, 2, 5, 1, 30, 28, 25, 23, 22, 20, 25, 24),  -- Partido 2
-    (3, 4, 3, 1, 28, 30, 22, 24, 26, 24, 21, 22),  -- Partido 3
-    (4, 6, 1, 2, 26, 22, 24, 20, 25, 27, 21, 20),  -- Partido 4
-    (5, 5, 7, 2, 22, 30, 27, 29, 26, 20, 24, 22),  -- Partido 5
-    (6, 8, 4, 2, 24, 25, 21, 20, 20, 22, 28, 24);  -- Partido 6
+    (1, 1, 3, 1, 25, 30, 28, 20, 18, 20, 22, 30, '18:00', '2024-10-30'),  -- Partido 1
+    (2, 2, 5, 1, 30, 28, 25, 23, 22, 20, 25, 24, '20:00', '2024-10-30'),  -- Partido 2
+    (3, 4, 3, 1, 28, 30, 22, 24, 26, 24, 21, 22, '17:00', '2024-10-31'),  -- Partido 3
+    (4, 6, 1, 2, 26, 22, 24, 20, 25, 27, 21, 20, '19:00', '2024-11-01'),  -- Partido 4
+    (5, 5, 7, 2, 22, 30, 27, 29, 26, 20, 24, 22, '15:30', '2024-11-02'),  -- Partido 5
+    (6, 8, 4, 2, 24, 25, 21, 20, 20, 22, 28, 24, '16:00', '2024-11-02');  -- Partido 6
+
 
 -- Crear estadísticas de jugadores en partidos
 INSERT INTO sisinf_db.PTS_JUG_PAR (id_partido, nombre_usuario, pts_ant, trp_ant, tlb_lan, tlb_ant, faltas, mnt_jd)
 VALUES 
-    (1, 'andrea', 10, 2, 5, 3, 1, 30),  
+    (1, 'andrea', 10, 2, 5, 3, 1, 30), 
+    (2, 'andrea', 2, 2, 5, 3, 1, 10),
     (1, 'mario', 15, 3, 4, 1, 2, 35),   
     (2, 'jorge', 12, 4, 2, 0, 0, 28),    
     (2, 'lucia', 8, 1, 6, 3, 1, 20),      
@@ -86,15 +90,14 @@ VALUES
 -- Crear jugadores favoritos de usuarios
 INSERT INTO sisinf_db.JUGADOR_FAV (nombre_usuario, jugador)
 VALUES 
-    ('admin', 'andrea'),
-    ('admin', 'mario'),
-    ('admin', 'jorge'),
-    ('admin', 'lucia'),
-    ('admin', 'pablo'),
-    ('admin', 'rafael'),
-    ('admin', 'carla'),
-    ('admin', 'sara'), 
-    ('andrea', 'jorge'),    
+    ('andrea', 'andrea'),
+    ('andrea', 'mario'),
+    ('andrea', 'jorge'),
+    ('andrea', 'lucia'),
+    ('andrea', 'pablo'),
+    ('andrea', 'rafael'),
+    ('andrea', 'carla'),
+    ('andrea', 'sara'), 
     ('mario', 'lucia'),     
     ('jorge', 'rafael'),    
     ('lucia', 'sara'),      
@@ -103,15 +106,14 @@ VALUES
 -- Crear equipos favoritos de usuarios
 INSERT INTO sisinf_db.EQUIPO_FAV (nombre_usuario, equipo)
 VALUES 
-    ('admin', 1),
-    ('admin', 2),
-    ('admin', 3),
-    ('admin', 4),
-    ('admin', 5),
-    ('admin', 6),
-    ('admin', 7),
-    ('admin', 8), 
-    ('andrea', 3),         
+    ('andrea', 1),
+    ('andrea', 2),
+    ('andrea', 3),
+    ('andrea', 4),
+    ('andrea', 5),
+    ('andrea', 6),
+    ('andrea', 7),
+    ('andrea', 8), 
     ('mario', 4),          
     ('jorge', 5),          
     ('lucia', 6),          
@@ -121,12 +123,11 @@ VALUES
 -- Crear competiciones favoritas de usuarios
 INSERT INTO sisinf_db.COMPETICION_FAV (nombre_usuario, competicion)
 VALUES 
-    ('admin', '2a Aragonesa Femenina'),
-    ('admin', '3a Aragonesa Masculina'),
-    ('admin', 'Copa Aragonesa Femenina'),
-    ('admin', 'Liga Nacional Masculina'),
-    ('admin', 'Torneo de Primavera'),
-    ('admin', 'Social Plata'),
+    ('andrea', '2a Aragonesa Femenina'),
+    ('andrea', '3a Aragonesa Masculina'),
+    ('andrea', 'Liga Nacional Masculina'),
+    ('andrea', 'Torneo de Primavera'),
+    ('andrea', 'Social Plata'),
     ('andrea', 'Copa Aragonesa Femenina'),
     ('mario', 'Liga Nacional Masculina'),
     ('jorge', 'Social Plata'),
