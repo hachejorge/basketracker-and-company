@@ -43,8 +43,36 @@
 				<form action="<%= request.getContextPath() %>/AddCompe" method="post">
 	                <div class="form-group">
 	                    <label for="competicion">Competición</label>
-						<input type="text" id="usuario" name="usuario" placeholder="Nombre de la competición" required>
+						<input type="text" id="competicion" name="competicion" placeholder="Nombre de la competición" required>
 	                </div>
+	                <div class="form-group save-button">
+	                    <button type="submit">
+	                    	<i class="fa fa-save"></i>
+	                    	Guardar Competición
+	                    </button>
+	                </div>
+	            </form>
+	        </div>
+          </div>
+          </div>
+          <div id="addTeamSection" class="content-section">
+			<div class="container">
+          	<div class="form-section">
+	            <h2>Añadir Equipo</h2>
+				<form action="<%= request.getContextPath() %>/AddTeam" method="post">
+	                <div class="form-group">
+	                    <label for="equipo">Nombre del equipo</label>
+						<input type="text" id="nomTeam" name="nomTeam" placeholder="Nombre del equipo" required>
+	                </div>
+	                <div class="form-group">
+	                    <label for="equipo">Ubicación de los partidos </label>
+						<input type="text" id="nomTeam" name="ubicacion" placeholder="Dirección" required>
+	                </div>
+	                 <div class="form-group">
+                    	<label for="competicion">Competición</label>
+                    	<input type="text" id="competicion" name="competicion" placeholder="Buscar competición" autocomplete="off" oninput="buscarCompeticion(this.value)">
+                    	<div id="sugerencias" class="suggestions"></div> <!-- Contenedor para las sugerencias -->
+                	</div>
 	                <div class="form-group save-button">
 	                    <button type="submit">
 	                    	<i class="fa fa-save"></i>
@@ -54,10 +82,6 @@
 	            </form>
 	        </div>
           </div>
-          </div>
-          <div id="addTeamSection" class="content-section">
-			<h2>Añadir Equipo</h2>
-			<p>Contenido para añadir un equipo...</p>
           </div>
 		  <div id="homeSection" class="content-section active">
 			<h2>Inicio</h2>
@@ -96,6 +120,45 @@
             var selectedNavItem = document.getElementById(sectionId.replace('Section', ''));
             selectedNavItem.classList.add('active');
         }
+        
+        // Obtener el valor del parámetro success de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const event = urlParams.get('event');
+
+        // Mostrar alerta si success no es null
+        if (event) {
+            alert(event);
+        }
+        
+        function buscarCompeticion(termino) {
+            if (termino.length === 0) {
+                document.getElementById("sugerencias").innerHTML = "";
+                return;
+            }
+
+            // Llamada AJAX para obtener sugerencias
+            fetch('<%= request.getContextPath() %>/BuscarCompeticion?termino=' + encodeURIComponent(termino))
+                .then(response => response.json())
+                .then(data => {
+                    let sugerenciasHTML = "";
+                    data.forEach(competicion => {
+                    	console.log(competicion.nombre)
+                    	const nombreCompeticion = competicion.nombre
+                    	console.log(nombreCompeticion)
+                        sugerenciasHTML += `<div class="suggestion-item" onclick="seleccionarCompeticion('${competicion.nombre}')">${competicion.nombre}</div>`;
+                        //sugerenciasHTML += '<div class="suggestion-item" onclick="seleccionarCompeticion(${nombreCompeticion})">${nombreCompeticion}</div>';
+
+                    });
+                    document.getElementById("sugerencias").innerHTML = sugerenciasHTML;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function seleccionarCompeticion(nombre) {
+            document.getElementById("competicion").value = nombre;
+            document.getElementById("sugerencias").innerHTML = "";
+        }
+        
     </script>
 	
 </body>

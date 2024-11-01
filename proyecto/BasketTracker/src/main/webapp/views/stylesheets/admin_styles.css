@@ -162,3 +162,23 @@ body {
     cursor: pointer;
     font-weight: bold;
 }
+
+.suggestions {
+    border: 1px solid #ccc;
+    max-height: 100px;
+    /*overflow-y: auto;*/
+    position: absolute;
+    background-color: #fff;
+    /*width: 100%;*/
+    z-index: 10;
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+

@@ -40,7 +40,7 @@ public class CompeticionDAO {
     }
 
     // Método para obtener una competición por su nombre
-    public static CompeticionVO obtenerCompeticionPorNombre(String nombre) {
+    public CompeticionVO obtenerCompeticionPorNombre(String nombre) {
         CompeticionVO competicion = null;
         Connection conn = null;
         PreparedStatement ps = null;
@@ -78,7 +78,37 @@ public class CompeticionDAO {
         }
         return competicion;
     }
+    
+    // Método para buscar competiciones similares al término proporcionado
+    public List<CompeticionVO> buscarCompeticiones(String termino, int limite) {
+        List<CompeticionVO> competiciones = new ArrayList<>();
+        String sql = "SELECT nombre FROM sisinf_db.competicion WHERE nombre LIKE ? LIMIT ?";
 
+        try (
+        	Connection conn = PoolConnectionManager.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, "%" + termino + "%");  // Termino de búsqueda en formato LIKE
+            stmt.setInt(2, limite);  // Limitar resultados
+
+            ResultSet rs = stmt.executeQuery();
+
+            // Crear CompeticionVO para cada resultado encontrado
+            while (rs.next()) {
+                String nombreCompeticion = rs.getString("nombre");
+                CompeticionVO competicion = new CompeticionVO(nombreCompeticion);
+                competiciones.add(competicion);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Aquí podrías añadir un manejo de errores más detallado si es necesario
+        }
+
+        return competiciones;  // Devolver lista de competiciones coincidentes
+    }
+
+    
     // Método para listar todas las competiciones
     public List<CompeticionVO> listarCompeticiones() {
         List<CompeticionVO> competiciones = new ArrayList<>();
