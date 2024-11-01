@@ -42,7 +42,7 @@ public class LoginServlet extends HttpServlet {
 				  request.getSession().setAttribute("usuario", usuarioEncontrado);
 					
 			      // Redirigir al inicio
-			      RequestDispatcher dispatcher = request.getRequestDispatcher("/views/jsp/inicioAdmin.jsp");
+			      RequestDispatcher dispatcher = request.getRequestDispatcher("/views/jsp/admin/inicioAdmin.jsp");
 			      dispatcher.forward(request, response);
 			  }
 			  // Comprobar si el usuario existe y la contraseña coincide
