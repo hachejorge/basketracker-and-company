@@ -266,12 +266,13 @@ public class PtsJugParDAO {
         return historico;
     }
 
-    // Método para obtener el historial de puntos del jugador para un partido específico
+ // Método para obtener el historial de puntos del jugador para un partido específico
     public HistoricoVO obtenerHistorial(int idPartido, String nombreUsuario) {
         int partidosJugados = 0;
         int totalPts = 0;
         int totalMinutos = 0;
         int totalTirosLibres = 0;
+        int tirosLibresAnotados = 0; // Nueva variable para tiros libres anotados
         int totalTriples = 0;
         int totalFaltas = 0;
 
@@ -283,12 +284,13 @@ public class PtsJugParDAO {
                 totalPts += pts.getPtsAnt() != null ? pts.getPtsAnt() : 0;
                 totalMinutos += pts.getMntJd() != null ? pts.getMntJd() : 0;
                 totalTirosLibres += pts.getTlbLan() != null ? pts.getTlbLan() : 0;
+                tirosLibresAnotados += pts.getTlbAnt() != null ? pts.getTlbAnt() : 0; // Acumula tiros libres anotados
                 totalTriples += pts.getTrpAnt() != null ? pts.getTrpAnt() : 0;
                 totalFaltas += pts.getFaltas() != null ? pts.getFaltas() : 0;
             }
         }
 
-        return new HistoricoVO(partidosJugados, totalPts, totalMinutos, totalTirosLibres, totalTriples, totalFaltas);
+        return new HistoricoVO(partidosJugados, totalPts, totalMinutos, totalTirosLibres, tirosLibresAnotados, totalTriples, totalFaltas);
     }
 
     // Método auxiliar para obtener los puntos por partido y usuario
@@ -349,6 +351,7 @@ public class PtsJugParDAO {
         int totalMinutos = 0;
         int partidosJugados = historico.size();
         int totalTirosLibres = 0;
+        int tirosLibresAnotados = 0; // Nueva variable para tiros libres anotados
         int totalTriples = 0;
         int totalFaltas = 0;
 
@@ -362,6 +365,9 @@ public class PtsJugParDAO {
             if (pts.getTlbLan() != null) {
                 totalTirosLibres += pts.getTlbLan();
             }
+            if (pts.getTlbAnt() != null) { // Suponiendo que `TlbAnt` almacena los tiros libres anotados
+                tirosLibresAnotados += pts.getTlbAnt();
+            }
             if (pts.getTrpAnt() != null) {
                 totalTriples += pts.getTrpAnt();
             }
@@ -370,6 +376,7 @@ public class PtsJugParDAO {
             }
         }
 
-        return new HistoricoVO(partidosJugados, totalPts, totalMinutos, totalTirosLibres, totalTriples, totalFaltas);
+        return new HistoricoVO(partidosJugados, totalPts, totalMinutos, totalTirosLibres, tirosLibresAnotados, totalTriples, totalFaltas);
     }
+
 }

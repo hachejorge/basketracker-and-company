@@ -35,15 +35,7 @@
 	<servlet-name>RegisterServlet</servlet-name>
 	<url-pattern>/RegisterServlet</url-pattern>
 	  </servlet-mapping>
-  
-	<servlet>
-	    <servlet-name>ActualizarFavoritoServlet</servlet-name>
-	    <servlet-class>servlets.ActualizarFavoritoServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ActualizarFavoritoServlet</servlet-name>
-		<url-pattern>/ActualizarFavoritoServlet</url-pattern>
-	</servlet-mapping>
+ 
 	
 
 	

@@ -145,4 +145,27 @@ public class JugadorFavDAO {
 
         return esFavorito;
     }
+    
+ // Método para contar cuántos seguidores tiene un jugador
+    public static int contarSeguidores(String nombreJugador) {
+        int seguidores = 0;
+        String query = "SELECT COUNT(*) FROM sisinf_db.jugador_fav WHERE jugador = ?";
+
+        try (Connection conn = PoolConnectionManager.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, nombreJugador);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                seguidores = rs.getInt(1); // Número de seguidores
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return seguidores;
+    }
+
 }

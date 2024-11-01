@@ -1,6 +1,4 @@
 <%@ page import="clasesDAO.*" %>
-
-
 <%@ page import="clasesVO.*" %>
 
 <%@ page import="java.util.List" %>
@@ -125,7 +123,7 @@
 						                <p class="stat-favorito">M/P <span><%= historico.getMinutosTotales()/historico.getPartidosJugados() %></span></p>
 						                <p class="stat-favorito">PJ <span><%= historico.getPartidosJugados() %></span></p>
 					                </div>
-					                <button onclick="verMas('<%= jugadorVO.getNombreJugador() %>')">Ver más</button>
+					                <button onclick="verMas('<%= jugadorVO.getNombreUsuario() %>')">Ver más</button>
 					            </div>
 					            <% }} %>
 					        </div>

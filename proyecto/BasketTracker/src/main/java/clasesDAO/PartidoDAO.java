@@ -426,4 +426,67 @@ public class PartidoDAO {
         }
         return ranking;
     }
+    
+    public static List<PartidoVO> obtenerProximosPartidosPorEquipo(int idEquipo) {
+        List<PartidoVO> proximosPartidos = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            // SQL para obtener los partidos futuros en los que participa el equipo (como local o visitante)
+            // Se usa CURRENT_TIMESTAMP para comparar tanto la fecha como la hora actuales
+            String query = "SELECT * FROM sisinf_db.partido " +
+                           "WHERE (equipo_local = ? OR equipo_visitante = ?) AND " +
+                           "(fecha > CURRENT_DATE OR (fecha = CURRENT_DATE AND hora > CURRENT_TIME)) " +
+                           "ORDER BY fecha ASC, hora ASC"; // Cambiado a ASC para obtener partidos más cercanos primero
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, idEquipo); // Asigna el equipo como local
+            ps.setInt(2, idEquipo); // Asigna el equipo como visitante
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                proximosPartidos.add(new PartidoVO(
+                        rs.getInt("id_partido"),
+                        rs.getInt("equipo_local"),
+                        rs.getInt("equipo_visitante"),
+                        rs.getInt("jornada"),
+                        rs.getInt("pts_c1_local"),
+                        rs.getInt("pts_c2_local"),
+                        rs.getInt("pts_c3_local"),
+                        rs.getInt("pts_c4_local"),
+                        rs.getInt("pts_c1_visit"),
+                        rs.getInt("pts_c2_visit"),
+                        rs.getInt("pts_c3_visit"),
+                        rs.getInt("pts_c4_visit"),
+                        rs.getTime("hora"),   // Obtener la hora del partido
+                        rs.getDate("fecha")    // Obtener la fecha del partido
+                ));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
+        }
+        return proximosPartidos;
+    }
+
 }

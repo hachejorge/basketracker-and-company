@@ -1,3 +1,26 @@
+<%@ page import="clasesDAO.*" %>
+<%@ page import="clasesVO.*" %>
+<%@ page import="java.util.List" %>
+<%@ page session="true" %>
+
+<%
+    // Recuperar el objeto UsuarioVO de la sesión
+    UsuarioVO usuario = (UsuarioVO) session.getAttribute("usuario");
+    // Comprobar si el usuario está autenticado
+    if (usuario == null) {
+        // Redirigir a la página de login si no hay un usuario autenticado
+        response.sendRedirect(request.getContextPath() + "/views/jsp/login.jsp");
+        return;
+    }
+    
+    JugadorVO jugadorVO = (JugadorVO) session.getAttribute("jugadorSeleccionado");
+
+    if (jugadorVO == null) {
+    	response.sendRedirect(request.getContextPath() + "/views/jsp/favoritos.jsp");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -31,47 +54,31 @@
 			    <div class="partido-container">
 			        <div class="partido-proximos-partidos">
 			            <h3>Próximos Partidos</h3>
+			            <%
+			            List<PartidoVO> partidos =  PartidoDAO.obtenerProximosPartidosPorEquipo(jugadorVO.getEquipo());
+			            Integer i = 0;
+			            	for (PartidoVO partido : partidos) {
+				            	if (partido != null && !partidos.isEmpty() && i != 4 ) {
+				 					i++;
+				 					if (partido != null) {
+				            			EquipoVO equipolocal = EquipoDAO.obtenerEquipoPorId(partido.getEquipoLocal());
+
+			            %>
 			            <div class="partido-card">
-			                <div class="partido-fecha">
-			                    <span>28 sept</span>
-			                </div>
-			                <div class="partido-info">
-			                    <p><strong>Boscos VS Cristo Rey</strong></p>
-			                    <p>15:00h</p>
-			                    <p>Social Plata</p>
-			                </div>
-			                <div class="partido-ubicacion">
-			                    <p>Ubicación</p>
-			                    <img src="https://img.icons8.com/material-outlined/24/000000/marker.png" alt="Ubicación Icono">
-			                </div>
-			            </div>
-			            <div class="partido-card">
-			                <div class="partido-fecha">
-			                    <span>5 oct</span>
-			                </div>
-			                <div class="partido-info">
-			                    <p><strong>Black Lions VS Cristo Rey</strong></p>
-			                    <p>17:30h</p>
-			                    <p>Social Plata</p>
-			                </div>
-			                <div class="partido-ubicacion">
-			                    <p>Ubicación</p>
-			                    <img src="https://img.icons8.com/material-outlined/24/000000/marker.png" alt="Ubicación Icono">
-			                </div>
-			            </div>
-			            <div class="partido-card">
-			                <div class="partido-fecha">
-			                    <span>12 oct</span>			                </div>
-			                <div class="partido-info">
-			                    <p><strong>Cristo Rey VS Pepe Team</strong></p>
-			                    <p>18:30h</p>
-			                    <p>Social Plata</p>
-			                </div>
-			                <div class="partido-ubicacion">
-			                    <p>Ubicación</p>
-			                    <img src="https://img.icons8.com/material-outlined/24/000000/marker.png" alt="Ubicación Icono">
-			                </div>
-			            </div>
+					        <div class="partido-fecha">
+					            <span><%= partido.formatFecha() %></span> <!-- Muestra la fecha del partido -->
+					        </div>
+					        <div class="partido-info">
+					            <p><strong><%= EquipoDAO.obtenerEquipoPorId(partido.getEquipoLocal()).getNombreEquipo() %> VS <%= EquipoDAO.obtenerEquipoPorId(partido.getEquipoVisitante()).getNombreEquipo() %></strong></p>
+					            <p><%= partido.formatHora() %></p> <!-- Muestra la hora del partido -->
+					            <p><%= equipolocal.getUbicacion() %></p> <!-- Muestra la ubicación del partido -->
+					        </div>
+					        <div class="partido-ubicacion">
+					            <img src="https://img.icons8.com/?size=100&id=342&format=png&color=000000" alt="Ubicación Icono">
+					            <p>Ubicación</p>
+					        </div>
+					    </div>
+					    <% }}} %>
 			        </div>
 			    </div>
 		    </div>
@@ -82,78 +89,104 @@
 			        </div>
 			        <div class="profile-content">
 			            <div class="profile-details">
-			                <h1>Jorge Clavero Agudo</h1>
-			                <p>@jorgeclagu_22</p>
+			                <h1><%= jugadorVO.getNombreJugador() %></h1>
+			                <p>@<%= jugadorVO.getNombreUsuario() %></p>
 			            </div>
 			            <div class="profile-picture">
 			                <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Profile picture">
 			            </div>
 			            <div class="jugadores-seguidores">
-			                 <button class="jugador-follow-btn"><i class="fa fa-star"></i><strong>Seguido</strong></button>
-			                 <button class="jugador-seguidores-btn"><strong>22 seguidores</strong></button>
+			                 <button class="jugador-follow-btn" 
+							        data-id="<%= jugadorVO.getNombreUsuario() %>"
+							        data-tipo="jugador"
+							        data-favorito="<%= JugadorFavDAO.esFavorito(usuario.getNombreUsuario(), jugadorVO.getNombreUsuario()) %>">
+							    <i class="fa fa-star<%= JugadorFavDAO.esFavorito(usuario.getNombreUsuario(), jugadorVO.getNombreUsuario()) ? "" : "-o" %>"></i><strong><%= JugadorFavDAO.esFavorito(usuario.getNombreUsuario(), jugadorVO.getNombreUsuario()) ? "Seguido" : "Seguir" %></strong>
+							</button>
+			                 <button class="jugador-seguidores-btn"><strong><%= JugadorFavDAO.contarSeguidores(jugadorVO.getNombreUsuario()) %> seguidores</strong></button>
 			            </div>
 			            <div class="team">
 			            	<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture">
-			                <h2>Cristo Rey</h2>
+			                <% EquipoVO equipoVO = EquipoDAO.obtenerEquipoPorId(jugadorVO.getEquipo()); %>
+			                <h2><%= equipoVO.getNombreEquipo() %></h2>
 			            </div>
 			        </div>
 			    </div>
 		        <div class="jugador-stats-container">
 		            <div class="jugador-last-game">
 		                <h3>Último Partido</h3>
-		                <div class="jugador-game-info">
-		                    <div class="jugador-score">
-		                        <span class="jugador-points">PTS</span>
-		                        <span class="jugador-score-value">12</span>
-		                    </div>
-		                    <div class="jugador-minutes">
-		                        <span>MIN</span>
-		                        <span class="jugador-minutes-value">22:23</span>
-		                    </div>
-		                </div>
-		                <div class="jugador-date">
-		                    <p>28 sept</p>
-		                    <p>15:00h</p>
-		                </div>
-		                <div class="jugador-location">
-		                    <p>Boscos VS Cristo Rey</p>
-		                    <div class="jugador-scoreboard">
-		                        <span>52</span> - <span>45</span>
-		                    </div>
+		                <%
+		                PartidoVO partidoVO = PartidoDAO.obtenerUltimoPartidoPorJugador(jugadorVO);
+									if (partidoVO != null) {
+										PtsJugParVO ptsjugparVO = PtsJugParDAO.obtenerPtsJugPar(partidoVO.getIdPartido(), jugadorVO.getNombreUsuario());
+										if (ptsjugparVO != null) {
+						%>
+						<div class="jugador-last-game-info">
+			                <div class="jugador-game-info">
+			                    <div class="jugador-score">
+			                        <span class="jugador-points">PTS</span>
+			                        <span class="jugador-score-value"><%= ptsjugparVO.getPtsAnt() %></span>
+			                    </div>
+			                    <div class="jugador-minutes">
+			                        <span>MIN</span>
+			                        <span class="jugador-minutes-value"><%= ptsjugparVO.getMntJd() %></span>
+			                    </div>
+			                </div>
+			                <div class="jugador-date-loc">
+				                <div class="jugador-date">
+				                    <p class="jugador-fecha"><%= partidoVO.formatFecha() %></p>
+				                    <p><%= partidoVO.formatHora() %></p>
+				                </div>
+				                <div class="jugador-loc">
+				                    <img src="https://img.icons8.com/?size=100&id=342&format=png&color=000000" alt="Ubicación Icono">
+				                    <p>Ubicación</p>
+			                    </div>
+			                </div>
+			                <div class="jugador-location">
+			                	
+			                    <p><%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoLocal()).getNombreEquipo() %> VS <%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoVisitante()).getNombreEquipo() %></p>
+			                    <div class="jugador-scoreboard">
+			                    	<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture">
+			                        <span><%= partidoVO.getPtsC1Local() + partidoVO.getPtsC2Local() + partidoVO.getPtsC3Local() + partidoVO.getPtsC4Local()%></span> - 
+			                        <span><%= partidoVO.getPtsC1Visit() + partidoVO.getPtsC2Visit() + partidoVO.getPtsC3Visit() + partidoVO.getPtsC4Visit()%></span>
+			                    	<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture">
+			                    </div>
+			                </div>
+			                <% }} %>
 		                </div>
 		            </div>
-		
+		            
+					<%
+					List<PtsJugParVO> historicoJugador = PtsJugParDAO.obtenerHistoricoPorJugador(jugadorVO.getNombreUsuario());
+					HistoricoVO historico = PtsJugParDAO.calcularEstadisticasHistorico(historicoJugador);
+					%>
+					
 		            <div class="jugador-historical">
 		                <h3>Histórico</h3>
 		                <div class="jugador-stats-grid">
 		                    <div class="jugador-stat">
-		                        <p>P/P</p>
-		                        <p>9.3</p>
+		                        <p><strong>P/P</strong></p>
+		                        <p><%= historico.getPuntosTotales()/historico.getPartidosJugados() %></p>
 		                    </div>
 		                    <div class="jugador-stat">
-		                        <p>MP</p>
-		                        <p>19:12</p>
+		                        <p><strong>MP</strong></p>
+		                        <p><%= historico.getMinutosTotales()/historico.getPartidosJugados() %></p>
 		                    </div>
 		                    <div class="jugador-stat">
-		                        <p>PJ</p>
-		                        <p>12</p>
+		                        <p><strong>PJ</strong></p>
+		                        <p><%= historico.getPartidosJugados() %></p>
 		                    </div>
 		                    <div class="jugador-stat">
-		                        <p>TL</p>
-		                        <p>23</p>
+		                        <p><strong>TRP</strong></p>
+		                        <p><%= historico.getTriplesTotales() %></p>
 		                    </div>
 		                    <div class="jugador-stat">
-		                        <p>TRP</p>
-		                        <p>7</p>
+		                        <p><strong>TL</strong></p>
+		                        <p><%= historico.getTirosLibresAnotados() %></p>
+		                        <p><%= historico.getTirosLibresAnotados()/historico.getTirosLibresTotales()*100 %>%</p>
 		                    </div>
 		                    <div class="jugador-stat">
-		                        <p>RB</p>
-		                        <p>15</p>
-		                    </div>
-		                    <div class="jugador-stat">
-		                        <p>82%</p>
-		                        <p>F/P</p>
-		                        <p>2.7</p>
+		                        <p><strong>F/P</strong></p>
+		                        <p><%= historico.getFaltasTotales()/historico.getPartidosJugados() %></p>
 		                    </div>
 		                </div>
 		            </div>
@@ -166,3 +199,53 @@
 	</div>
 	<%@ include file="footer.jsp" %>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const followButtons = document.querySelectorAll('.jugador-follow-btn');
+
+    followButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const favoritoId = button.getAttribute('data-id');
+            const esFavorito = button.getAttribute('data-favorito') === 'true';
+            const tipoFavorito = button.getAttribute('data-tipo');
+            const nombreUsuario = '<%= usuario.getNombreUsuario() %>';
+
+            fetch('<%= request.getContextPath() %>/ActualizarFavoritoServlet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    id: favoritoId,
+                    esFavorito: esFavorito,
+                    tipo: tipoFavorito,
+                    nombreUsuario: nombreUsuario
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(`Error en la red: ${response.status} - ${text}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Cambia el estado visual del botón y el atributo data-favorito
+                    button.setAttribute('data-favorito', (!esFavorito).toString());
+                    button.querySelector('strong').textContent = !esFavorito ? 'Seguido' : 'Seguir';
+                    button.querySelector('.fa').classList.toggle('fa-star');
+                    button.querySelector('.fa').classList.toggle('fa-star-o');
+                } else {
+                    alert(data.message || 'No se pudo actualizar el estado del favorito.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error al intentar actualizar el favorito: ' + error.message);
+            });
+        });
+    });
+});
+</script>

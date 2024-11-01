@@ -1,6 +1,6 @@
 package clasesDAO;
 
-import clasesVO.EquipoVO;
+import clasesVO.*;
 import utils.PoolConnectionManager;
 
 import java.sql.Connection;
@@ -157,5 +157,51 @@ public class EquipoDAO {
             PoolConnectionManager.releaseConnection(conn);
         }
     }
-}
+    
+    // Método para obtener la lista de jugadores de un equipo específico
+    public static List<JugadorVO> obtenerEquipo(int idEquipo) {
+        List<JugadorVO> jugadores = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        try {
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT nombre_usuario, nombre_jugador, equipo FROM sisinf_db.jugador WHERE equipo = ?";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, idEquipo);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String nombreUsuario = rs.getString("nombre_usuario");
+                String nombreJugador = rs.getString("nombre_jugador");
+                int equipo = rs.getInt("equipo");
+
+                // Crear un objeto JugadorVO y agregarlo a la lista
+                jugadores.add(new JugadorVO(nombreUsuario, nombreJugador, equipo));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar ResultSet, PreparedStatement y liberar la conexión
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
+        }
+
+        return jugadores;
+    }
+}

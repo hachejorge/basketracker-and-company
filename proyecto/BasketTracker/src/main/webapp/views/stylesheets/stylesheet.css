@@ -648,13 +648,13 @@ body {
 
 .proximos-partidos{
 	width: 300px;
-	height: calc(100vh - 338px);
+	height: auto;
 	border-right: 1px solid #000;
 }
 
 .datos-equipo, .datos-jugador {
 	width: calc(100vw - 650px);
-	height: calc(100vh - 338px);
+	height: auto;
 }
 
 .anuncio {
@@ -729,7 +729,7 @@ body {
     background-color: var(--color-admin);
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
     bottom: 40px;
 }
@@ -820,6 +820,7 @@ h1 {
 .entrenador-section h2, .jugadores-section h2 {
     font-size: 12px;
     margin-bottom: 5px;
+    text-align: left;
 }
 
 .entrenador {
@@ -842,8 +843,11 @@ h1 {
 
 .jugadores-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     gap: 15px;
+    width: auto; /* O ajusta a un valor específico como 80% */
+    max-width: 1250px; /* Establece un ancho máximo para centrar */
+    margin: 0 auto; /* Centra el contenedor */
 }
 
 .jugador-card {
@@ -935,17 +939,19 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    margin-top: 15px;
 }
 
 .partido-ubicacion img {
     margin-left: 5px;
+    width: 30px;
 }
 
 /* Clasificación */
 .partido-clasificacion {
     background-color: #fff;
     border-top: 1px solid #000;
-    padding-top: 82px;
 }
 
 .partido-clasificacion h3 {
@@ -955,19 +961,9 @@ h1 {
     padding-right: 10px;
 }
 
-.partido-clasificacion table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.partido-clasificacion th, .partido-clasificacion td {
-    text-align: left;
-    padding: 10px;
-    border: 1px solid #000;
-}
-
-.partido-clasificacion th {
+.partido-clasificacion {
     background-color: #fff;
+    border-top: 1px solid #000;
 }
 
 .partido-primer-lugar {
@@ -984,6 +980,17 @@ h1 {
     border: 1px solid #000;
     width: 100%;
 }
+
+.calendario-partido-dot {
+    width: 5px;
+    height: 5px;
+    background-color: red; /* Puedes cambiar el color */
+    border-radius: 50%;
+    margin-top: 2px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 .calendario-header {
     display: flex;
@@ -1176,7 +1183,16 @@ h1 {
 .jugador-game-info {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
+}
+
+.jugador-last-game-info {
+	height: 100%;
+	width: 100%;
+	padding-top: 20px;
+	padding-right: 50px;
+	padding-left: 50px;
 }
 
 .jugador-score, .jugador-minutes {
@@ -1184,8 +1200,8 @@ h1 {
 }
 
 .jugador-points {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 14px;
+    color: #333;
 }
 
 .jugador-score-value {
@@ -1194,19 +1210,101 @@ h1 {
 }
 
 .jugador-minutes-value {
-    font-size: 20px;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-.jugador-date, .jugador-location {
+.jugador-date-loc {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.jugador-date, .jugador-loc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.jugador-date p {
+    margin: 4px;
+    font-size: 14px;
+    color: black;
+}
+
+.jugador-date p:first-child {
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+}
+
+.jugador-loc p {
+	margin: 4px;
+	    font-size: 14px;
+	
+}
+
+.jugador-loc img {
+	width: 100px;
+}
+
+.jugador-fecha {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100px;
+	height: 100px;
+	background-color: var(--color-primary);
+	border-radius: 50px;
+}
+
+.jugador-location {
+    display: flex;
+    align-items: center;
     text-align: center;
     margin-bottom: 10px;
-    display: flex;
+    flex-direction: column;
+}
+
+.jugador-location p {
+    font-size: 14px;
+    color: black;
 }
 
 .jugador-scoreboard {
-    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
     font-weight: bold;
+    flex-direction: row;
 }
+
+.jugador-scoreboard img {
+    width: 50px;
+    padding: 10px;
+}
+
+.jugador-scoreboard span {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.team-name {
+    font-size: 14px;
+    color: #333;
+}
+
 
 .jugador-historical .jugador-stats-grid {
     display: grid;
@@ -1453,14 +1551,21 @@ h1 {
 .favorito-tabla {
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid #ccc; /* Cambia #4CAF50 al color que prefieras */
-    
+}
+
+.favorito-tabla thead {
+    border: none;
+}
+
+.favorito-tabla td:first-child {
+    text-align: left;
+    padding-left: 20px;
 }
 
 .favorito-tabla td {
     padding: 6px;
     font-size: 12px;
-    text-align: left;
+    text-align: center;
     font-weight: bold;
     border: 1px solid #ccc; /* Cambia #4CAF50 al color que prefieras */ 
     height: 10px;  
@@ -1532,4 +1637,10 @@ h1 {
     align-items: center;
     justify-content: center;
     
+}
+
+.container-perfil-equipo {
+	width: 100vw;
+	height: auto;
+	background-color: #FFFFFF;
 }

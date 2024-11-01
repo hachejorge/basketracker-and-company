@@ -5,16 +5,18 @@ public class HistoricoVO {
     private int puntosTotales;
     private int minutosTotales;
     private int tirosLibresTotales;
+    private int tirosLibresAnotados; // Nuevo campo para tiros libres anotados
     private int triplesTotales;
     private int faltasTotales;
 
     // Constructor
-    public HistoricoVO(int partidosJugados, int puntosTotales, int minutosTotales, 
-                       int tirosLibresTotales, int triplesTotales, int faltasTotales) {
+    public HistoricoVO(int partidosJugados, int puntosTotales, int minutosTotales,
+                       int tirosLibresTotales, int tirosLibresAnotados, int triplesTotales, int faltasTotales) {
         this.partidosJugados = partidosJugados;
         this.puntosTotales = puntosTotales;
         this.minutosTotales = minutosTotales;
         this.tirosLibresTotales = tirosLibresTotales;
+        this.tirosLibresAnotados = tirosLibresAnotados;
         this.triplesTotales = triplesTotales;
         this.faltasTotales = faltasTotales;
     }
@@ -36,6 +38,10 @@ public class HistoricoVO {
         return tirosLibresTotales;
     }
 
+    public int getTirosLibresAnotados() {
+        return tirosLibresAnotados;
+    }
+
     public int getTriplesTotales() {
         return triplesTotales;
     }
@@ -51,6 +57,7 @@ public class HistoricoVO {
                 ", puntosTotales=" + puntosTotales +
                 ", minutosTotales=" + minutosTotales +
                 ", tirosLibresTotales=" + tirosLibresTotales +
+                ", tirosLibresAnotados=" + tirosLibresAnotados +
                 ", triplesTotales=" + triplesTotales +
                 ", faltasTotales=" + faltasTotales +
                 '}';
