@@ -2,6 +2,9 @@ package clasesVO;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class MensajeVO {
     private int idMensaje;
@@ -58,6 +61,22 @@ public class MensajeVO {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+    
+    public String formatFecha() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.fecha);
+
+        // Obtener el día y el mes
+        int dia = calendar.get(Calendar.DAY_OF_MONTH);
+        String mes = new SimpleDateFormat("MMM", new Locale("es", "ES")).format(this.fecha);
+
+        return String.format("%02d %s", dia, mes);
+    }
+    // Método para convertir la hora a formato "hh:mm"
+    public String formatHora() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm"); // Formato 24 horas
+        return sdf.format(this.hora);
     }
 
     @Override

@@ -1,29 +1,28 @@
 package servlets;
 
-import clasesDAO.PartidoDAO; // Asegúrate de que este DAO esté correctamente importado
-import clasesVO.PartidoVO; // Asegúrate de que este VO esté correctamente importado
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.HttpSession;
+import clasesVO.PartidoVO;
+import clasesDAO.PartidoDAO;
 
 @WebServlet("/GuardarPartidoServlet")
 public class GuardarPartidoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String idPartidoStr = request.getParameter("idPartido");
+        String idPartido = request.getParameter("idPartido");
+        Integer partido = Integer.parseInt(idPartido);
         
-        // Aquí deberías obtener el partido desde la base de datos utilizando el ID
-        PartidoVO partido = PartidoDAO.obtenerPartidoPorId(Integer.parseInt(idPartidoStr));
+        // Obtener el CompeticionVO de acuerdo a su nombre
+        PartidoVO partidoVO = PartidoDAO.obtenerPartidoPorId(partido); // Ajusta según tu lógica
         
-        // Guardar el partido en la sesión o hacer lo que sea necesario
-        if (partido != null) {
-            request.getSession().setAttribute("partido", partido);
-            response.setStatus(HttpServletResponse.SC_OK);
-        } else {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        }
+        HttpSession session = request.getSession();
+        session.setAttribute("partidoSeleccionado", partidoVO); // Guardar la competición en la sesión
+
+        response.setStatus(HttpServletResponse.SC_OK); // Respuesta exitosa
     }
 }

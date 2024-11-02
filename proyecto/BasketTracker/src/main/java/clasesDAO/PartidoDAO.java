@@ -488,5 +488,241 @@ public class PartidoDAO {
         }
         return proximosPartidos;
     }
+    
+ // Método para obtener todos los partidos de un equipo por su ID
+    public static List<PartidoVO> obtenerPartidosPorEquipo(int idEquipo) {
+        List<PartidoVO> partidos = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            // Consulta SQL para obtener partidos donde el equipo sea local o visitante
+            String query = "SELECT * FROM sisinf_db.partido " +
+                           "WHERE equipo_local = ? OR equipo_visitante = ? " +
+                           "ORDER BY fecha ASC, hora ASC";  // Ordena por fecha y hora para ver cronológicamente
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, idEquipo); // Equipo como local
+            ps.setInt(2, idEquipo); // Equipo como visitante
+            rs = ps.executeQuery();
+
+            // Procesa cada resultado y añade al listado de partidos
+            while (rs.next()) {
+                partidos.add(new PartidoVO(
+                        rs.getInt("id_partido"),
+                        rs.getInt("equipo_local"),
+                        rs.getInt("equipo_visitante"),
+                        rs.getInt("jornada"),
+                        rs.getInt("pts_c1_local"),
+                        rs.getInt("pts_c2_local"),
+                        rs.getInt("pts_c3_local"),
+                        rs.getInt("pts_c4_local"),
+                        rs.getInt("pts_c1_visit"),
+                        rs.getInt("pts_c2_visit"),
+                        rs.getInt("pts_c3_visit"),
+                        rs.getInt("pts_c4_visit"),
+                        rs.getTime("hora"),   // Hora del partido
+                        rs.getDate("fecha")    // Fecha del partido
+                ));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
+        }
+        return partidos;
+    }
+    
+ // Método para obtener todos los partidos de una competición por su nombre
+    public static List<PartidoVO> obtenerPartidosPorCompeticion(String nombreCompeticion) {
+        List<PartidoVO> partidos = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            // Consulta SQL para obtener partidos en función de la competición
+            String query = "SELECT p.* FROM sisinf_db.partido p " +
+                           "JOIN sisinf_db.equipo e ON p.equipo_local = e.id_equipo OR p.equipo_visitante = e.id_equipo " +
+                           "WHERE e.competicion = ? " +
+                           "ORDER BY p.fecha ASC, p.hora ASC";  // Ordena por fecha y hora
+            ps = conn.prepareStatement(query);
+            ps.setString(1, nombreCompeticion); // Asigna el nombre de la competición
+            rs = ps.executeQuery();
+
+            // Procesa cada resultado y añade al listado de partidos
+            while (rs.next()) {
+                partidos.add(new PartidoVO(
+                        rs.getInt("id_partido"),
+                        rs.getInt("equipo_local"),
+                        rs.getInt("equipo_visitante"),
+                        rs.getInt("jornada"),
+                        rs.getInt("pts_c1_local"),
+                        rs.getInt("pts_c2_local"),
+                        rs.getInt("pts_c3_local"),
+                        rs.getInt("pts_c4_local"),
+                        rs.getInt("pts_c1_visit"),
+                        rs.getInt("pts_c2_visit"),
+                        rs.getInt("pts_c3_visit"),
+                        rs.getInt("pts_c4_visit"),
+                        rs.getTime("hora"),   // Hora del partido
+                        rs.getDate("fecha")    // Fecha del partido
+                ));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
+        }
+        return partidos;
+    }
+    
+ // Método para obtener los números de las jornadas de una competición por su nombre
+    public static List<Integer> obtenerJornadasPorCompeticion(String nombreCompeticion) {
+        List<Integer> jornadas = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            // Consulta SQL para obtener los números de jornada únicos
+            String query = "SELECT DISTINCT p.jornada FROM sisinf_db.partido p " +
+                           "JOIN sisinf_db.equipo e ON p.equipo_local = e.id_equipo OR p.equipo_visitante = e.id_equipo " +
+                           "WHERE e.competicion = ? " +
+                           "ORDER BY p.jornada ASC";  // Ordena por número de jornada
+            ps = conn.prepareStatement(query);
+            ps.setString(1, nombreCompeticion); // Asigna el nombre de la competición
+            rs = ps.executeQuery();
+
+            // Procesa cada resultado y añade el número de jornada a la lista
+            while (rs.next()) {
+                jornadas.add(rs.getInt("jornada"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
+        }
+        return jornadas;
+    }
+
+    public static List<PartidoVO> obtenerPartidosPorJornadaYCompeticion(String nombreCompeticion, int jornada) {
+        List<PartidoVO> partidos = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            
+            // Consulta SQL para obtener los partidos de una competición específica y jornada
+            String query = "SELECT p.* FROM sisinf_db.partido p " +
+                           "JOIN sisinf_db.equipo e ON p.equipo_local = e.id_equipo OR p.equipo_visitante = e.id_equipo " +
+                           "WHERE e.competicion = ? AND p.jornada = ? " +
+                           "ORDER BY p.fecha ASC, p.hora ASC";  // Ordena por fecha y hora para mostrar cronológicamente
+            
+            ps = conn.prepareStatement(query);
+            ps.setString(1, nombreCompeticion); // Asigna el nombre de la competición
+            ps.setInt(2, jornada); // Asigna el número de la jornada
+            rs = ps.executeQuery();
+
+            // Procesa cada resultado y añade al listado de partidos
+            while (rs.next()) {
+                partidos.add(new PartidoVO(
+                        rs.getInt("id_partido"),
+                        rs.getInt("equipo_local"),
+                        rs.getInt("equipo_visitante"),
+                        rs.getInt("jornada"),
+                        rs.getInt("pts_c1_local"),
+                        rs.getInt("pts_c2_local"),
+                        rs.getInt("pts_c3_local"),
+                        rs.getInt("pts_c4_local"),
+                        rs.getInt("pts_c1_visit"),
+                        rs.getInt("pts_c2_visit"),
+                        rs.getInt("pts_c3_visit"),
+                        rs.getInt("pts_c4_visit"),
+                        rs.getTime("hora"),   // Hora del partido
+                        rs.getDate("fecha")    // Fecha del partido
+                ));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
+        }
+        return partidos;
+    }
+
 
 }

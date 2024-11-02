@@ -223,7 +223,7 @@ public class PtsJugParDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT id_partido, nombre_usuario, pts_ant, mnt_jd, trp_ant, tlb_lan, faltas " +
+            String query = "SELECT id_partido, nombre_usuario, pts_ant, mnt_jd, tlb_ant, trp_ant, tlb_lan, faltas " +
                            "FROM sisinf_db.pts_jug_par WHERE nombre_usuario = ? ORDER BY id_partido";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
@@ -236,7 +236,7 @@ public class PtsJugParDAO {
                         (Integer) rs.getObject("pts_ant"),
                         (Integer) rs.getObject("trp_ant"),
                         (Integer) rs.getObject("tlb_lan"),
-                        null, // tlb_ant no es necesario, así que lo dejamos como null
+                        (Integer) rs.getObject("tlb_ant"), // tlb_ant no es necesario, así que lo dejamos como null
                         (Integer) rs.getObject("faltas"),
                         (Integer) rs.getObject("mnt_jd")
                 ));
@@ -290,7 +290,7 @@ public class PtsJugParDAO {
             }
         }
 
-        return new HistoricoVO(partidosJugados, totalPts, totalMinutos, totalTirosLibres, tirosLibresAnotados, totalTriples, totalFaltas);
+        return new HistoricoVO(nombreUsuario, partidosJugados, totalPts, totalMinutos, totalTirosLibres, tirosLibresAnotados, totalTriples, totalFaltas);
     }
 
     // Método auxiliar para obtener los puntos por partido y usuario
@@ -354,29 +354,81 @@ public class PtsJugParDAO {
         int tirosLibresAnotados = 0; // Nueva variable para tiros libres anotados
         int totalTriples = 0;
         int totalFaltas = 0;
-
-        for (PtsJugParVO pts : historico) {
-            if (pts.getPtsAnt() != null) {
-                totalPts += pts.getPtsAnt();
-            }
-            if (pts.getMntJd() != null) {
-                totalMinutos += pts.getMntJd();
-            }
-            if (pts.getTlbLan() != null) {
-                totalTirosLibres += pts.getTlbLan();
-            }
-            if (pts.getTlbAnt() != null) { // Suponiendo que `TlbAnt` almacena los tiros libres anotados
-                tirosLibresAnotados += pts.getTlbAnt();
-            }
-            if (pts.getTrpAnt() != null) {
-                totalTriples += pts.getTrpAnt();
-            }
-            if (pts.getFaltas() != null) {
-                totalFaltas += pts.getFaltas();
-            }
+        String nombreUsuario = null;
+        if(!historico.isEmpty()) {
+	         nombreUsuario = historico.get(0).getNombreUsuario();
+	        for (PtsJugParVO pts : historico) {
+	            if (pts.getPtsAnt() != null) {
+	                totalPts += pts.getPtsAnt();
+	            }
+	            if (pts.getMntJd() != null) {
+	                totalMinutos += pts.getMntJd();
+	            }
+	            if (pts.getTlbLan() != null) {
+	                totalTirosLibres += pts.getTlbLan();
+	            }
+	            if (pts.getTlbAnt() != null) { // Suponiendo que `TlbAnt` almacena los tiros libres anotados
+	                tirosLibresAnotados += pts.getTlbAnt();
+	            }
+	            if (pts.getTrpAnt() != null) {
+	                totalTriples += pts.getTrpAnt();
+	            }
+	            if (pts.getFaltas() != null) {
+	                totalFaltas += pts.getFaltas();
+	            }
+	        }
         }
 
-        return new HistoricoVO(partidosJugados, totalPts, totalMinutos, totalTirosLibres, tirosLibresAnotados, totalTriples, totalFaltas);
+        return new HistoricoVO(nombreUsuario, partidosJugados, totalPts, totalMinutos, totalTirosLibres, tirosLibresAnotados, totalTriples, totalFaltas);
     }
+    
+    public static List<PtsJugParVO> obtenerDatosJugadoresPorPartido(int idPartido) {
+        List<PtsJugParVO> jugadoresList = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        try {
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.pts_jug_par WHERE id_partido = ?";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, idPartido);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                jugadoresList.add(new PtsJugParVO(
+                        rs.getInt("id_partido"),
+                        rs.getString("nombre_usuario"),
+                        (Integer) rs.getObject("pts_ant"),
+                        (Integer) rs.getObject("trp_ant"),
+                        (Integer) rs.getObject("tlb_lan"),
+                        (Integer) rs.getObject("tlb_ant"),
+                        (Integer) rs.getObject("faltas"),
+                        (Integer) rs.getObject("mnt_jd")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar recursos directamente aquí
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
+        }
+        return jugadoresList;
+    }
 }

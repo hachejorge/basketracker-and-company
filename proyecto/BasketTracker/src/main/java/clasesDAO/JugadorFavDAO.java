@@ -46,7 +46,7 @@ public class JugadorFavDAO {
     }
 
     // Método para obtener jugadores favoritos por nombre de usuario
-    public List<JugadorFavVO> obtenerJugadoresFavPorUsuario(String nombreUsuario) {
+    public static List<JugadorFavVO> obtenerJugadoresFavPorUsuario(String nombreUsuario) {
         List<JugadorFavVO> jugadoresFavoritos = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;

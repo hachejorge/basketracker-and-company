@@ -212,4 +212,89 @@ public class JugadorDAO {
             PoolConnectionManager.releaseConnection(conn);
         }
     }
+    
+    // Método para listar todos los jugadores que juegan en una competición específica
+    public static List<JugadorVO> listarJugadoresPorCompeticion(String nombreCompeticion) {
+        List<JugadorVO> jugadores = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT j.nombre_usuario, j.nombre_jugador, j.equipo " +
+                           "FROM sisinf_db.JUGADOR j " +
+                           "JOIN sisinf_db.EQUIPO e ON j.equipo = e.id_equipo " +
+                           "WHERE e.competicion = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, nombreCompeticion);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String nombreUsuario = rs.getString("nombre_usuario");
+                String nombreJugador = rs.getString("nombre_jugador");
+                int equipoId = rs.getInt("equipo");
+                jugadores.add(new JugadorVO(nombreUsuario, nombreJugador, equipoId));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
+        }
+        return jugadores;
+    }
+    
+ // Método para verificar si un jugador existe por su nombre de usuario
+    public static boolean existeJugador(String nombreUsuario) {
+        boolean existe = false;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT 1 FROM sisinf_db.jugador WHERE nombre_usuario = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, nombreUsuario);
+            rs = ps.executeQuery();
+
+            // Si hay un resultado, el jugador existe
+            existe = rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
+        }
+        return existe;
+    }
+
 }

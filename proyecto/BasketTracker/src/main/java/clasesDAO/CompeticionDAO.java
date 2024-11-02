@@ -40,7 +40,7 @@ public class CompeticionDAO {
     }
 
     // Método para obtener una competición por su nombre
-    public CompeticionVO obtenerCompeticionPorNombre(String nombre) {
+    public static CompeticionVO obtenerCompeticionPorNombre(String nombre) {
         CompeticionVO competicion = null;
         Connection conn = null;
         PreparedStatement ps = null;

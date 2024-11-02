@@ -17,8 +17,7 @@
         return;
     }
 
-    JugadorFavDAO jugadorFavDAO = new JugadorFavDAO();
-    List<JugadorFavVO> jugadoresFavoritos = jugadorFavDAO.obtenerJugadoresFavPorUsuario(usuario.getNombreUsuario());
+    List<JugadorFavVO> jugadoresFavoritos = JugadorFavDAO.obtenerJugadoresFavPorUsuario(usuario.getNombreUsuario());
     
     EquipoFavDAO equipoFavDAO = new EquipoFavDAO();
     List<EquipoFavVO> equiposFavoritos = equipoFavDAO.obtenerEquiposFavPorUsuario(usuario.getNombreUsuario());
@@ -45,15 +44,15 @@
 	<div class="container-favorito">
 		<div class="recuadro">
 		    <div class="navbar">
-		        <div class="navbar-item" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/inicio.jsp'">
+		        <div class="navbar-item" onclick="window.location.href='<%= request.getContextPath() %>/views/jsp/inicio.jsp'">
 		        	<img src="https://img.icons8.com/?size=100&id=131&format=png&color=000000" alt="Jugadores">
 		            <span>Buscar</span>
 		        </div>
-		        <div class="navbar-item active" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/favoritos.jsp'">
+		        <div class="navbar-item active" onclick="window.location.href='<%= request.getContextPath() %>/views/jsp/favoritos.jsp'">
 		            <img src="https://img.icons8.com/?size=100&id=84925&format=png&color=FFFFFF" alt="Jugadores">
 		            <span><b>Favoritos</b></span>
 		        </div>
-		        <div class="navbar-item" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/mensajes.jsp'">
+		        <div class="navbar-item" onclick="window.location.href='<%= request.getContextPath() %>/views/jsp/mensajes.jsp'">
 		            <img src="https://img.icons8.com/?size=100&id=87193&format=png&color=000000" alt="Equipos">
 		            <span>Mensajes</span>
 		        </div>
@@ -115,7 +114,8 @@
 									List<PtsJugParVO> historicoJugador = PtsJugParDAO.obtenerHistoricoPorJugador(jugadorVO.getNombreUsuario());
 
 									// Calcular y obtener las estadísticas
-									HistoricoVO historico = PtsJugParDAO.calcularEstadisticasHistorico(historicoJugador);						 
+									HistoricoVO historico = PtsJugParDAO.calcularEstadisticasHistorico(historicoJugador);
+									if (historico.getPartidosJugados() > 0) {
 							        %>
 					                <label>Histórico</label>
 					                <div class="info-jugador-favorito">
@@ -124,6 +124,7 @@
 						                <p class="stat-favorito">PJ <span><%= historico.getPartidosJugados() %></span></p>
 					                </div>
 					                <button onclick="verMas('<%= jugadorVO.getNombreUsuario() %>')">Ver más</button>
+					                <% } %>
 					            </div>
 					            <% }} %>
 					        </div>

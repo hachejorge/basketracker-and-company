@@ -204,4 +204,51 @@ public class EquipoDAO {
 
         return jugadores;
     }
+    
+ // Método para obtener todos los equipos por competición
+    public static List<EquipoVO> obtenerEquiposPorCompeticion(String competicion) {
+        List<EquipoVO> equipos = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.equipo WHERE competicion = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, competicion);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int idEquipo = rs.getInt("id_equipo");
+                String nombreEquipo = rs.getString("nombre_equipo");
+                String ubicacion = rs.getString("ubicacion");
+                // Al usar la misma consulta, obtenemos la competición de nuevo, pero podría no ser necesario
+                String competicionEquipo = rs.getString("competicion");
+                equipos.add(new EquipoVO(idEquipo, nombreEquipo, ubicacion, competicionEquipo));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
+        }
+
+        return equipos;
+    }
+
 }

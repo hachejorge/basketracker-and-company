@@ -1,6 +1,7 @@
 package clasesVO;
 
 public class HistoricoVO {
+	private String nombreUsuario;
     private int partidosJugados;
     private int puntosTotales;
     private int minutosTotales;
@@ -10,9 +11,10 @@ public class HistoricoVO {
     private int faltasTotales;
 
     // Constructor
-    public HistoricoVO(int partidosJugados, int puntosTotales, int minutosTotales,
+    public HistoricoVO(String nombreUsuario, int partidosJugados, int puntosTotales, int minutosTotales,
                        int tirosLibresTotales, int tirosLibresAnotados, int triplesTotales, int faltasTotales) {
-        this.partidosJugados = partidosJugados;
+        this.nombreUsuario = nombreUsuario;
+    	this.partidosJugados = partidosJugados;
         this.puntosTotales = puntosTotales;
         this.minutosTotales = minutosTotales;
         this.tirosLibresTotales = tirosLibresTotales;
@@ -22,6 +24,10 @@ public class HistoricoVO {
     }
 
     // Getters
+    public String getNombreUsuario () {
+    	return nombreUsuario;
+    }
+    
     public int getPartidosJugados() {
         return partidosJugados;
     }

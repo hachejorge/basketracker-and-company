@@ -1,73 +1,281 @@
 package clasesDAO;
 
-import clasesVO.MensajeVO; // Asegúrate de importar la clase desde el paquete correcto.
+import clasesVO.MensajeVO;
+import utils.PoolConnectionManager;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MensajeDAO {
 
-    // Crear una fábrica de EntityManagers
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
+    public MensajeDAO() {
+        // Constructor vacío
+    }
+
+    // Método para obtener el ID máximo en la tabla MENSAJE
+    public static int obtenerIdMaximo() {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int idMaximo = 0;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT COALESCE(MAX(id_mensaje), 0) FROM sisinf_db.MENSAJE";
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                idMaximo = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
+        }
+
+        return idMaximo;
+    }
 
     // Método para guardar un mensaje
-    public void guardarMensaje(MensajeVO mensaje) {
-        EntityManager em = emf.createEntityManager();
+    public static void guardarMensaje(MensajeVO mensaje) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+
         try {
-            em.getTransaction().begin();
-            em.persist(mensaje);
-            em.getTransaction().commit();
+            conn = PoolConnectionManager.getConnection();
+            int nuevoId = obtenerIdMaximo() + 1;
+
+            String query = "INSERT INTO sisinf_db.MENSAJE (id_mensaje, nombre_usuario, mensaje, hora, fecha) VALUES (?, ?, ?, ?, ?)";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, nuevoId);
+            ps.setString(2, mensaje.getNombreUsuario());
+            ps.setString(3, mensaje.getMensaje());
+            ps.setTime(4, mensaje.getHora());
+            ps.setDate(5, mensaje.getFecha());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
     }
 
-    // Método para obtener un mensaje por ID
+    // Método para obtener un mensaje por su ID
     public MensajeVO obtenerMensajePorId(int idMensaje) {
-        EntityManager em = emf.createEntityManager();
+        MensajeVO mensaje = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
-            return em.find(MensajeVO.class, idMensaje);
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.MENSAJE WHERE id_mensaje = ?";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, idMensaje);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("id_mensaje");
+                String nombreUsuario = rs.getString("nombre_usuario");
+                String mensajeContenido = rs.getString("mensaje");
+                Time hora = rs.getTime("hora");
+                Date fecha = rs.getDate("fecha");
+
+                mensaje = new MensajeVO(id, nombreUsuario, mensajeContenido, hora, fecha);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
+        return mensaje;
     }
 
     // Método para listar todos los mensajes
     public List<MensajeVO> listarMensajes() {
-        EntityManager em = emf.createEntityManager();
+        List<MensajeVO> mensajes = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
-            return em.createQuery("FROM Mensaje", MensajeVO.class).getResultList();
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.MENSAJE";
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id_mensaje");
+                String nombreUsuario = rs.getString("nombre_usuario");
+                String mensajeContenido = rs.getString("mensaje");
+                Time hora = rs.getTime("hora");
+                Date fecha = rs.getDate("fecha");
+
+                mensajes.add(new MensajeVO(id, nombreUsuario, mensajeContenido, hora, fecha));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
+        return mensajes;
     }
 
     // Método para actualizar un mensaje
     public void actualizarMensaje(MensajeVO mensaje) {
-        EntityManager em = emf.createEntityManager();
+        Connection conn = null;
+        PreparedStatement ps = null;
+
         try {
-            em.getTransaction().begin();
-            em.merge(mensaje);
-            em.getTransaction().commit();
+            conn = PoolConnectionManager.getConnection();
+            String query = "UPDATE sisinf_db.MENSAJE SET nombre_usuario = ?, mensaje = ?, hora = ?, fecha = ? WHERE id_mensaje = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, mensaje.getNombreUsuario());
+            ps.setString(2, mensaje.getMensaje());
+            ps.setTime(3, mensaje.getHora());
+            ps.setDate(4, mensaje.getFecha());
+            ps.setInt(5, mensaje.getIdMensaje());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
     }
 
     // Método para eliminar un mensaje por ID
-    public void eliminarMensaje(int idMensaje) {
-        EntityManager em = emf.createEntityManager();
+    public static void eliminarMensaje(int idMensaje) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+
         try {
-            MensajeVO mensaje = obtenerMensajePorId(idMensaje);
-            if (mensaje != null) {
-                em.getTransaction().begin();
-                em.remove(em.contains(mensaje) ? mensaje : em.merge(mensaje));
-                em.getTransaction().commit();
-            }
+            conn = PoolConnectionManager.getConnection();
+            String query = "DELETE FROM sisinf_db.MENSAJE WHERE id_mensaje = ?";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, idMensaje);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
-            em.close();
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
+    }
+    
+    // Método para obtener mensajes de un usuario ordenados de más antiguo a más reciente
+    public static List<MensajeVO> obtenerMensajesPorUsuario(String nombreUsuario) {
+        List<MensajeVO> mensajes = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.MENSAJE WHERE nombre_usuario = ? ORDER BY fecha ASC, hora ASC";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, nombreUsuario);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id_mensaje");
+                String usuario = rs.getString("nombre_usuario");
+                String mensajeContenido = rs.getString("mensaje");
+                Time hora = rs.getTime("hora");
+                Date fecha = rs.getDate("fecha");
+
+                mensajes.add(new MensajeVO(id, usuario, mensajeContenido, hora, fecha));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
+        }
+        return mensajes;
     }
 }
