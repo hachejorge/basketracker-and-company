@@ -11,7 +11,6 @@ body {
     padding: 0;
     display: flex;
     background-color: #f0f0f0; /* Color de fondo */
-}
 
 /* Cabecera */
 .cabecera-section {
@@ -977,15 +976,6 @@ h1 {
     width: 100%;
 }
 
-.circle {
-    width: 8px; /* Ajusta el tamaño según lo necesites */
-    height: 8px;
-    background-color: red; /* Cambia el color si lo prefieres */
-    border-radius: 50%;
-    display: inline-block;
-    margin-left: 2px; /* Espaciado opcional */
-}
-
 
 .calendario-header {
     display: flex;
@@ -1007,16 +997,6 @@ h1 {
     cursor: pointer;
 }
 
-.calendario-partido-dot {
-    width: 5px;
-    height: 5px;
-    background-color: red; /* Puedes cambiar el color */
-    border-radius: 50%;
-    margin-top: 2px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .calendario-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -1034,12 +1014,15 @@ h1 {
 }
 
 .calendario-date {
+	padding-top: 5px;
     text-align: center;
-    height: 40px;
+    height: 70px;
+    border: 1px outset black;
+    
 }
 
 .calendario-date:hover {
-    background: var(--color-admin);
+    background: var(--color-secondary);
     cursor: pointer;
     color: white;
     font-weight: bold;
@@ -1047,20 +1030,44 @@ h1 {
 
 .calendario-date.empty {
     background: transparent;
-    border: none;
+    border: 1px outset black;
 }
 
-.circle {
-    background-color: #f00; /* Color de fondo del círculo */
-    border-radius: 50%; /* Hace que sea un círculo */
-    width: 10px; /* Ancho del círculo */
-    height: 10px; /* Altura del círculo */
-    display: inline-block; /* Asegura que se comporte como un bloque */
-    position: absolute; /* Necesario para posicionar el círculo */
-    left: 50%; /* Centra el círculo horizontalmente */
-    transform: translateX(-50%); /* Ajusta el círculo para que esté centrado */
-    top: -5px; /* Ajusta la posición vertical del círculo */
+/* Estilo para los días que tienen partidos */
+.calendario-date.partido {
+    position: relative;
 }
+
+.calendario-date.partido::after {
+    content: "";
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    background-color: var(--color-admin); /* Puedes ajustar el color del círculo */
+    border-radius: 50%;
+}
+
+.tooltip {
+    position: absolute;
+    background-color: #333;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    z-index: 10;
+}
+
+.calendario-date.partido:hover .tooltip {
+    display: b
+}
+
 
 .container-jugador {
 	width: 100vw;

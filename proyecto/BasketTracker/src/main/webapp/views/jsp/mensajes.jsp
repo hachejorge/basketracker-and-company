@@ -53,7 +53,7 @@
 						<div class="michat" data-id=<%= usuario.getNombreUsuario() %> onclick="showChat('<%= usuario.getNombreUsuario() %>')">
 							<p class="michatcanal">Mi canal</p>
 							<div class="chat-organizado">
-								<img src="https://img.icons8.com/?size=100&id=68&format=png&color=000000" alt="Equipos">
+								<img src="https://img.icons8.com/?size=100&id=68&format=png&color=000000" alt="Icono Comunidad <%= usuario.getNombreUsuario() %>">
 								<div class="chat-organizado-texto">
 									<p class="community"><%= usuario.getNombreUsuario() %> community</p>
 									<p class="propietario">Tú</p>
@@ -68,7 +68,7 @@
 						%>
 						<div class="chat" data-id=<%= usuario.getNombreUsuario() %> onclick="showChat('<%= jf.getJugador() %>')">
 							<div class="chat-organizado">
-								<img src="https://img.icons8.com/?size=100&id=68&format=png&color=000000" alt="Equipos">
+								<img src="https://img.icons8.com/?size=100&id=68&format=png&color=000000" alt="Icono Comunidad <%= jf.getJugador()  %>">
 								<div class="chat-organizado-texto">
 									<p class="community"><%= jf.getJugador() %> community</p>
 									<p class="propietario"><%= JugadorDAO.obtenerJugadorPorNombreUsuario(jf.getJugador()).getNombreJugador()  %></p>
@@ -82,7 +82,7 @@
 				<% if (esJugador) { %>
 				<div class="michatabierto" data-id="<%= usuario.getNombreUsuario() %>-chatabierto">
 					<div class="chatabierto-organizado">
-						<img src="https://img.icons8.com/?size=100&id=68&format=png&color=000000" alt="Equipos">
+						<img src="https://img.icons8.com/?size=100&id=68&format=png&color=000000" alt="Icono Comunidad <%= usuario.getNombreUsuario() %>">
 						<div class="chat-organizado-texto">
 							<p class="community"><%= usuario.getNombreUsuario() %> community</p>
 						</div>					
@@ -100,7 +100,7 @@
 					                <input type="hidden" name="idMensaje" value="<%= mensaje.getIdMensaje() %>"> <!-- Enviar ID del partido -->
 					                <input type="hidden" name="mensaje" value="<%= mensaje.getMensaje() %>"> <!-- Enviar texto del comentario -->
 					                <button type="submit" style="border: none; background: transparent; cursor: pointer;">
-					                    <img src="https://img.icons8.com/?size=100&id=1941&format=png&color=000000" alt="Eliminar Comentario">
+					                    <img src="https://img.icons8.com/?size=100&id=1941&format=png&color=000000" alt="Eliminar Mensaje">
 					                </button>
 				           		</form>
 								<div class="message-bubble">
@@ -128,7 +128,7 @@
 				<div class="otrochatabierto hidden" data-id="<%= jf.getJugador()%>-chatabierto">
 					<div class="michatabierto">
 						<div class="chatabierto-organizado">
-							<img src="https://img.icons8.com/?size=100&id=68&format=png&color=000000" alt="Equipos">
+							<img src="https://img.icons8.com/?size=100&id=68&format=png&color=000000" alt="Icono Comunidad <%= jf.getJugador()  %>">
 							<div class="chat-organizado-texto">
 								<p class="community"><%= jf.getJugador() %> community</p>
 							</div>					

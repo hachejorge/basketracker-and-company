@@ -9,18 +9,18 @@
 %>
 <div class="cabecera2-section">
     <div class="cabecera2-rect">
-        <img class="cabecera2-image" src="<%= request.getContextPath() %>/views/images/logo.png" alt="Logo" onclick="window.location.href='<%= request.getContextPath() %>/views/jsp/inicio.jsp'">
+        <img class="cabecera2-image" src="<%= request.getContextPath() %>/views/images/logo.png" alt="Logo Basketracker" onclick="window.location.href='<%= request.getContextPath() %>/views/jsp/inicio.jsp'">
         <form class="cabecera-search-form" action="<%= request.getContextPath() %>/SearchServlet" method="GET" onsubmit="return searchFunction(event)">
             <input type="text" id="search-input" class="cabecera-search-input" placeholder="Buscar..." name="search" onkeyup="buscarSugerencias()" required>
             <div class="suggestions-box" id="suggestions-box" style="display: none;"></div>
         </form>
     </div>
     <div class="user-account" onclick="toggleDropdown()">
-        <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=FFFFFF" alt="Mi Cuenta" class="user-icon">
+        <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=FFFFFF" alt="Icono Mi Cuenta" class="user-icon">
         <span class="user-text"><b>Mi Cuenta</b></span>
         <div class="dropdown-menu" id="dropdownMenu">
             <% if (esJugadorHeader) { %>
-                <a href="<%= request.getContextPath() %>/GuardarJugadorServlet?nombreJugador=<%= usuarioheader.getNombreUsuario() %>">Ver Mi Perfil</a>
+                <a href="javascript:void(0);" onclick="verMasHeader('<%= usuarioheader.getNombreUsuario() %>')">Ver Mi Perfil</a>
             <% } else { %>
                 <a href="<%= request.getContextPath() %>/views/jsp/perfil_usuario.jsp">Ver Mi Perfil</a>
             <% } %>

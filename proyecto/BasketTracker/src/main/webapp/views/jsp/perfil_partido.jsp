@@ -74,10 +74,10 @@
 			<div class="partidoselec-datos">
 		        <div class="partidoselec-header">
 		        	<div class="partidoselec-header-score">
-			       		<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture" onclick="verMasEquipo('<%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoLocal()).getIdEquipo() %>')">
+			       		<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Escudo <%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoLocal()).getNombreEquipo() %>" onclick="verMasEquipo('<%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoLocal()).getIdEquipo() %>')">
 			        	<div class="partidoselec-score-home"><%= partidoVO.getPtsC1Local() + partidoVO.getPtsC2Local() + partidoVO.getPtsC3Local() + partidoVO.getPtsC4Local()%></div>
 			            <div class="partidoselec-score-away"><%= partidoVO.getPtsC1Visit() + partidoVO.getPtsC2Visit() + partidoVO.getPtsC3Visit() + partidoVO.getPtsC4Visit()%></div>
-			            <img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture" onclick="verMasEquipo('<%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoVisitante()).getIdEquipo() %>')">
+			            <img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Escudo <%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoVisitante()).getNombreEquipo() %>" onclick="verMasEquipo('<%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoVisitante()).getIdEquipo() %>')">
 		            </div>
 		            <div class="partidoselec-teams">
 		                <div class="partidoselec-date"><%= partidoVO.formatFecha() %></div>
@@ -233,8 +233,8 @@
 			<div class="partidoselec-datos-prox">
 		        <div class="partidoselec-header">
 		        	<div class="partidoselec-header-score-prox">
-			       		<img src="https://img.icons8.com/?size=200&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture" onclick="verMasEquipo('<%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoLocal()).getIdEquipo() %>')">
-			            <img src="https://img.icons8.com/?size=200&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture" onclick="verMasEquipo('<%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoVisitante()).getIdEquipo() %>')">
+			       		<img src="https://img.icons8.com/?size=200&id=t7crGJINSAvv&format=png&color=000000" alt="Escudo <%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoLocal()).getNombreEquipo() %>" onclick="verMasEquipo('<%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoLocal()).getIdEquipo() %>')">
+			            <img src="https://img.icons8.com/?size=200&id=t7crGJINSAvv&format=png&color=000000" alt="Escudo <%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoVisitante()).getNombreEquipo() %>" onclick="verMasEquipo('<%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoVisitante()).getIdEquipo() %>')">
 		            </div>
 		            <div class="partidoselec-teams">
 		                <div class="partidoselec-date"><%= partidoVO.formatFecha() %></div>

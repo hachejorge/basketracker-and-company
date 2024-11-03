@@ -66,12 +66,12 @@
 			            %>
 			            <div class="partido-card" onclick="guardarPartido('<%= partido.getIdPartido() %>')">
 					        <div class="partido-fecha">
-					            <span><%= partido.formatFecha() %></span> <!-- Muestra la fecha del partido -->
+					            <span><%= partido.formatFecha() %></span>
 					        </div>
 					        <div class="partido-info">
 					            <p><strong><%= EquipoDAO.obtenerEquipoPorId(partido.getEquipoLocal()).getNombreEquipo() %> VS <%= EquipoDAO.obtenerEquipoPorId(partido.getEquipoVisitante()).getNombreEquipo() %></strong></p>
-					            <p><%= partido.formatHora() %></p> <!-- Muestra la hora del partido -->
-					            <p><%= equipolocal.getUbicacion() %></p> <!-- Muestra la ubicación del partido -->
+					            <p><%= partido.formatHora() %></p>
+					            <p><%= equipolocal.getUbicacion() %></p>
 					        </div>
 					        <div class="partido-ubicacion">
 					            <img src="https://img.icons8.com/?size=100&id=342&format=png&color=000000" alt="Ubicación Icono">
@@ -85,7 +85,7 @@
 		   	<div class="datos-jugador">
 		        <div class="profile-header">
 			        <div class="banner">
-			            <img src="<%= request.getContextPath() %>/views/images/banner.png" alt="Banner image">
+			            <img src="<%= request.getContextPath() %>/views/images/banner.png" alt="Banner Image">
 			        </div>
 			        <div class="profile-content">
 			            <div class="profile-details">
@@ -93,7 +93,7 @@
 			                <p>@<%= jugadorVO.getNombreUsuario() %></p>
 			            </div>
 			            <div class="profile-picture">
-			                <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Profile picture">
+			                <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Profile Picture <%= jugadorVO.getNombreJugador() %>">
 			            </div>
 			            <div class="jugadores-seguidores">
 			                 <button class="jugador-follow-btn" 
@@ -106,7 +106,7 @@
 			            </div>
 			            <% EquipoVO equipoVO = EquipoDAO.obtenerEquipoPorId(jugadorVO.getEquipo()); %>
 			            <div class="team" onclick="verMasEquipo('<%= equipoVO.getIdEquipo() %>')">
-			            	<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture">
+			            	<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Escudo <%= equipoVO.getNombreEquipo() %>" onclick="verMasEquipo('<%= equipoVO.getIdEquipo() %>')">
 			                <h2><%= equipoVO.getNombreEquipo() %></h2>
 			            </div>
 			        </div>
@@ -145,10 +145,10 @@
 			                	
 			                    <p><%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoLocal()).getNombreEquipo() %> VS <%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoVisitante()).getNombreEquipo() %></p>
 			                    <div class="jugador-scoreboard">
-			                    	<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture">
+			                    	<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Escudo <%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoLocal()).getNombreEquipo() %>">
 			                        <span><%= partidoVO.getPtsC1Local() + partidoVO.getPtsC2Local() + partidoVO.getPtsC3Local() + partidoVO.getPtsC4Local()%></span> - 
 			                        <span><%= partidoVO.getPtsC1Visit() + partidoVO.getPtsC2Visit() + partidoVO.getPtsC3Visit() + partidoVO.getPtsC4Visit()%></span>
-			                    	<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture">
+			                    	<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Escudo <%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoVisitante()).getNombreEquipo() %>">
 			                    </div>
 			                </div>
 			                <% }} %>

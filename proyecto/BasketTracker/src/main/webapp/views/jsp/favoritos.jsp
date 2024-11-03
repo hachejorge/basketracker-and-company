@@ -109,6 +109,7 @@
 					                <button onclick="guardarPartido('<%= partidoVO.getIdPartido() %>')">Ver más</button>
 					                
 					            </div>
+					            					            <% }} %>
 					            <div class="section-favorito history-favorito">
 					            	<%
 									List<PtsJugParVO> historicoJugador = PtsJugParDAO.obtenerHistoricoPorJugador(jugadorVO.getNombreUsuario());
@@ -124,9 +125,18 @@
 						                <p class="stat-favorito">PJ <span><%= historico.getPartidosJugados() %></span></p>
 					                </div>
 					                <button onclick="verMas('<%= jugadorVO.getNombreUsuario() %>')">Ver más</button>
+					                <% } 
+					                else {
+					                %>
+					                <label>Histórico</label>
+					                <div class="info-jugador-favorito">
+						                <p class="stat-favorito">P/P <span><%= 0 %></span></p>
+						                <p class="stat-favorito">M/P <span><%= 0 %></span></p>
+						                <p class="stat-favorito">PJ <span><%= 0 %></span></p>
+					                </div>
+					                <button onclick="verMas('<%= jugadorVO.getNombreUsuario() %>')">Ver más</button>
 					                <% } %>
 					            </div>
-					            <% }} %>
 					        </div>
 					        <% }} %>
 		                </div>

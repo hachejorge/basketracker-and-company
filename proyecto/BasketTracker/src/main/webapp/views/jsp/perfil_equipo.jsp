@@ -101,7 +101,7 @@
 					        for (int j = 0; j < rankingSize && j < 4; j++) { 
 					        %>
 					            <tr class="favorito-<%= (j == 0 ? "primero" : (j == 1 ? "segundo" : (j == 2 ? "tercero" : "cuarto"))) %>">
-					                <td><%= (j + 1) + ".<img src='https://img.icons8.com/?size=100&id=851&format=png&color=000000' alt='icono' class='favorito-icono'> " + ranking.get(j).getNombre() %></td>
+					                <td><%= (j + 1) + ".<img src='https://img.icons8.com/?size=100&id=851&format=png&color=000000' alt='Escudo " + EquipoDAO.obtenerEquipoPorId(ranking.get(j).getIdEquipo()).getNombreEquipo() + "' class='favorito-icono'> " + ranking.get(j).getNombre() %></td>
 					            	<td><%= ranking.get(j).getPartidosGanados() %></td>
            							<td><%= ranking.get(j).getPartidosPerdidos() %></td>
 					            </tr>
@@ -124,16 +124,16 @@
 		    <div class="datos-equipo">
                 <div class="equipo-header">
                     <div class="equipo-background-img">
-                        <img src="<%= request.getContextPath() %>/views/images/banner.png" alt="Background image">
+                        <img src="<%= request.getContextPath() %>/views/images/banner.png" alt="Banner Image">
                     </div>
                     <div class="equipo-info">
                         <div class="equipo-logo">
                             <div class="equipo-logo2">
-                                <img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Team Logo">
+                                <img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Escudo <%= equipoVO.getNombreEquipo()%>">
                             </div>
                             <div class="equipo-info">
                                 <h1><%= equipoVO.getNombreEquipo() %></h1>
-                                <p><%= equipoVO.getCompeticion() %></p>
+                                <p onclick="verMasCompeticion('<%= equipoVO.getCompeticion() %>')"><%= equipoVO.getCompeticion() %></p>
                             </div>
                         </div>
                         <button class="equipo-follow-btn" 
@@ -159,7 +159,7 @@
 							            for (JugadorVO jugador : plantilla) { 
 							        %>
 							            <div class="jugador-card" onclick="verMas('<%= jugador.getNombreUsuario() %>')">
-							                <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Jugador Icono">
+							                <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Profile Picture <%=jugador.getNombreJugador() %>">
 							                <p><%= jugador.getNombreJugador() %></p>
 							            </div>
 							        <% 
@@ -170,7 +170,23 @@
 						</div>
                     </div>
                     <div class="equipo-calendar">
-                        <%@ include file="equipo_2.jsp" %>
+                    	<div class="calendario-calendar">
+					       <div class="calendario-header">
+					           <button id="prevMonth" class="calendario-button">&lt;</button>
+					           <h1 id="monthYear" class="calendario-month-year"></h1>
+					           <button id="nextMonth" class="calendario-button">&gt;</button>
+					       </div>
+					       <div class="calendario-days">
+					           <div class="calendario-day">Dom</div>
+					           <div class="calendario-day">Lun</div>
+					           <div class="calendario-day">Mar</div>
+					           <div class="calendario-day">Mié</div>
+					           <div class="calendario-day">Jue</div>
+					           <div class="calendario-day">Vie</div>
+					           <div class="calendario-day">Sáb</div>
+					       </div>
+					       <div class="calendario-dates" id="dateContainer"></div>
+					   </div>
                     </div>
                 </div>
             </div>
@@ -182,6 +198,24 @@
 	<%@ include file="footer.jsp" %>
 </div>
 <script>
+
+function verMasCompeticion(nombreCompeticion) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "<%= request.getContextPath() %>/GuardarCompeticionServlet", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Redirigir a la página del perfil de la competición
+                window.location.href = "<%= request.getContextPath() %>/views/jsp/perfil_competicion.jsp";
+            } else {
+                alert("Error al guardar la competición.");
+            }
+        }
+    };
+    xhr.send("nombreCompeticion=" + encodeURIComponent(nombreCompeticion));
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Mostrar "Equipo" y ocultar "Calendario" al hacer clic en el botón de equipo
     document.querySelector('.equipo-team-btn').addEventListener('click', function() {
@@ -282,6 +316,127 @@ function verMas(nombreJugador) {
     };
     xhr.send("nombreJugador=" + encodeURIComponent(nombreJugador));
 }
+
+const monthYear = document.getElementById("monthYear");
+const dateContainer = document.getElementById("dateContainer");
+const prevMonthBtn = document.getElementById("prevMonth");
+const nextMonthBtn = document.getElementById("nextMonth");
+
+let currentDate = new Date();
+
+const partidos = [
+    <% 
+        List<PartidoVO> partidosEquipo = PartidoDAO.obtenerPartidosPorEquipo(equipoVO.getIdEquipo());
+        for (PartidoVO partido : partidosEquipo) {
+            String fecha = partido.getFecha().toString(); // "yyyy-MM-dd"
+            String hora = partido.getHora().toString();   // "HH:mm:ss"
+    %>
+    {
+        idPartido: <%= partido.getIdPartido() %>,
+        equipoLocal: <%= partido.getEquipoLocal() %>,
+        equipoVisitante: <%= partido.getEquipoVisitante() %>,
+        jornada: <%= partido.getJornada() %>,
+        ptsC1Local: <%= partido.getPtsC1Local() %>,
+        ptsC2Local: <%= partido.getPtsC2Local() %>,
+        ptsC3Local: <%= partido.getPtsC3Local() %>,
+        ptsC4Local: <%= partido.getPtsC4Local() %>,
+        ptsC1Visit: <%= partido.getPtsC1Visit() %>,
+        ptsC2Visit: <%= partido.getPtsC2Visit() %>,
+        ptsC3Visit: <%= partido.getPtsC3Visit() %>,
+        ptsC4Visit: <%= partido.getPtsC4Visit() %>,
+        fecha: new Date("<%= fecha %>"),
+        hora: "<%= hora.substring(0, 5) %>" // Solo hh:mm
+    },
+    <% } %>
+];
+
+function renderCalendar(date, partidos) {
+    dateContainer.innerHTML = "";
+    const year = date.getFullYear();
+    const month = date.getMonth();
+
+    monthYear.textContent = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    // Crear espacios vacíos antes del primer día
+    for (let i = 0; i < firstDay; i++) {
+        const emptyDiv = document.createElement("div");
+        emptyDiv.classList.add("calendario-date", "empty");
+        dateContainer.appendChild(emptyDiv);
+    }
+
+    // Agregar los días del mes
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dayDiv = document.createElement("div");
+        dayDiv.classList.add("calendario-date");
+        dayDiv.textContent = day;
+
+        const currentDate = new Date(year, month, day);
+        const partidosEnDia = partidos.filter(partido => 
+            partido.fecha.getFullYear() === currentDate.getFullYear() &&
+            partido.fecha.getMonth() === currentDate.getMonth() &&
+            partido.fecha.getDate() === currentDate.getDate()
+        );
+
+        // Asignar el evento de clic a dayDiv
+        if (partidosEnDia.length > 0) {
+            dayDiv.classList.add("partido");
+
+            // Evento de clic en el recuadro de la fecha
+            dayDiv.onclick = () => {
+                // Aquí puedes manejar múltiples partidos, elige uno según tu lógica
+                // Por ejemplo, solo llamaremos al primer partido de la lista
+                guardarPartido(partidosEnDia[0].idPartido);
+            };
+
+            partidosEnDia.forEach(partido => {
+                const circle = document.createElement("div");
+                circle.classList.add("partido-circle");
+                circle.textContent = ""; // Ícono o texto para el partido
+                dayDiv.appendChild(circle);
+            });
+        }
+
+        dateContainer.appendChild(dayDiv);
+    }
+}
+
+
+// Llamada inicial para renderizar el calendario
+
+prevMonthBtn.addEventListener("click", () => {
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+    
+    // Si estamos en enero, retrocede al diciembre del año anterior
+    if (currentMonth === 0) {
+        currentDate.setMonth(11);
+        currentDate.setFullYear(currentYear - 1);
+    } else {
+        currentDate.setMonth(currentMonth - 1);
+    }
+    
+    renderCalendar(currentDate, partidos);
+});
+
+nextMonthBtn.addEventListener("click", () => {
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+    
+    // Si estamos en diciembre, avanza al enero del año siguiente
+    if (currentMonth === 11) {
+        currentDate.setMonth(0);
+        currentDate.setFullYear(currentYear + 1);
+    } else {
+        currentDate.setMonth(currentMonth + 1);
+    }
+    
+    renderCalendar(currentDate, partidos);
+});
+// Renderizar el calendario por primera vez
+renderCalendar(new Date(), partidos);
 </script>
 </body>
 </html>

@@ -83,7 +83,7 @@
 			<div class="info-item">
 				<% for (String jugador : jugadores) { %>
 					<div class="jugadores">
-	                    <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Perfil">
+	                    <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Profile Picture <%= JugadorDAO.obtenerJugadorPorNombreUsuario(jugador).getNombreJugador() %>" onclick="verMas('<%= jugador %>')">
 				        
 				        <% 
 				            // Obtener información del jugador a partir del nombre de usuario
@@ -96,7 +96,7 @@
 
 	                    <p><strong><%= jugadorVO.getNombreJugador() %></strong><br><%= equipoVO.getNombreEquipo() %><br><%= equipoVO.getCompeticion() %></p>
 	                    <img src="https://img.icons8.com/?size=100&id=<%= favoritosJugadores.get(jugador) ? "19416" : "85784" %>&format=png&color=000000" 
-                         alt="Favorito" 
+                         alt="Icono Favorito" 
                          class="icono-favorito" 
                          data-id="<%= jugador %>" 
                          data-tipo="jugador" 
@@ -108,7 +108,7 @@
 			<div class="info-item">
 				<% for (int equipo : equipos) { %>
 					<div class="equipos">
-						<img src="https://img.icons8.com/?size=100&id=vy6OvJYHSJ8I&format=png&color=000000" alt="Logo Equipo">
+						<img src="https://img.icons8.com/?size=100&id=vy6OvJYHSJ8I&format=png&color=000000" alt="Escudo <%= EquipoDAO.obtenerEquipoPorId(equipo).getNombreEquipo() %>" onclick="verMasEquipo('<%= equipo %>')">
 						
 						<% 
 				            // Obtener información del jugador a partir del nombre de usuario
@@ -118,7 +118,7 @@
 				        
 					    <p><strong><%= equipoVO.getNombreEquipo() %></strong><br><%= equipoVO.getCompeticion() %></p>
 					    <img src="https://img.icons8.com/?size=100&id=<%= favoritosEquipos.get(equipo) ? "19416" : "85784" %>&format=png&color=000000" 
-                         alt="Favorito" 
+                         alt="Icono Favorito" 
                          class="icono-favorito" 
                          data-id="<%= equipo %>" 
                          data-tipo="equipo" 
@@ -130,11 +130,11 @@
 			<div class="info-item">
 				<% for (String competicion : competiciones) { %>
 					<div class="competiciones">
-						<img src="https://img.icons8.com/?size=100&id=6YtrB5VnlPqY&format=png&color=000000" alt="Logo Competición">
+						<img src="https://img.icons8.com/?size=100&id=6YtrB5VnlPqY&format=png&color=000000" alt="Logo <%= competicion %>" onclick="verMasCompeticion('<%= competicion %>')">
 				        
 					    <p><strong><%= competicion %></strong></p>
                         <img src="https://img.icons8.com/?size=100&id=<%= favoritosCompeticiones.get(competicion) ? "19416" : "85784" %>&format=png&color=000000" 
-                         alt="Favorito" 
+                         alt="Icono Favorito" 
                          class="icono-favorito" 
                          data-id="<%= competicion %>" 
                          data-tipo="competicion" 
@@ -196,5 +196,56 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+function verMas(nombreJugador) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "<%= request.getContextPath() %>/GuardarJugadorServlet", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Redirigir a la página del perfil del jugador
+                window.location.href = "<%= request.getContextPath() %>/views/jsp/perfil_jugador.jsp";
+            } else {
+                alert("Error al guardar el jugador.");
+            }
+        }
+    };
+    xhr.send("nombreJugador=" + encodeURIComponent(nombreJugador));
+}
+
+function verMasEquipo(idEquipo) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "<%= request.getContextPath() %>/GuardarEquipoServlet", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Redirigir a la página del perfil del equipo
+                window.location.href = "<%= request.getContextPath() %>/views/jsp/perfil_equipo.jsp";
+            } else {
+                alert("Error al guardar el equipo.");
+            }
+        }
+    };
+    xhr.send("idEquipo=" + encodeURIComponent(idEquipo));
+}
+
+function verMasCompeticion(nombreCompeticion) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "<%= request.getContextPath() %>/GuardarCompeticionServlet", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Redirigir a la página del perfil de la competición
+                window.location.href = "<%= request.getContextPath() %>/views/jsp/perfil_competicion.jsp";
+            } else {
+                alert("Error al guardar la competición.");
+            }
+        }
+    };
+    xhr.send("nombreCompeticion=" + encodeURIComponent(nombreCompeticion));
+}
 
 </script>

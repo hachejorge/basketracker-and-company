@@ -89,7 +89,7 @@
 			                <p>@<%= usuario.getNombreUsuario() %></p>
 			            </div>
 			            <div class="profile-picture-usuario">
-			                <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Profile picture">
+			                <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Profile Picture <%= usuario.getNombreUsuario() %>">
 			            </div>
 			        </div>
 			    </div>
@@ -101,7 +101,7 @@
 					for (JugadorFavVO jugador : jugfav) { 
 				    %>
 				            <div class="jugador-card-usuario" onclick="verMas('<%= jugador.getJugador() %>')">
-				                <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Jugador Icono">
+				                <img src="https://img.icons8.com/?size=100&id=11795&format=png&color=000000" alt="Profile Picture <%= JugadorDAO.obtenerJugadorPorNombreUsuario(jugador.getJugador()).getNombreJugador() %>">
 				                <p><%= JugadorDAO.obtenerJugadorPorNombreUsuario(jugador.getJugador()).getNombreJugador() %></p>
 				                <p><%= EquipoDAO.obtenerEquipoPorId(JugadorDAO.obtenerJugadorPorNombreUsuario(jugador.getJugador()).getEquipo()).getNombreEquipo() %></p>
 				                <p><%= EquipoDAO.obtenerEquipoPorId(JugadorDAO.obtenerJugadorPorNombreUsuario(jugador.getJugador()).getEquipo()).getCompeticion() %></p>

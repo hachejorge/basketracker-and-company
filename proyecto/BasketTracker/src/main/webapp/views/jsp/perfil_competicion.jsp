@@ -139,10 +139,10 @@
 							    </div>
 							    <div class="jornada-match-info">
 							        <div class="jornada-score">
-							            <img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture">
+							            <img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Escudo <%= EquipoDAO.obtenerEquipoPorId(partidojornada.getEquipoLocal()).getNombreEquipo() %>">
 							            <div class="jornada-team-score jornada-home"><%= partidojornada.getPtsC1Local() + partidojornada.getPtsC2Local() + partidojornada.getPtsC3Local() + partidojornada.getPtsC4Local()%></div>
 							            <div class="jornada-team-score jornada-away"><%= partidojornada.getPtsC1Visit() + partidojornada.getPtsC2Visit() + partidojornada.getPtsC3Visit() + partidojornada.getPtsC4Visit()%></div>
-							            <img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture">
+							            <img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Escudo <%= EquipoDAO.obtenerEquipoPorId(partidojornada.getEquipoVisitante()).getNombreEquipo() %>">
 							        </div>
 							        <div class="jornada-team-names"><%= EquipoDAO.obtenerEquipoPorId(partidojornada.getEquipoLocal()).getNombreEquipo() %> VS <%= EquipoDAO.obtenerEquipoPorId(partidojornada.getEquipoVisitante()).getNombreEquipo() %></div>
 							        <div class="jornada-location">
@@ -183,7 +183,7 @@
 						        %>
 						        	<tbody>
 							            <tr class="favorito-<%= (j == 0 ? "primero" : (j == 1 ? "segundo" : (j == 2 ? "tercero" : "cuarto"))) %>">
-							                <td><%= (j + 1) + ".<img src='https://img.icons8.com/?size=100&id=851&format=png&color=000000' alt='icono' class='favorito-icono'> " + ranking.get(j).getNombre() %></td>
+							                <td><%= (j + 1) + ".<img src='https://img.icons8.com/?size=100&id=851&format=png&color=000000' alt='Escudo " + EquipoDAO.obtenerEquipoPorId(ranking.get(j).getIdEquipo()).getNombreEquipo() + "' class='favorito-icono'> " + ranking.get(j).getNombre() %></td>
 							            	<td><%= ranking.get(j).getPartidosGanados() %></td>
 		           							<td><%= ranking.get(j).getPartidosPerdidos() %></td>
 		           							<td><%= ranking.get(j).getPuntosAFavor() %></td>
@@ -334,7 +334,7 @@
                     		for (EquipoVO equipo : equipos) {
                     		%>
 						    <div class="competicion-team">
-						      <img src="https://img.icons8.com/?size=100&id=vy6OvJYHSJ8I&format=png&color=000000" alt="Logo Equipo">
+						      <img src="https://img.icons8.com/?size=100&id=vy6OvJYHSJ8I&format=png&color=000000" alt="Logo <%= equipo.getCompeticion() %>">
 						      <span class="name"><%= equipo.getNombreEquipo() %></span>
 						      <button onclick="verMasEquipo('<%= equipo.getIdEquipo() %>')" class="arrow">></button>
 						    </div>
