@@ -164,7 +164,7 @@ body {
 }
 
 .suggestions {
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     max-height: 150px; /* Ajuste de altura para permitir más espacio */
     overflow-y: auto; /* Activar scroll si hay muchas sugerencias */
     background-color: #fff;
@@ -181,7 +181,26 @@ body {
 }
 
 .suggestion-item:hover {
-    background-color: #f0f0f0;
+    background-color: rgb(251, 210, 148);
+}
+
+.suggestion-desc {
+	font-size: 11px;
+}
+
+.info-panel {
+    max-height: 0;
+    font-size: 11px;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    border: 0px solid #ccc;
+    border-radius: 5px;
+    transition: max-height 0.2s ease-out, padding 0.2s ease-out;
+}
+
+.info-panel.open {
+    max-height: 200px; /* Ajusta según el contenido del panel */
+    padding-bottom: 15px;
 }
 
 

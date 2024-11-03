@@ -13,35 +13,34 @@ import java.util.List;
 
 public class EquipoDAO {
 
-    // Método para guardar un equipo
-    public void guardarEquipo(EquipoVO equipo) {
-        Connection conn = null;
-        PreparedStatement ps = null;
+	public void guardarEquipo(EquipoVO equipo) {
+	    Connection conn = null;
+	    PreparedStatement ps = null;
 
-        try {
-            conn = PoolConnectionManager.getConnection();
-            String query = "INSERT INTO sisinf_db.equipo (id_equipo, nombre_equipo, ubicacion, competicion) VALUES (?, ?, ?, ?)";
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, equipo.getIdEquipo());
-            ps.setString(2, equipo.getNombreEquipo());
-            ps.setString(3, equipo.getUbicacion());
-            ps.setString(4, equipo.getCompeticion());
-            
-            ps.executeUpdate();
+	    try {
+	        conn = PoolConnectionManager.getConnection();
+	        String query = "INSERT INTO sisinf_db.equipo (nombre_equipo, ubicacion, competicion) VALUES (?, ?, ?)";
+	        ps = conn.prepareStatement(query);
+	        ps.setString(1, equipo.getNombreEquipo());
+	        ps.setString(2, equipo.getUbicacion());
+	        ps.setString(3, equipo.getCompeticion());
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            PoolConnectionManager.releaseConnection(conn);
-        }
-    }
+	        ps.executeUpdate();
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        if (ps != null) {
+	            try {
+	                ps.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        PoolConnectionManager.releaseConnection(conn);
+	    }
+	}
+
 
     // Método para obtener un equipo por su ID
     public static EquipoVO obtenerEquipoPorId(int idEquipo) {

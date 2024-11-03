@@ -14,7 +14,7 @@ public class JugadorDAO {
     }
 
     // Método para guardar un jugador
-    public void guardarJugador(JugadorVO jugador) {
+    public static void guardarJugador(JugadorVO jugador) {
         Connection conn = null;
         PreparedStatement ps = null;
 
@@ -297,53 +297,45 @@ public class JugadorDAO {
         return existe;
     }
 
-    public static List<JugadorVO> buscarJugadores(String searchTerm) throws SQLException {
-        List<JugadorVO> jugadores = new ArrayList<>();
-        String query = "SELECT * FROM sisinf_db.JUGADOR WHERE nombre_jugador ILIKE ? OR nombre_usuario ILIKE ?";
-        
-        try (Connection conn = PoolConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, "%" + searchTerm + "%");
-            stmt.setString(2, "%" + searchTerm + "%");
+ // Método para verificar si existe un jugador por nombre y que pertenezca a un equipo con un ID dado
+    public static boolean existeJugadorEnEquipo(String nombreJugador, int idEquipo) {
+        boolean existe = false;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String nombreUsuario = rs.getString("nombre_usuario");
-                String nombreJugador = rs.getString("nombre_jugador");
-                int equipo = rs.getInt("equipo");
-                jugadores.add(new JugadorVO(nombreUsuario, nombreJugador, equipo));
-            }
-        }
-        return jugadores;
-    }
-    
-    public static List<JugadorVO> buscarJugadoresPorNombre(String nombre) {
-        List<JugadorVO> jugadores = new ArrayList<>();
-        // Modificar la consulta para usar el campo correcto
-        String sql = "SELECT u.nombre_usuario, j.nombre_jugador, j.equipo FROM sisinf_db.JUGADOR j " +
-                     "JOIN sisinf_db.USUARIO u ON j.nombre_usuario = u.nombre_usuario " + // Cambiado de id_usuario a nombre_usuario
-                     "WHERE j.nombre_jugador ILIKE ?"; // Asegúrate de que las tablas y columnas existen y son correctas
+        try {
+            conn = PoolConnectionManager.getConnection();
+            // Consulta SQL para verificar si existe el jugador con el nombre dado y en el equipo especificado
+            String query = "SELECT 1 FROM sisinf_db.jugador WHERE nombre_jugador = ? AND equipo = ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, nombreJugador);
+            ps.setInt(2, idEquipo);
+            rs = ps.executeQuery();
 
-        try (Connection conn = PoolConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-             
-            stmt.setString(1, "%" + nombre + "%");
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                String nombreUsuario = rs.getString("nombre_usuario");
-                String nombreJugador = rs.getString("nombre_jugador");
-                int equipo = rs.getInt("equipo"); // Asegúrate que este campo existe y es del tipo correcto
-                
-                // Crear un nuevo objeto JugadorVO y agregarlo a la lista
-                jugadores.add(new JugadorVO(nombreUsuario, nombreJugador, equipo));
-            }
+            // Si hay un resultado, el jugador existe en ese equipo
+            existe = rs.next();
         } catch (SQLException e) {
-            e.printStackTrace(); // Manejo de errores
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
-
-        return jugadores; // Asegúrate de devolver la lista de jugadores
+        return existe;
     }
 
-
+    
 }
