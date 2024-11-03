@@ -17,7 +17,7 @@ public class UsuarioDAO {
     	//this.emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
     }
     // Método para guardar un usuario
-    public void guardarUsuario(UsuarioVO usuario) {
+    public static void guardarUsuario(UsuarioVO usuario) {
         Connection conn = null;
         PreparedStatement ps = null;
         

@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
 			  UsuarioVO usuarioEncontrado = UsuarioDAO.obtenerUsuarioPorNombre(usuario);
 			                  
 			  if(usuarioEncontrado == null) {
-			      response.getWriter().write("usuario encontrado null");
+				  response.getWriter().write("<script>alert('Usuario no encontrado'); window.location.href = '" + request.getContextPath() + "/views/jsp/login.jsp';</script>");
 			  }
 			
 			  
@@ -55,14 +55,14 @@ public class LoginServlet extends HttpServlet {
 			      dispatcher.forward(request, response);
 			  } else {
 			      // Usuario no existe o la contraseña no coincide
-			      response.getWriter().write("Usuario o contraseña incorrectos");
+			      response.getWriter().write("<script>alert('Usuario o contraseña incorrectos');window.location.href = '" + request.getContextPath() + "/views/jsp/login.jsp';</script>");
 			  }
 			} else {
-			  response.getWriter().write("Nombre de usuario o contraseña no pueden estar vacíos");
+			  response.getWriter().write("alert('Nombre de usuario o contraseña no pueden estar vacíos'); <script>window.location.href = '" + request.getContextPath() + "/views/jsp/login.jsp';</script>");
 			}
 		} catch (Exception e) { 
 			e.printStackTrace();
-			response.getWriter().write("Error en el servidor");
+			  response.getWriter().write("<script>alert('Error en el servidor'); window.location.href = '" + request.getContextPath() + "/views/jsp/login.jsp';</script>");
 		}
     }
 

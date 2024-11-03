@@ -36,21 +36,6 @@
 	                    <input type="password" id="repeat-password" name="repeat-password" placeholder="Contraseña" required>
 	                    <i class="fa fa-eye toggle-password" id="toggle-password2" onclick="togglePassword('repeat-password', 'toggle-password2')"></i>
 	                </div>
-	                
-				    <div class="outer-container">
-				        <div class="checkbox-wrapper">
-				            <label class="checkbox-label">
-				                <input type="checkbox" id="jugador" name="jugador">
-				                Jugador
-				            </label>
-				        </div>
-				        <div class="search-container">
-				            <input type="text" class="search-input" placeholder="Buscador" id="searchInput" disabled>
-				            <button class="search-btn" id="searchBtn" disabled>
-				                <i class="fa fa-search"></i>
-				            </button>
-				        </div>
-				    </div>
 	
 	                <hr>
 	                <div class="form-group">

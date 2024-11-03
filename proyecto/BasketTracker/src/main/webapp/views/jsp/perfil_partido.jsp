@@ -57,15 +57,15 @@
 		<div class="recuadro">
 		    <div class="navbar">
 		        <div class="navbar-item active">
-		        	<img src="https://img.icons8.com/?size=100&id=131&format=png&color=FFFFFF" alt="Jugadores">
+		        	<img src="https://img.icons8.com/?size=100&id=131&format=png&color=FFFFFF" alt="Buscar" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/inicio.jsp'">
 		            <span><b>Buscar</b></span>
 		        </div>
 		        <div class="navbar-item">
-		            <img src="https://img.icons8.com/?size=100&id=84925&format=png&color=000000" alt="Jugadores">
+		            <img src="https://img.icons8.com/?size=100&id=84925&format=png&color=000000" alt="Favoritos" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/favoritos.jsp'">
 		            <span>Favoritos</span>
 		        </div>
 		        <div class="navbar-item">
-		            <img src="https://img.icons8.com/?size=100&id=87193&format=png&color=000000" alt="Equipos">
+		            <img src="https://img.icons8.com/?size=100&id=87193&format=png&color=000000" alt="Mensajes" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/mensajes.jsp'">
 		            <span>Mensajes</span>
 		        </div>
 		    </div>	    

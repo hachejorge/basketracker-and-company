@@ -4,7 +4,7 @@
 </head>
 <div class="cabecera2-section">
     <div class="cabecera2-rect">
-        <img class="cabecera2-image" src="<%= request.getContextPath() %>/views/images/logo.png" alt="Logo">
+        <img class="cabecera2-image" src="<%= request.getContextPath() %>/views/images/logo.png" alt="Logo" onclick="window.location.href='<%= request.getContextPath() %>/views/jsp/inicio.jsp'">
         <form class="cabecera-search-form" action="#" method="GET">
             <input type="text" class="cabecera-search-input" placeholder="Buscar..." name="search" required>
         </form>
