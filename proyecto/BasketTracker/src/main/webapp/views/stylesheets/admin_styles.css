@@ -165,20 +165,23 @@ body {
 
 .suggestions {
     border: 1px solid #ccc;
-    max-height: 100px;
-    /*overflow-y: auto;*/
-    position: absolute;
+    max-height: 150px; /* Ajuste de altura para permitir más espacio */
+    overflow-y: auto; /* Activar scroll si hay muchas sugerencias */
     background-color: #fff;
-    /*width: 100%;*/
     z-index: 10;
+    width: 50%; /* Mismo ancho que el input */
+    border-radius: 5px;
 }
 
+/* Mantener el mismo tamaño de fuente y estilos */
 .suggestion-item {
     padding: 8px;
     cursor: pointer;
+    font-size: 14px; /* Ajustar si es necesario */
 }
 
 .suggestion-item:hover {
     background-color: #f0f0f0;
 }
+
 

@@ -71,7 +71,14 @@
 	                 <div class="form-group">
                     	<label for="competicion">Competición</label>
                     	<input type="text" id="competicion" name="competicion" placeholder="Buscar competición" autocomplete="off" oninput="buscarCompeticion(this.value)">
-                    	<div id="sugerencias" class="suggestions"></div> <!-- Contenedor para las sugerencias -->
+                    	<div id="sugerencias" class="suggestions"> <!-- Contenedor para las sugerencias -->
+                    		<!--div id="sugerencia1" class="suggestions">
+                    		</div>
+                    		<div id="sugerencia2" class="suggestions">
+                    		</div>
+                    		<div id="sugerencia3" class="suggestions">
+                    		</div-->
+                    	</div> 
                 	</div>
 	                <div class="form-group save-button">
 	                    <button type="submit">
@@ -140,23 +147,34 @@
             fetch('<%= request.getContextPath() %>/BuscarCompeticion?termino=' + encodeURIComponent(termino))
                 .then(response => response.json())
                 .then(data => {
-                    let sugerenciasHTML = "";
+                    var sugerenciasHTML = "";
+                    //let index = 1;
+                    const jeje = "hola"
                     data.forEach(competicion => {
                     	console.log(competicion.nombre)
-                    	const nombreCompeticion = competicion.nombre
-                    	console.log(nombreCompeticion)
-                        sugerenciasHTML += `<div class="suggestion-item" onclick="seleccionarCompeticion('${competicion.nombre}')">${competicion.nombre}</div>`;
-                        //sugerenciasHTML += '<div class="suggestion-item" onclick="seleccionarCompeticion(${nombreCompeticion})">${nombreCompeticion}</div>';
+                        if (competicion.nombre) {
+                            //document.getElementById("sugerencia"+index).innerHTML = sugerenciasHTML;
+                        	//sugerenciaAdd = $(`<div class="suggestion-item" onclick="seleccionarCompeticion('${competicion.nombre}')">${competicion.nombre}</div>`);
+                            //sugerenciasHTML += sugerenciaAdd;
+                        	//sugerenciasHTML += `<div class="suggestion-item" onclick="seleccionarCompeticion('${competicion.nombre}')">${competicion.nombre}</div>`;
+                        	//sugerenciasHTML += "<div class="suggestion-item" onclick="seleccionarCompeticion('${competicion.nombre}')">" + competicion.nombre + "</div>";
+                        	
+                        	sugerenciasHTML += "<div class=\"suggestion-item\" onclick=\"seleccionarCompeticion('${competicion.nombre}')\">" + competicion.nombre + "</div>";
 
+                        } else {
+        					console.error('Nombre de la competición es nulo o indefinido', competicion);
+    					}
+                    	//index++;
                     });
                     document.getElementById("sugerencias").innerHTML = sugerenciasHTML;
+                    //document.getElementById("sugerencias").innerHTML = "<h2>" + jeje + "<h2>";
                 })
                 .catch(error => console.error('Error:', error));
         }
 
         function seleccionarCompeticion(nombre) {
-            document.getElementById("competicion").value = nombre;
-            document.getElementById("sugerencias").innerHTML = "";
+			document.getElementById("competicion").value = nombre;
+			document.getElementById("sugerencias").innerHTML = "";
         }
         
     </script>
