@@ -297,4 +297,53 @@ public class JugadorDAO {
         return existe;
     }
 
+    public static List<JugadorVO> buscarJugadores(String searchTerm) throws SQLException {
+        List<JugadorVO> jugadores = new ArrayList<>();
+        String query = "SELECT * FROM sisinf_db.JUGADOR WHERE nombre_jugador ILIKE ? OR nombre_usuario ILIKE ?";
+        
+        try (Connection conn = PoolConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, "%" + searchTerm + "%");
+            stmt.setString(2, "%" + searchTerm + "%");
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String nombreUsuario = rs.getString("nombre_usuario");
+                String nombreJugador = rs.getString("nombre_jugador");
+                int equipo = rs.getInt("equipo");
+                jugadores.add(new JugadorVO(nombreUsuario, nombreJugador, equipo));
+            }
+        }
+        return jugadores;
+    }
+    
+    public static List<JugadorVO> buscarJugadoresPorNombre(String nombre) {
+        List<JugadorVO> jugadores = new ArrayList<>();
+        // Modificar la consulta para usar el campo correcto
+        String sql = "SELECT u.nombre_usuario, j.nombre_jugador, j.equipo FROM sisinf_db.JUGADOR j " +
+                     "JOIN sisinf_db.USUARIO u ON j.nombre_usuario = u.nombre_usuario " + // Cambiado de id_usuario a nombre_usuario
+                     "WHERE j.nombre_jugador ILIKE ?"; // Asegúrate de que las tablas y columnas existen y son correctas
+
+        try (Connection conn = PoolConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             
+            stmt.setString(1, "%" + nombre + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String nombreUsuario = rs.getString("nombre_usuario");
+                String nombreJugador = rs.getString("nombre_jugador");
+                int equipo = rs.getInt("equipo"); // Asegúrate que este campo existe y es del tipo correcto
+                
+                // Crear un nuevo objeto JugadorVO y agregarlo a la lista
+                jugadores.add(new JugadorVO(nombreUsuario, nombreJugador, equipo));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Manejo de errores
+        }
+
+        return jugadores; // Asegúrate de devolver la lista de jugadores
+    }
+
+
 }

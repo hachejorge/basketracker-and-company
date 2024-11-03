@@ -4,6 +4,7 @@ import clasesVO.CompeticionVO;
 import utils.PoolConnectionManager;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -201,4 +202,44 @@ public class CompeticionDAO {
             PoolConnectionManager.releaseConnection(conn);
         }
     }
+
+    public static List<CompeticionVO> buscarCompeticiones(String searchTerm) throws SQLException {
+        List<CompeticionVO> competiciones = new ArrayList<>();
+        String query = "SELECT * FROM sisinf_db.COMPETICION WHERE nombre ILIKE ?";
+        
+        try (Connection conn = PoolConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, "%" + searchTerm + "%");
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String nombre = rs.getString("nombre");
+                competiciones.add(new CompeticionVO(nombre));
+            }
+        }
+        return competiciones;
+    }
+    
+    public static List<CompeticionVO> buscarCompeticionesPorNombre(String nombre) {
+        List<CompeticionVO> competiciones = new ArrayList<>();
+        String sql = "SELECT nombre FROM sisinf_db.COMPETICION WHERE nombre ILIKE ?";
+
+        try (Connection conn = PoolConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             
+            stmt.setString(1, "%" + nombre + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String nombreCompeticion = rs.getString("nombre");
+                // Crear un nuevo objeto CompeticionVO y agregarlo a la lista
+                competiciones.add(new CompeticionVO(nombreCompeticion));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Manejo de errores
+        }
+
+        return competiciones;
+    }
+
 }

@@ -35,7 +35,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/views/stylesheets/stylesheet.css">
-    <title>Inicio | Basketracker</title>
+    <title>Favoritos | Basketracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -360,7 +360,7 @@ function guardarPartido(idPartido) {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 // Redirigir a la página del perfil del partido
-                window.location.href = "<%= request.getContextPath() %>/views/jsp/partido.jsp";
+                window.location.href = "<%= request.getContextPath() %>/views/jsp/perfil_partido.jsp";
             } else {
                 alert("Error al guardar el partido.");
             }

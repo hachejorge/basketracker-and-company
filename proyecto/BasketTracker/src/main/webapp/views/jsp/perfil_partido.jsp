@@ -48,7 +48,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/views/stylesheets/stylesheet.css">
-    <title>Equipo | Basketracker</title>
+    <title><%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoLocal()).getNombreEquipo() %> VS <%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoVisitante()).getNombreEquipo() %> | Basketracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <div class="thecontainer">
@@ -56,16 +56,16 @@
 	<div class="container-partido">
 		<div class="recuadro">
 		    <div class="navbar">
-		        <div class="navbar-item active">
-		        	<img src="https://img.icons8.com/?size=100&id=131&format=png&color=FFFFFF" alt="Buscar" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/inicio.jsp'">
+		        <div class="navbar-item active" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/inicio.jsp'">
+		        	<img src="https://img.icons8.com/?size=100&id=131&format=png&color=FFFFFF" alt="Buscar">
 		            <span><b>Buscar</b></span>
 		        </div>
-		        <div class="navbar-item">
-		            <img src="https://img.icons8.com/?size=100&id=84925&format=png&color=000000" alt="Favoritos" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/favoritos.jsp'">
+		        <div class="navbar-item" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/favoritos.jsp'">
+		            <img src="https://img.icons8.com/?size=100&id=84925&format=png&color=000000" alt="Favoritos">
 		            <span>Favoritos</span>
 		        </div>
-		        <div class="navbar-item">
-		            <img src="https://img.icons8.com/?size=100&id=87193&format=png&color=000000" alt="Mensajes" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/mensajes.jsp'">
+		        <div class="navbar-item" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/mensajes.jsp'">
+		            <img src="https://img.icons8.com/?size=100&id=87193&format=png&color=000000" alt="Mensajes">
 		            <span>Mensajes</span>
 		        </div>
 		    </div>	    
@@ -74,10 +74,10 @@
 			<div class="partidoselec-datos">
 		        <div class="partidoselec-header">
 		        	<div class="partidoselec-header-score">
-			       		<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture">
+			       		<img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture" onclick="verMasEquipo('<%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoLocal()).getIdEquipo() %>')">
 			        	<div class="partidoselec-score-home"><%= partidoVO.getPtsC1Local() + partidoVO.getPtsC2Local() + partidoVO.getPtsC3Local() + partidoVO.getPtsC4Local()%></div>
 			            <div class="partidoselec-score-away"><%= partidoVO.getPtsC1Visit() + partidoVO.getPtsC2Visit() + partidoVO.getPtsC3Visit() + partidoVO.getPtsC4Visit()%></div>
-			            <img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture">
+			            <img src="https://img.icons8.com/?size=100&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture" onclick="verMasEquipo('<%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoVisitante()).getIdEquipo() %>')">
 		            </div>
 		            <div class="partidoselec-teams">
 		                <div class="partidoselec-date"><%= partidoVO.formatFecha() %></div>
@@ -233,8 +233,8 @@
 			<div class="partidoselec-datos-prox">
 		        <div class="partidoselec-header">
 		        	<div class="partidoselec-header-score-prox">
-			       		<img src="https://img.icons8.com/?size=200&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture">
-			            <img src="https://img.icons8.com/?size=200&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture">
+			       		<img src="https://img.icons8.com/?size=200&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture" onclick="verMasEquipo('<%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoLocal()).getIdEquipo() %>')">
+			            <img src="https://img.icons8.com/?size=200&id=t7crGJINSAvv&format=png&color=000000" alt="Profile picture" onclick="verMasEquipo('<%= EquipoDAO.obtenerEquipoPorId(partidoVO.getEquipoVisitante()).getIdEquipo() %>')">
 		            </div>
 		            <div class="partidoselec-teams">
 		                <div class="partidoselec-date"><%= partidoVO.formatFecha() %></div>
@@ -253,3 +253,22 @@
 	</div>
 	<%@ include file="footer.jsp" %>
 </div>
+
+<script>
+function verMasEquipo(idEquipo) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "<%= request.getContextPath() %>/GuardarEquipoServlet", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Redirigir a la página del perfil del equipo
+                window.location.href = "<%= request.getContextPath() %>/views/jsp/perfil_equipo.jsp";
+            } else {
+                alert("Error al guardar el equipo.");
+            }
+        }
+    };
+    xhr.send("idEquipo=" + encodeURIComponent(idEquipo));
+}
+</script>

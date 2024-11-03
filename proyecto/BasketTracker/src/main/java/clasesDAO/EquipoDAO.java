@@ -4,6 +4,7 @@ import clasesVO.*;
 import utils.PoolConnectionManager;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -250,5 +251,53 @@ public class EquipoDAO {
 
         return equipos;
     }
+    
+    public static List<EquipoVO> buscarEquipos(String searchTerm) throws SQLException {
+        List<EquipoVO> equipos = new ArrayList<>();
+        String query = "SELECT * FROM sisinf_db.EQUIPO WHERE nombre_equipo ILIKE ?";
+        
+        try (Connection conn = PoolConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, "%" + searchTerm + "%");
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int idEquipo = rs.getInt("id_equipo");
+                String nombreEquipo = rs.getString("nombre_equipo");
+                String ubicacion = rs.getString("ubicacion");
+                String competicion = rs.getString("competicion");
+                equipos.add(new EquipoVO(idEquipo, nombreEquipo, ubicacion, competicion));
+            }
+        }
+        return equipos;
+    }
+    
+    // Método para buscar equipos por nombre
+    public static List<EquipoVO> buscarEquiposPorNombre(String nombre) {
+        List<EquipoVO> equipos = new ArrayList<>();
+        String sql = "SELECT id_equipo, nombre_equipo, ubicacion, competicion FROM sisinf_db.EQUIPO WHERE nombre_equipo ILIKE ?";
+
+        try (Connection conn = PoolConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             
+            stmt.setString(1, "%" + nombre + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int idEquipo = rs.getInt("id_equipo");
+                String nombreEquipo = rs.getString("nombre_equipo");
+                String ubicacion = rs.getString("ubicacion");
+                String competicion = rs.getString("competicion");
+                
+                // Crear un nuevo objeto EquipoVO y agregarlo a la lista
+                equipos.add(new EquipoVO(idEquipo, nombreEquipo, ubicacion, competicion));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Manejo de errores
+        }
+
+        return equipos;
+    }
+
 
 }

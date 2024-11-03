@@ -446,6 +446,8 @@ body {
     margin-left: 20px; /* Espacio entre el logo y la barra de búsqueda */
     flex-grow: 1; /* Permite que la barra de búsqueda crezca */
     padding-top: 11px;
+    flex-direction: column;
+    position: relative;
 }
 
 .search-icon-wrapper {
@@ -468,7 +470,7 @@ body {
     flex-grow: 1; /* Hace que el input ocupe el espacio restante */
     font-size: 16px; /* Aumentar el tamaño de la fuente para mejorar la legibilidad */
     margin-left: 10px; /* Espacio entre el icono y el input */
-    width: auto;
+    width: 100%;
 }
 
 .user-account {
@@ -1060,6 +1062,12 @@ h1 {
     top: -5px; /* Ajusta la posición vertical del círculo */
 }
 
+.container-jugador {
+	width: 100vw;
+	height: auto;
+	background-color: #FFFFFF;
+}
+
 .profile-header {
     width: 100%;
     margin: auto;
@@ -1514,7 +1522,7 @@ h1 {
 
 .container-favorito {
 	width: 100vw;
-	height: calc(100vh - 180px);
+	height: calc(100vh - 140px);
 	background-color: #FFFFFF;
 }
 
@@ -2487,3 +2495,141 @@ h1 {
     display: none;
 }
 
+.dropdown-menu {
+  display: none; /* Oculto por defecto */
+  position: absolute;
+  right: 20px;
+  top: 130px; /* Ajusta la posición vertical */
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 4px 8px var(--color-admin);
+  border-radius: 4px;
+  z-index: 100;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f0f0f0;
+}
+
+
+.proximos-partidos-usuario{
+	width: 600px;
+	height: auto;
+	border-right: 1px solid #000;
+}
+
+.profile-picture-usuario  {
+	position: relative;
+    width: 140px;
+    height: 140px;
+    margin-right: 20px;
+    border-radius: 50%;
+    background-color: white;
+    bottom: 40px;
+}
+
+.profile-picture-usuario img {
+	position: relative;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background-color: white;
+    bottom: 40px;
+}
+
+.profile-details-usuario {
+	width: calc(100% / 2 - 50px);
+	height: 100%;
+}
+
+.datos-jugador-usuario {
+	width: calc(100vw - 900px);
+	height: auto;
+}
+
+.usuario-titulo {
+	font-weight: bold;
+	padding-left: 20px;
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+
+.usuario-jugadores-fav {
+	width: 100%;
+	display: grid;
+	height: auto;
+	grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+	gap: 15px;
+	margin: 20px;
+	padding-right: 20px;
+}
+
+.jugador-card-usuario {
+    display: flex;
+    width: 190px;
+    height: 142px;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #000;
+    justify-content: center;
+}
+
+.jugador-card-usuario img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 5px;
+}
+
+.jugador-card-usuario p {
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 0;
+}
+
+#searchResultsContainer {
+    position: absolute;
+    top: 60px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 300px;
+    z-index: 100;
+    padding: 10px;
+}
+
+.search-result-item {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.search-result-item:hover {
+    background-color: #f0f0f0;
+}
+
+.suggestion {
+	background-color: white;
+	border: 1px solid black;
+	padding: 5px;
+}
+
+.suggestions-box {
+    position: absolute;
+    top: 100%; /* Justo debajo del campo de búsqueda */
+    left: 0;
+    width: 100%; /* Ancho igual al del campo de búsqueda */
+    background-color: white;
+    border: 1px solid #ddd;
+    max-height: 200px; /* Altura máxima para el scroll */
+    overflow-y: auto;
+    z-index: 1000; /* Asegura que quede por encima de otros elementos */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para mejorar visibilidad */
+}

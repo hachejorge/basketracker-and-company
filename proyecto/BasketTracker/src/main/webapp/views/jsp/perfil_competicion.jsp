@@ -28,7 +28,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/views/stylesheets/stylesheet.css">
-    <title>Equipo | Basketracker</title>
+    <title><%=competicionVO.getNombre() %> | Basketracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -37,16 +37,16 @@
 	<div class="container-perfil-equipo">
 		<div class="recuadro">
 		    <div class="navbar">
-		        <div class="navbar-item active">
-		        	<img src="https://img.icons8.com/?size=100&id=131&format=png&color=FFFFFF" alt="Buscar" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/inicio.jsp'">
+		        <div class="navbar-item active" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/inicio.jsp'">
+		        	<img src="https://img.icons8.com/?size=100&id=131&format=png&color=FFFFFF" alt="Buscar">
 		            <span><b>Buscar</b></span>
 		        </div>
-		        <div class="navbar-item">
-		            <img src="https://img.icons8.com/?size=100&id=84925&format=png&color=000000" alt="Favoritos" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/favoritos.jsp'">
+		        <div class="navbar-item" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/favoritos.jsp'">
+		            <img src="https://img.icons8.com/?size=100&id=84925&format=png&color=000000" alt="Favoritos">
 		            <span>Favoritos</span>
 		        </div>
-		        <div class="navbar-item">
-		            <img src="https://img.icons8.com/?size=100&id=87193&format=png&color=000000" alt="Mensajes" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/mensajes.jsp'">
+		        <div class="navbar-item" onClick="window.location.href='<%= request.getContextPath() %>/views/jsp/mensajes.jsp'">
+		            <img src="https://img.icons8.com/?size=100&id=87193&format=png&color=000000" alt="Mensajes">
 		            <span>Mensajes</span>
 		        </div>
 		    </div>	    
@@ -66,7 +66,7 @@
 				            			EquipoVO equipolocal = EquipoDAO.obtenerEquipoPorId(partido.getEquipoLocal());
 
 			            %>
-			            <div class="partido-card">
+			            <div class="partido-card" onclick="guardarPartido('<%= partido.getIdPartido() %>')">
 					        <div class="partido-fecha">
 					            <span><%= partido.formatFecha() %></span> <!-- Muestra la fecha del partido -->
 					        </div>
@@ -499,6 +499,23 @@ function verMasPartido(idPartido) {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 // Redirigir a la página del perfil del equipo
+                window.location.href = "<%= request.getContextPath() %>/views/jsp/perfil_partido.jsp";
+            } else {
+                alert("Error al guardar el partido.");
+            }
+        }
+    };
+    xhr.send("idPartido=" + encodeURIComponent(idPartido));
+}
+
+function guardarPartido(idPartido) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "<%= request.getContextPath() %>/GuardarPartidoServlet", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                // Redirigir a la página del perfil del partido
                 window.location.href = "<%= request.getContextPath() %>/views/jsp/perfil_partido.jsp";
             } else {
                 alert("Error al guardar el partido.");
