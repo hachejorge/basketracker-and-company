@@ -66,18 +66,12 @@
 	                </div>
 	                <div class="form-group">
 	                    <label for="equipo">Ubicación de los partidos </label>
-						<input type="text" id="nomTeam" name="ubicacion" placeholder="Dirección" required>
+						<input type="text" id="ubicacion" name="ubicacion" placeholder="Dirección" required>
 	                </div>
 	                 <div class="form-group">
                     	<label for="competicion">Competición</label>
-                    	<input type="text" id="competicion" name="competicion" placeholder="Buscar competición" autocomplete="off" oninput="buscarCompeticion(this.value)">
+                    	<input type="text" id="competicionEquipo" name="competicionEquipo" placeholder="Buscar competición" autocomplete="off" oninput="buscarCompeticion(this.value)">
                     	<div id="sugerencias" class="suggestions"> <!-- Contenedor para las sugerencias -->
-                    		<!--div id="sugerencia1" class="suggestions">
-                    		</div>
-                    		<div id="sugerencia2" class="suggestions">
-                    		</div>
-                    		<div id="sugerencia3" class="suggestions">
-                    		</div-->
                     	</div> 
                 	</div>
 	                <div class="form-group save-button">
@@ -88,15 +82,48 @@
 	                </div>
 	            </form>
 	        </div>
-          </div>
+          	</div>
           </div>
 		  <div id="homeSection" class="content-section active">
 			<h2>Inicio</h2>
 			<p>Contenido de la página principal...</p>
           </div>
 		  <div id="addPlayerSection" class="content-section">
-            <h2>Añadir Jugador</h2>
-            <p>Contenido para añadir un jugador...</p>
+            <div class="container">
+          	<div class="form-section">
+				
+				<h2>Añadir Jugador  <i id="infoButton" class="fa fa-info-circle" onclick="toggleInfoPanel(event)"></i></h2>
+				
+				
+				<!-- Panel de información -->
+				<div id="infoPanel" class="info-panel">
+				    Al crear un jugador, también se añade un usuario nuevo asociado a este jugador. Su nombre de usuario se compone de su nombre de jugador sin espacios junto con un número aleatorio entre el 1 y el 99.
+				</div>
+
+				<form action="<%= request.getContextPath() %>/AddPlayer" method="post">
+	                <div class="form-group">
+	                    <label for="jugador">Nombre del jugador</label>
+						<input type="text" id="nomPlayer" name="nomPlayer" placeholder="Jugador" required>
+	                </div>
+	                 <div class="form-group">
+                    	<label for="equipoJugador">Equipo</label>
+                    	<input type="text" id="equipoJugador" name="equipoJugador" placeholder="Buscar equipo" autocomplete="off" oninput="buscarEquipo(this.value)">
+                    	<div id="sugerenciasEquipo" class="suggestions"> <!-- Contenedor para las sugerencias -->
+                    	</div> 
+                	</div>
+                	<div class="form-group" hidden="true">
+                		<label for="idEquipoJugador">Id equipo</label>
+                		<input type="number" id="idEquipoJugador" name="idEquipoJugador">
+                	</div>
+	                <div class="form-group save-button">
+	                    <button type="submit">
+	                    	<i class="fa fa-save"></i>
+	                    	Guardar Jugador
+	                    </button>
+	                </div>
+	            </form>
+	        </div>
+          	</div>
 		  </div>
 		  <div id="addMatchSection" class="content-section">
 			<h2>Añadir Partido</h2>
@@ -148,34 +175,73 @@
                 .then(response => response.json())
                 .then(data => {
                     var sugerenciasHTML = "";
-                    //let index = 1;
-                    const jeje = "hola"
                     data.forEach(competicion => {
-                    	console.log(competicion.nombre)
                         if (competicion.nombre) {
-                            //document.getElementById("sugerencia"+index).innerHTML = sugerenciasHTML;
-                        	//sugerenciaAdd = $(`<div class="suggestion-item" onclick="seleccionarCompeticion('${competicion.nombre}')">${competicion.nombre}</div>`);
-                            //sugerenciasHTML += sugerenciaAdd;
-                        	//sugerenciasHTML += `<div class="suggestion-item" onclick="seleccionarCompeticion('${competicion.nombre}')">${competicion.nombre}</div>`;
-                        	//sugerenciasHTML += "<div class="suggestion-item" onclick="seleccionarCompeticion('${competicion.nombre}')">" + competicion.nombre + "</div>";
-                        	
-                        	sugerenciasHTML += "<div class=\"suggestion-item\" onclick=\"seleccionarCompeticion('${competicion.nombre}')\">" + competicion.nombre + "</div>";
+                        	sugerenciasHTML += "<div class=\"suggestion-item\" onclick=\"seleccionarCompeticion('" + competicion.nombre + "')\">" + competicion.nombre + "</div>";
 
                         } else {
         					console.error('Nombre de la competición es nulo o indefinido', competicion);
     					}
-                    	//index++;
                     });
                     document.getElementById("sugerencias").innerHTML = sugerenciasHTML;
-                    //document.getElementById("sugerencias").innerHTML = "<h2>" + jeje + "<h2>";
                 })
                 .catch(error => console.error('Error:', error));
         }
 
         function seleccionarCompeticion(nombre) {
-			document.getElementById("competicion").value = nombre;
+			document.getElementById("competicionEquipo").value = nombre;
 			document.getElementById("sugerencias").innerHTML = "";
         }
+        
+        function buscarEquipo(termino) {
+            if (termino.length === 0) {
+                document.getElementById("sugerenciasEquipo").innerHTML = "";
+                return;
+            }
+
+            // Llamada AJAX para obtener sugerencias
+            fetch('<%= request.getContextPath() %>/BuscarEquipo?termino=' + encodeURIComponent(termino))
+                .then(response => response.json())
+                .then(data => {
+                    var sugerenciasHTML = "";
+                    //console.log(equipo)
+                    data.forEach(equipo => {
+                    	
+                        if (equipo.nombreEquipo) {
+                        	sugerenciasHTML += "<div class=\"suggestion-item\" onclick=\"seleccionarEquipo('" + equipo.nombreEquipo + "', '"  + equipo.idEquipo + "')\">" 
+                        							+ equipo.nombreEquipo + 
+                        							"<div class=\"suggestion-desc\">" +
+                        								equipo.competicion + 
+                        							"</div>" +
+                        					   "</div>";
+
+                        } else {
+        					console.error('Nombre de la competición es nulo o indefinido', equipo);
+    					}
+                    });
+                    document.getElementById("sugerenciasEquipo").innerHTML = sugerenciasHTML;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        
+        function seleccionarEquipo(nombre, id) {
+			document.getElementById("equipoJugador").value = nombre;
+			document.getElementById("sugerenciasEquipo").innerHTML = "";
+			document.getElementById("idEquipoJugador").value = id;
+        }
+        
+        function toggleInfoPanel(event) {
+            event.stopPropagation();
+
+            var infoPanel = document.getElementById("infoPanel");
+            if (infoPanel.classList.contains("open")) {
+                infoPanel.classList.remove("open"); // Oculta el panel con la animación
+            } else {
+                infoPanel.classList.add("open"); // Muestra el panel con la animación
+            }
+        }
+
+
         
     </script>
 	

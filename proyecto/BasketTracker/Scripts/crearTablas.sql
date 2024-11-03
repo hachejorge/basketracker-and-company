@@ -1,8 +1,8 @@
 -- Crear la tabla USUARIO
 CREATE TABLE sisinf_db.USUARIO (
     nombre_usuario TEXT PRIMARY KEY,
-    correo_elec TEXT NOT NULL,
-    password TEXT NOT NULL
+    correo_elec TEXT,
+    password TEXT
 );
 
 -- Crear la tabla COMPETICION
@@ -12,11 +12,12 @@ CREATE TABLE sisinf_db.COMPETICION (
 
 -- Crear la tabla EQUIPO
 CREATE TABLE sisinf_db.EQUIPO (
-    id_equipo INTEGER PRIMARY KEY,
+    id_equipo SERIAL PRIMARY KEY,  -- SERIAL genera automáticamente una secuencia y un valor único
     nombre_equipo text NOT NULL,
     ubicacion TEXT,
     competicion TEXT REFERENCES sisinf_db.COMPETICION(nombre) ON DELETE CASCADE
 );
+
 
 -- Crear la tabla JUGADOR
 CREATE TABLE sisinf_db.JUGADOR (

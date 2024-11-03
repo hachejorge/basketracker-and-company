@@ -24,16 +24,16 @@ VALUES
     ('Torneo de Primavera');                       -- Nueva competición
 
 -- Crear equipos
-INSERT INTO sisinf_db.EQUIPO (id_equipo, nombre_equipo, ubicacion, competicion)
+INSERT INTO sisinf_db.EQUIPO (nombre_equipo, ubicacion, competicion)
 VALUES 
-    (1, 'Boscos', 'Zaragoza', '2a Aragonesa Femenina'),
-    (2, 'Cristo Rey', 'Zaragoza', 'Social Plata'),
-    (3, 'Black Lions', 'Zaragoza', '2a Aragonesa Femenina'),
-    (4, 'Valencia Flames', 'Valencia', 'Copa Aragonesa Femenina'),
-    (5, 'Madrid Titans', 'Madrid', 'Liga Nacional Masculina'),
-    (6, 'Barcelona Warriors', 'Barcelona', 'Torneo de Primavera'),  -- Nuevo equipo
-    (7, 'Sevilla Sharks', 'Sevilla', 'Liga Nacional Masculina'),      -- Nuevo equipo
-    (8, 'Bilbao Giants', 'Bilbao', 'Copa Aragonesa Femenina');       -- Nuevo equipo
+    ('Boscos', 'Zaragoza', '2a Aragonesa Femenina'),
+    ('Cristo Rey', 'Zaragoza', 'Social Plata'),
+    ('Black Lions', 'Zaragoza', '2a Aragonesa Femenina'),
+    ('Valencia Flames', 'Valencia', 'Copa Aragonesa Femenina'),
+    ('Madrid Titans', 'Madrid', 'Liga Nacional Masculina'),
+    ('Barcelona Warriors', 'Barcelona', 'Torneo de Primavera'),
+    ('Sevilla Sharks', 'Sevilla', 'Liga Nacional Masculina'),
+    ('Bilbao Giants', 'Bilbao', 'Copa Aragonesa Femenina');
 
 -- Crear jugadores
 INSERT INTO sisinf_db.JUGADOR (nombre_usuario, nombre_jugador, equipo)
