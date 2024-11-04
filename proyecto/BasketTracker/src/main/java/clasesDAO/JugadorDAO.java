@@ -131,7 +131,7 @@ public class JugadorDAO {
     }
 
     // Método para actualizar un jugador
-    public void actualizarJugador(JugadorVO jugador) {
+    public static void actualizarJugador(JugadorVO jugador) {
         Connection conn = null;
         PreparedStatement psCheck = null;
         PreparedStatement psUpdate = null;
@@ -336,6 +336,51 @@ public class JugadorDAO {
         }
         return existe;
     }
+    
+    public static List<JugadorVO> buscarJugadores(String searchTerm) throws SQLException {
+        List<JugadorVO> jugadores = new ArrayList<>();
+        String query = "SELECT * FROM sisinf_db.jugador WHERE nombre_usuario ILIKE ? OR nombre_jugador ILIKE ?";
 
+        try (Connection conn = PoolConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+             
+            stmt.setString(1, "%" + searchTerm + "%");
+            stmt.setString(2, "%" + searchTerm + "%");
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String nombreUsuario = rs.getString("nombre_usuario");
+                String nombreJugador = rs.getString("nombre_jugador");
+                int equipo = rs.getInt("equipo");
+
+                jugadores.add(new JugadorVO(nombreUsuario, nombreJugador, equipo));
+            }
+        }
+        return jugadores;
+    }
+
+    // Método para buscar jugadores específicamente por nombre del jugador
+    public static List<JugadorVO> buscarJugadoresPorNombre(String nombreJugador) {
+        List<JugadorVO> jugadores = new ArrayList<>();
+        String sql = "SELECT * FROM sisinf_db.jugador WHERE nombre_jugador ILIKE ?";
+
+        try (Connection conn = PoolConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             
+            stmt.setString(1, "%" + nombreJugador + "%");
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String nombreUsuario = rs.getString("nombre_usuario");
+                String nombreJugadorDb = rs.getString("nombre_jugador");
+                int equipo = rs.getInt("equipo");
+
+                jugadores.add(new JugadorVO(nombreUsuario, nombreJugadorDb, equipo));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return jugadores;
+    }
     
 }

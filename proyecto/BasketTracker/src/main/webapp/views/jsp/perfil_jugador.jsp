@@ -19,6 +19,8 @@
     	response.sendRedirect(request.getContextPath() + "/views/jsp/favoritos.jsp");
         return;
     }
+    
+    boolean esFavorito = JugadorDAO.existeJugador(usuario.getNombreUsuario());
 %>
 
 <!DOCTYPE html>
@@ -86,6 +88,7 @@
 		        <div class="profile-header">
 			        <div class="banner">
 			            <img src="<%= request.getContextPath() %>/views/images/banner.png" alt="Banner Image">
+			            <button class="editar-perfil-btn <%= esFavorito ? "active" : "" %>"  onclick="window.location.href='<%= request.getContextPath() %>/views/jsp/editar_perfil.jsp'" >Editar Perfil</button> 
 			        </div>
 			        <div class="profile-content">
 			            <div class="profile-details">

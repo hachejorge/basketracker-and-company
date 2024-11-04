@@ -121,7 +121,7 @@ public class UsuarioDAO {
     }
     
     // Método para actualizar la información de un usuario
-    public void actualizarUsuario(UsuarioVO usuario) {
+    public static void actualizarUsuario(UsuarioVO usuario) {
         Connection conn = null;
         PreparedStatement psCheck = null;
         PreparedStatement psUpdate = null;
@@ -142,7 +142,7 @@ public class UsuarioDAO {
                 psUpdate = conn.prepareStatement(updateQuery);
                 psUpdate.setString(1, usuario.getCorreoElect());
                 psUpdate.setString(2, usuario.getPassword());
-                psUpdate.setString(3, usuario.getNombreUsuario());
+                psUpdate.setString(3, usuario.getNombreUsuario()); // Usar el nombre de usuario existente
                 psUpdate.executeUpdate();
                 System.out.println("Usuario actualizado correctamente.");
             } else {
@@ -152,7 +152,9 @@ public class UsuarioDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException("Error actualizando el usuario en la base de datos", e);
         } finally {
+            // Cerrar recursos en el bloque finally
             if (rs != null) {
                 try {
                     rs.close();
@@ -177,11 +179,12 @@ public class UsuarioDAO {
             PoolConnectionManager.releaseConnection(conn);
         }
     }
+
    
 
 
     // Método para eliminar un usuario por su nombre de usuario
-    public void eliminarUsuario(String nombreUsuario) {
+    public static void eliminarUsuario(String nombreUsuario) {
         Connection conn = null;
         PreparedStatement ps = null;
         

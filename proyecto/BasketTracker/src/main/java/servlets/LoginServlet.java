@@ -58,7 +58,7 @@ public class LoginServlet extends HttpServlet {
 			      response.getWriter().write("<script>alert('Usuario o contraseña incorrectos');window.location.href = '" + request.getContextPath() + "/views/jsp/login.jsp';</script>");
 			  }
 			} else {
-			  response.getWriter().write("alert('Nombre de usuario o contraseña no pueden estar vacíos'); <script>window.location.href = '" + request.getContextPath() + "/views/jsp/login.jsp';</script>");
+			  response.getWriter().write("<script>alert('Nombre de usuario o contraseña no pueden estar vacíos');window.location.href = '" + request.getContextPath() + "/views/jsp/login.jsp';</script>");
 			}
 		} catch (Exception e) { 
 			e.printStackTrace();

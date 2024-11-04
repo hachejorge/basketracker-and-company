@@ -2640,3 +2640,138 @@ h1 {
     z-index: 1000; /* Asegura que quede por encima de otros elementos */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para mejorar visibilidad */
 }
+
+.banner {
+	display: flex;
+	justify-content: end;
+	align-items: flex-end;
+}
+
+.editar-perfil-btn {
+	display: flex;
+	position: absolute;
+	align-items: center;
+    padding: 10px 20px;
+    background-color: var(--color-admin);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    height: 30px;
+  	margin: 10px;
+  	font-weight: bold;
+}
+
+.container-editar {
+	width: 100vw;
+	min-height: calc(100vh - 278px);
+	background-color: #FFFFFF;
+	padding-left: 300px;
+	padding-right: 300px;
+	display: flex;
+	align-items: center;
+}
+
+.editar-titulo {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 30px;
+    color: black;
+}
+
+.editar-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.editar-campo {
+    margin-bottom: 15px;
+}
+
+.editar-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 18px;
+    color: black;
+    
+}
+
+.editar-input, .editar-textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+}
+
+.editar-textarea {
+    resize: vertical;
+    height: 60px;
+}
+
+.editar-separador {
+    margin: 20px 0;
+    border: 0.5px solid #ddd;
+}
+
+.editar-cambio-equipo {
+    display: flex;
+    align-items: center;
+}
+
+.editar-btn-enviar {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin-left: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.editar-btn-enviar:hover {
+    background-color: car(--color-secondary);
+}
+
+.editar-botones {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.editar-btn {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.eliminar-cuenta {
+    background-color: #ff0006;
+    color: white;
+}
+
+.eliminar-cuenta:hover {
+    background-color: #dc140a;
+}
+
+.guardar-cambios {
+    background-color: var(--color-admin);
+    color: white;
+}
+
+.guardar-cambios:hover {
+    background-color: #006591;
+}
+
+.editar-icono {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
