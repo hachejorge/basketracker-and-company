@@ -208,4 +208,54 @@ public class UsuarioDAO {
             PoolConnectionManager.releaseConnection(conn);
         }
     }
+    
+    public static UsuarioVO obtenerUsuarioPorCorreo(String correo) {
+        UsuarioVO usuario = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            
+            // Consulta SQL para buscar un usuario por correo electrónico
+            String query = "SELECT * FROM sisinf_db.usuario WHERE correo_elec = ?";
+            
+            ps = conn.prepareStatement(query);
+            ps.setString(1, correo);
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                // Si se encuentra el usuario, extraer los datos
+                String nombreUsuario = rs.getString("nombre_usuario");
+                String correoElec = rs.getString("correo_elec");
+                String password = rs.getString("password");
+                
+                // Crear el objeto UsuarioVO con los datos obtenidos
+                usuario = new UsuarioVO(nombreUsuario, correoElec, password);
+            } 
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar los recursos en el bloque finally
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
+        }
+        
+        return usuario;
+    }
 }

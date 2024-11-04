@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS sisinf_db.PARTIDO;
 DROP TABLE IF EXISTS sisinf_db.JUGADOR;
 DROP TABLE IF EXISTS sisinf_db.EQUIPO;
 DROP TABLE IF EXISTS sisinf_db.COMPETICION;
+DROP TABLE IF EXISTS sisinf_db.tokens_restablecimiento;
 
 -- Finalmente, eliminar las tablas independientes
 DROP TABLE IF EXISTS sisinf_db.USUARIO;

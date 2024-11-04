@@ -95,3 +95,12 @@ CREATE TABLE sisinf_db.MENSAJE (
     hora TIME,
     fecha DATE
 );
+
+CREATE TABLE sisinf_db.tokens_restablecimiento (
+    nombre_usuario VARCHAR(255) NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    fecha_expiracion TIMESTAMP DEFAULT NULL,
+    PRIMARY KEY (nombre_usuario),
+    FOREIGN KEY (nombre_usuario) REFERENCES sisinf_db.usuario(nombre_usuario)
+);
+

@@ -19,8 +19,6 @@ import com.google.gson.Gson;
 public class BuscarEquipoServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private EquipoDAO equipoDAO = new EquipoDAO();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String termino = request.getParameter("termino");
@@ -30,7 +28,7 @@ public class BuscarEquipoServlet extends HttpServlet {
 
         try {
             // Obtener las competiciones similares al término de búsqueda
-            List<EquipoVO> equipos = equipoDAO.buscarEquipos(termino, 3);
+            List<EquipoVO> equipos = EquipoDAO.buscarEquipos(termino);
             
             /*for(int i = 0; i < equipos.size(); i++) {
             	System.out.println(equipos.get(i).getIdEquipo());
