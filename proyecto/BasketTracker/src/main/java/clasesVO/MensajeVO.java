@@ -3,6 +3,11 @@ package clasesVO;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -78,6 +83,22 @@ public class MensajeVO {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm"); // Formato 24 horas
         return sdf.format(this.hora);
     }
+
+
+    public boolean esEliminable() {
+        // Convertir `fecha` a `LocalDate` y `hora` a `LocalTime`
+        LocalDate localDate = fecha.toLocalDate();
+        LocalTime localTime = hora.toLocalTime();
+
+        // Combinar `LocalDate` y `LocalTime` en `LocalDateTime`
+        LocalDateTime fechaHoraEnvio = LocalDateTime.of(localDate, localTime);
+
+        // Calcula la diferencia en minutos entre la hora de envío y la hora actual
+        Duration duracion = Duration.between(fechaHoraEnvio, LocalDateTime.now());
+        return duracion.toMinutes() <= 15;
+    }
+
+
 
     @Override
     public String toString() {

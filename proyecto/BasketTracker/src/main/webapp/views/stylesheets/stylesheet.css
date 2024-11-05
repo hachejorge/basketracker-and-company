@@ -11,6 +11,7 @@ body {
     padding: 0;
     display: flex;
     background-color: #f0f0f0; /* Color de fondo */
+}
 
 /* Cabecera */
 .cabecera-section {

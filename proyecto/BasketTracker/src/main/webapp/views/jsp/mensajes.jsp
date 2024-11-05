@@ -95,13 +95,15 @@
 								for (MensajeVO mensaje : mensajes) {
 							%>
 							<div class="mensaje-borrar-mensaje">
-								<form action="<%= request.getContextPath() %>/EliminarMensajeServlet" method="post" style="display:inline;">
+								<form action="<%= request.getContextPath() %>/EliminarMensajeServlet" method="post" style="display:inline;" onsubmit="return confirmarEliminacion();">
 	                				<input type="hidden" name="nombreUsuario" value="<%= mensaje.getNombreUsuario() %>"> <!-- Enviar nombre de usuario -->
 					                <input type="hidden" name="idMensaje" value="<%= mensaje.getIdMensaje() %>"> <!-- Enviar ID del partido -->
 					                <input type="hidden" name="mensaje" value="<%= mensaje.getMensaje() %>"> <!-- Enviar texto del comentario -->
+					                <% if (mensaje.esEliminable()) { %>
 					                <button type="submit" style="border: none; background: transparent; cursor: pointer;">
 					                    <img src="https://img.icons8.com/?size=100&id=1941&format=png&color=000000" alt="Eliminar Mensaje">
 					                </button>
+					                <% } %>
 				           		</form>
 								<div class="message-bubble">
 								    <span class="message-text"><%= mensaje.getMensaje() %></span>
@@ -178,5 +180,9 @@ function showChat(chatId) {
         var chatScrollContainer = document.getElementById("chatScrollContainer");
         chatScrollContainer.scrollTop = chatScrollContainer.scrollHeight;
     });
+    
+function confirmarEliminacion() {
+    return confirm("¿Estás seguro de que deseas eliminar este mensaje?");
+}
 </script>
 

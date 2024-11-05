@@ -204,7 +204,7 @@
 		            	<div class="comentarios-header">
 		                <span class="partidoselec-comment-user">@<%= comentario.getNombreUsuario() %></span>
 		                <% if (comentario.getNombreUsuario().equals(usuario.getNombreUsuario())) { %>
-		                	<form action="<%= request.getContextPath() %>/EliminarComentarioServlet" method="post" style="display:inline;">
+		                	<form action="<%= request.getContextPath() %>/EliminarComentarioServlet" method="post" style="display:inline;" onsubmit="return confirmarEliminacion();">
                 				<input type="hidden" name="nombreUsuario" value="<%= comentario.getNombreUsuario() %>"> <!-- Enviar nombre de usuario -->
 				                <input type="hidden" name="idPartido" value="<%= partidoVO.getIdPartido() %>"> <!-- Enviar ID del partido -->
 				                <input type="hidden" name="comentario" value="<%= comentario.getComentario() %>"> <!-- Enviar texto del comentario -->
@@ -270,5 +270,9 @@ function verMasEquipo(idEquipo) {
         }
     };
     xhr.send("idEquipo=" + encodeURIComponent(idEquipo));
+}
+
+function confirmarEliminacion() {
+    return confirm("¿Estás seguro de que deseas eliminar este mensaje?");
 }
 </script>
