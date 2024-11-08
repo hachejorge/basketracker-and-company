@@ -28,7 +28,7 @@ CREATE TABLE sisinf_db.JUGADOR (
 
 -- Crear la tabla PARTIDO
 CREATE TABLE sisinf_db.PARTIDO (
-    id_partido INTEGER PRIMARY KEY,
+    id_partido SERIAL PRIMARY KEY,
     equipo_local INTEGER REFERENCES sisinf_db.EQUIPO(id_equipo) ON DELETE CASCADE,
     equipo_visitante INTEGER REFERENCES sisinf_db.EQUIPO(id_equipo) ON DELETE CASCADE,
     jornada INTEGER,

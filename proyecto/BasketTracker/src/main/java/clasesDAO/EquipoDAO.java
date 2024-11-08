@@ -298,5 +298,47 @@ public class EquipoDAO {
         return equipos;
     }
 
+ // Método para obtener la competición de un equipo por su ID
+    public static String obtenerCompeticionPorIdEquipo(int idEquipo) {
+        String competicion = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
+        try {
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT competicion FROM sisinf_db.equipo WHERE id_equipo = ?";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, idEquipo);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                competicion = rs.getString("competicion");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
+        }
+
+        return competicion;
+    }
+
+    
+    
 }

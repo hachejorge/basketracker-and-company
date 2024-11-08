@@ -21,51 +21,6 @@ import utils.PoolConnectionManager;
 
 public class PartidoDAO {
 
-    // Método para guardar un partido
-    public void guardarPartido(PartidoVO partido) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-
-        try {
-            conn = PoolConnectionManager.getConnection();
-            // SQL para insertar un nuevo partido
-            String query = "INSERT INTO sisinf_db.partido (id_partido, equipo_local, equipo_visitante, jornada, " +
-                           "pts_c1_local, pts_c2_local, pts_c3_local, pts_c4_local, " +
-                           "pts_c1_visit, pts_c2_visit, pts_c3_visit, pts_c4_visit, hora, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, partido.getIdPartido());
-            ps.setInt(2, partido.getEquipoLocal());
-            ps.setInt(3, partido.getEquipoVisitante());
-            ps.setInt(4, partido.getJornada());
-            ps.setInt(5, partido.getPtsC1Local());
-            ps.setInt(6, partido.getPtsC2Local());
-            ps.setInt(7, partido.getPtsC3Local());
-            ps.setInt(8, partido.getPtsC4Local());
-            ps.setInt(9, partido.getPtsC1Visit());
-            ps.setInt(10, partido.getPtsC2Visit());
-            ps.setInt(11, partido.getPtsC3Visit());
-            ps.setInt(12, partido.getPtsC4Visit());
-            ps.setTime(13, partido.getHora()); // Guardar la hora
-            ps.setDate(14, partido.getFecha()); // Guardar la fecha
-            
-            // Ejecutar la inserción
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (conn != null) {
-                PoolConnectionManager.releaseConnection(conn);
-            }
-        }
-    }
 
     // Método para obtener un partido por ID
     public static PartidoVO obtenerPartidoPorId(int idPartido) {
@@ -722,6 +677,52 @@ public class PartidoDAO {
             }
         }
         return partidos;
+    }
+
+    public static void guardarPartido(PartidoVO partido) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            // SQL para insertar un nuevo partido, omitiendo el campo id_partido
+            String query = "INSERT INTO sisinf_db.partido (equipo_local, equipo_visitante, jornada, " +
+                           "pts_c1_local, pts_c2_local, pts_c3_local, pts_c4_local, " +
+                           "pts_c1_visit, pts_c2_visit, pts_c3_visit, pts_c4_visit, hora, fecha) " +
+                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            ps = conn.prepareStatement(query);
+            
+            ps.setInt(1, partido.getEquipoLocal());
+            ps.setInt(2, partido.getEquipoVisitante());
+            ps.setInt(3, partido.getJornada());
+            ps.setInt(4, partido.getPtsC1Local());
+            ps.setInt(5, partido.getPtsC2Local());
+            ps.setInt(6, partido.getPtsC3Local());
+            ps.setInt(7, partido.getPtsC4Local());
+            ps.setInt(8, partido.getPtsC1Visit());
+            ps.setInt(9, partido.getPtsC2Visit());
+            ps.setInt(10, partido.getPtsC3Visit());
+            ps.setInt(11, partido.getPtsC4Visit());
+            ps.setTime(12, partido.getHora());  // Guardar la hora
+            ps.setDate(13, partido.getFecha());  // Guardar la fecha
+            
+            // Ejecutar la inserción
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                PoolConnectionManager.releaseConnection(conn);
+            }
+        }
     }
 
 

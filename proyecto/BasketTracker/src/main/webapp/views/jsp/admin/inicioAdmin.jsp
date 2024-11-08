@@ -91,10 +91,7 @@
 		  <div id="addPlayerSection" class="content-section">
             <div class="container">
           	<div class="form-section">
-				
 				<h2>Añadir Jugador  <i id="infoButton" class="fa fa-info-circle" onclick="toggleInfoPanel(event)"></i></h2>
-				
-				
 				<!-- Panel de información -->
 				<div id="infoPanel" class="info-panel">
 				    Al crear un jugador, también se añade un usuario nuevo asociado a este jugador. Su nombre de usuario se compone de su nombre de jugador sin espacios junto con un número aleatorio entre el 1 y el 99.
@@ -107,13 +104,13 @@
 	                </div>
 	                 <div class="form-group">
                     	<label for="equipoJugador">Equipo</label>
-                    	<input type="text" id="equipoJugador" name="equipoJugador" placeholder="Buscar equipo" autocomplete="off" oninput="buscarEquipo(this.value)">
-                    	<div id="sugerenciasEquipo" class="suggestions"> <!-- Contenedor para las sugerencias -->
+                    	<input type="text" id="equipoJugador1" name="equipoJugador" placeholder="Buscar equipo" autocomplete="off" oninput="buscarEquipo(this.value,1)">
+                    	<div id="sugerenciasEquipo1" class="suggestions"> <!-- Contenedor para las sugerencias -->
                     	</div> 
                 	</div>
                 	<div class="form-group" hidden="true">
                 		<label for="idEquipoJugador">Id equipo</label>
-                		<input type="number" id="idEquipoJugador" name="idEquipoJugador">
+                		<input type="number" id="idEquipoJugador1" name="idEquipoJugador">
                 	</div>
 	                <div class="form-group save-button">
 	                    <button type="submit">
@@ -126,8 +123,79 @@
           	</div>
 		  </div>
 		  <div id="addMatchSection" class="content-section">
-			<h2>Añadir Partido</h2>
-			<p>Contenido para añadir un partido...</p>
+		  <div class="container">
+			<div class="form-section">
+				<h2>Añadir Partido</h2>
+				<form action="<%= request.getContextPath() %>/AddMatch" method="post">
+	                <div class="form-group">
+	                    <label for="equipoLocal">Equipo Local</label>
+						<input type="text" id="equipoJugador2" name="equipoLocal" placeholder="Buscar equipo local" autocomplete="off" oninput="buscarEquipo(this.value,2)">
+                    	<div id="sugerenciasEquipo2" class="suggestions"> <!-- Contenedor para las sugerencias -->
+                    	</div> 
+	                </div>
+	                <div class="form-group" hidden="true">
+                		<label for="idEquipoJugador">Id equipo</label>
+                		<input type="number" id="idEquipoJugador2" name="idEquipoJugador2">
+                	</div>
+	                <div class="form-group">
+	                    <label for="equipoVisitante">Equipo Visitante</label>
+						<input type="text" id="equipoJugador3" name="equipoVisitante" placeholder="Buscar equipo visitante" autocomplete="off" oninput="buscarEquipo(this.value,3)">
+                    	<div id="sugerenciasEquipo3" class="suggestions"></div> 
+	                </div>
+	                <div class="form-group" hidden="true">
+                		<label for="idEquipoJugador">Id equipo</label>
+                		<input type="number" id="idEquipoJugador3" name="idEquipoJugador3">
+                	</div>
+                	<div class="form-group">
+	                    <label for="jornada">Jornada</label>
+						<input type="number" id="jornadaPartido" name="jornadaPartido" min=1 max=42>
+	                </div>
+					<div class="form-group">
+						<!-- Campo para seleccionar una fecha -->
+						<label for="fecha">Fecha</label>
+						<input type="date" id="fecha" name="fecha" required>
+					</div>
+					<div class="form-group">
+						<!-- Campo para seleccionar una hora -->
+						<label for="hora">Hora</label>
+						<input type="time" id="hora" name="hora" required>
+					</div>
+					<div class="form-group">
+						<label>Puntos por cuarto Equipo Local</label>
+						<div class="match-points">
+							<label for="c1local">C1</label>
+							<input type="number" id="c1local" name="c1local" min="0" value="0" required>
+							<label for="c2local">C2</label>
+							<input type="number" id="c2local" name="c2local" min="0" value="0" required>
+							<label for="c3local">C3</label>
+							<input type="number" id="c3local" name="c3local" min="0" value="0" required>
+							<label for="c4local">C4</label>
+							<input type="number" id="c4local" name="c4local" min="0" value="0" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Puntos por cuarto Equipo Visitante</label>
+						<div class="match-points">
+							<label for="c1visit">C1</label>
+							<input type="number" id="c1visit" name="c1visit" min="0" value="0" required>
+							<label for="c2visit">C2</label>
+							<input type="number" id="c2visit" name="c2visit" min="0" value="0" required>
+							<label for="c3visit">C3</label>
+							<input type="number" id="c3visit" name="c3visit" min="0" value="0" required>
+							<label for="c4visit">C4</label>
+							<input type="number" id="c4visit" name="c4visit" min="0" value="0" required>
+						</div>
+					</div>
+	                
+	                <div class="form-group save-button">
+	                    <button type="submit">
+	                    	<i class="fa fa-save"></i>
+	                    	Guardar Partido
+	                    </button>
+	                </div>
+	            </form>
+          		</div>
+          	</div>
           </div>
 	      
 		</div>
@@ -193,9 +261,10 @@
 			document.getElementById("sugerencias").innerHTML = "";
         }
         
-        function buscarEquipo(termino) {
+        function buscarEquipo(termino, id) {
             if (termino.length === 0) {
-                document.getElementById("sugerenciasEquipo").innerHTML = "";
+            	
+                document.getElementById("sugerenciasEquipo" + id).innerHTML = "";
                 return;
             }
 
@@ -208,7 +277,7 @@
                     data.forEach(equipo => {
                     	
                         if (equipo.nombreEquipo) {
-                        	sugerenciasHTML += "<div class=\"suggestion-item\" onclick=\"seleccionarEquipo('" + equipo.nombreEquipo + "', '"  + equipo.idEquipo + "')\">" 
+                        	sugerenciasHTML += "<div class=\"suggestion-item\" onclick=\"seleccionarEquipo('" + equipo.nombreEquipo + "', '"  + equipo.idEquipo + "','" + id + "')\">" 
                         							+ equipo.nombreEquipo + 
                         							"<div class=\"suggestion-desc\">" +
                         								equipo.competicion + 
@@ -219,15 +288,18 @@
         					console.error('Nombre de la competición es nulo o indefinido', equipo);
     					}
                     });
-                    document.getElementById("sugerenciasEquipo").innerHTML = sugerenciasHTML;
+                    document.getElementById("sugerenciasEquipo" + id).innerHTML = sugerenciasHTML;
                 })
                 .catch(error => console.error('Error:', error));
         }
         
-        function seleccionarEquipo(nombre, id) {
-			document.getElementById("equipoJugador").value = nombre;
-			document.getElementById("sugerenciasEquipo").innerHTML = "";
-			document.getElementById("idEquipoJugador").value = id;
+        function seleccionarEquipo(nombre, id, idBuscador) {
+			document.getElementById("equipoJugador" + idBuscador).value = nombre;
+			document.getElementById("sugerenciasEquipo" + idBuscador).innerHTML = "";
+			document.getElementById("idEquipoJugador" + idBuscador).value = id;
+			//document.getElementById("equipoJugador1").value = nombre;
+			//document.getElementById("sugerenciasEquipo1").innerHTML = "";
+			//document.getElementById("idEquipoJugador1").value = id;
         }
         
         function toggleInfoPanel(event) {

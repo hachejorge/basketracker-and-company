@@ -27,9 +27,6 @@ public class AddPlayer extends HttpServlet {
         // Recibir parámetros del formulario de registro
         String nombreJugador = request.getParameter("nomPlayer");
         String idEquipoJugador = request.getParameter("idEquipoJugador");
-        
-        System.out.println("Jugador: " + nombreJugador);
-        System.out.println("Equipo: " + idEquipoJugador);
 
         int idEquipo = Integer.parseInt(idEquipoJugador);
         

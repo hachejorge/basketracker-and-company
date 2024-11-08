@@ -203,4 +203,39 @@ body {
     padding-bottom: 15px;
 }
 
+.match-points {
+    display: flex !important;
+    gap: 15px !important; /* Espacio entre cada columna */
+    align-items: center !important;
+}
 
+.match-points label {
+    /*display: block;*/
+    text-align: center !important;
+    font-weight: bold;
+}
+
+.match-points input[type="number"] {
+    width: 20px; /* Ajusta el tamaño del campo de entrada */
+    height: 20px;
+    text-align: center;
+    font-size: 14px;
+    padding: 5px;
+}
+
+.form-group .match-points input {
+    box-sizing: border-box;
+    width: 15%;
+    padding: 10px;
+    padding-right: 40px;
+    padding-left: 15px;
+    border: 1px solid rgb(232, 232, 232);
+    border-radius: 20px;
+    margin-left: 0px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-bottom: 1px solid var(--color-primary);
+    border-right: 1px solid var(--color-primary);
+}
