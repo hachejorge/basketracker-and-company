@@ -49,6 +49,15 @@
     
 
     <script>
+	 	// Obtener el valor del parámetro success de la URL
+	    const urlParams = new URLSearchParams(window.location.search);
+	    const event = urlParams.get('event');
+	
+	    // Mostrar alerta si success no es null
+	    if (event) {
+	        alert(event);
+	    }
+    
         function togglePassword() {
             var passwordInput = document.getElementById("password");
             var toggleIcon = document.getElementById("toggle-password");

@@ -297,9 +297,6 @@
 			document.getElementById("equipoJugador" + idBuscador).value = nombre;
 			document.getElementById("sugerenciasEquipo" + idBuscador).innerHTML = "";
 			document.getElementById("idEquipoJugador" + idBuscador).value = id;
-			//document.getElementById("equipoJugador1").value = nombre;
-			//document.getElementById("sugerenciasEquipo1").innerHTML = "";
-			//document.getElementById("idEquipoJugador1").value = id;
         }
         
         function toggleInfoPanel(event) {

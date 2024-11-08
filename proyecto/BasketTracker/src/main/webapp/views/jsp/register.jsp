@@ -90,6 +90,16 @@
             // Inicializar el estado al cargar la página
             toggleSearchInput();
         });	
+        
+     	// Obtener el valor del parámetro success de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const event = urlParams.get('event');
+
+        // Mostrar alerta si success no es null
+        if (event) {
+            alert(event);
+        }
+        
     </script>
     
 </body>

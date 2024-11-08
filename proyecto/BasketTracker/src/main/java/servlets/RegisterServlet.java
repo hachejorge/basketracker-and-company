@@ -37,18 +37,15 @@ public class RegisterServlet extends HttpServlet {
         try {
             UsuarioVO usuarioExistente = UsuarioDAO.obtenerUsuarioPorNombre(nombreUsuario);
             if (usuarioExistente != null) {
-                request.setAttribute("error", "El nombre de usuario ya está en uso.");
-                response.getWriter().write("<script>alert('El nombre de usuario ya está en uso.');</script>");
-                request.getRequestDispatcher("views/jsp/register.jsp").forward(request, response);
+                response.sendRedirect("views/jsp/register.jsp?event=El nombre de usuario " + nombreUsuario + " ya esta en uso");
                 return;
             }
 
             // Guardar el usuario en la base de datos
             UsuarioDAO.guardarUsuario(usuario);
-
+            
+            response.sendRedirect("views/jsp/login.jsp?event=El usuario " + nombreUsuario + " ha sido registrado correctamente");
             // Redirigir al usuario a la página de inicio o login después del registro
-		    response.getWriter().write("<script>alert('El usuario ha sido registrado correctamente');</script>");
-            response.sendRedirect("views/jsp/login.jsp");
             
         } catch (Exception e) {
             e.printStackTrace();
