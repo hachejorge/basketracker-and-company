@@ -38,7 +38,7 @@
 	   		<a href="<%= request.getContextPath() %>/views/jsp/quienes_somos.jsp">¿Quiénes somos?</a>
 	   	</div>
 	    <div class="help">
-	    	<a href="<%= request.getContextPath() %>/views/jsp/ayuda_preguntas.jsp">Ayudas y preguntas frecuentes</a>
+	    	<a href="<%= request.getContextPath() %>/views/jsp/ayuda_contacto.jsp">Ayuda y contacto</a>
 	   	</div>
 	</div>
 </body>

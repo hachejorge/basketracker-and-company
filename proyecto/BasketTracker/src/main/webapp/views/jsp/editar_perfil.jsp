@@ -51,7 +51,7 @@
                         <div class="editar-campo">
                             <label for="cambio-equipo" class="editar-label">Solicitar cambio o eliminar cuenta</label>
                             <div class="editar-cambio-equipo">
-                                <textarea id="cambio-equipo" name="sugerenica-cambio" class="editar-textarea" placeholder="Escribe un mensaje aquí"></textarea>
+                                <textarea id="cambio-equipo" name="sugerencia-cambio" class="editar-textarea" placeholder="Escribe un mensaje aquí"></textarea>
                                 <button type="submit" class="editar-btn-enviar">Enviar</button>
                             </div>
                         </div>

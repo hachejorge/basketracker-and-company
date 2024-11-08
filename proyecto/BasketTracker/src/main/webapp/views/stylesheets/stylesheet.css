@@ -2810,3 +2810,59 @@ h1 {
     margin-bottom: 10px;
     padding-left: 8px;
 }
+
+.ayudas-titulo {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 30px;
+    color: black;
+}
+
+.ayudas-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.ayudas-campo {
+    margin-bottom: 15px;
+}
+
+.ayudas-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 18px;
+    color: black;
+    
+}
+
+.ayudas-group {
+	width: 700px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.ayudas-input, .ayudas-textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+}
+
+.ayudas-textarea {
+    resize: vertical;
+    height: 60px;
+}
+
+.ayudas-separador {
+    margin: 20px 0;
+    border: 0.5px solid #ddd;
+}
+
+.ayudas-botones {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
