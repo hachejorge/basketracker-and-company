@@ -1873,9 +1873,11 @@ h1 {
 }
 
 .jornadas-btns {
-	display: flex;
 	flex-direction: row;
 	padding-bottom: 20px;
+	overflow-y: auto;
+	white-space: nowrap;
+	
 }
 .jornada-content {
     display: none;
