@@ -12,7 +12,7 @@
 <body>
 	<div class="thecontainer">
 		<%@ include file="header.jsp" %>
-		<div class="container-ayudas">
+		<div class="olvidar-container">
 			<div class="ayudas-section">
 				<h1>Ayuda y Contacto</h1>
 				<h2>Si necesitas ayuda:</h2>
@@ -21,9 +21,20 @@
 					<p>El horario de respuesta es 10:00-19:00 en días laborables.</p>
 				</div>
 				<h2>Envíanos un mensaje:</h2>
-				<div class="ayudas-group">
+				<div class="form-group">
 					<label for="nombre">Nombre:</label>
 					<input type="name" name="nombre" id="nombre" name="nombre" placeholder="Nombre" required>
+				</div>
+				<div class="form-group">	
+					<label for="correo">Correo electrónico:</label>
+					<input type="email" name="correo" id="correo" name="correo" placeholder="Correo" required>
+				</div>
+				<div class="form-group">	
+					<label for="mensaje">Mensaje:</label>
+					<input type="message" name="mensaje" id="mensaje" name="mensaje" placeholder="Mensaje" required>
+				</div>
+				<div class="form-group">
+					<button type="submit"> Enviar</button>
 				</div>
 			</div>
 		</div>
