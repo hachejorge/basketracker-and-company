@@ -346,6 +346,10 @@ public class PartidoDAO {
                         rankingVisitante.setPartidosGanados(rankingVisitante.getPartidosGanados() + 1);
                         rankingLocal.setPartidosPerdidos(rankingLocal.getPartidosPerdidos() + 1);
                     }
+                    else {
+                    	rankingVisitante.setPartidosGanados(rankingVisitante.getPartidosGanados() + 1);
+                        rankingLocal.setPartidosGanados(rankingLocal.getPartidosGanados() + 1);
+                    }
                 }
             }
 
@@ -630,7 +634,7 @@ public class PartidoDAO {
             conn = PoolConnectionManager.getConnection();
             
             // Consulta SQL para obtener los partidos de una competición específica y jornada
-            String query = "SELECT p.* FROM sisinf_db.partido p " +
+            String query = "SELECT DISTINCT p.* FROM sisinf_db.partido p " +
                            "JOIN sisinf_db.equipo e ON p.equipo_local = e.id_equipo OR p.equipo_visitante = e.id_equipo " +
                            "WHERE e.competicion = ? AND p.jornada = ? " +
                            "ORDER BY p.fecha ASC, p.hora ASC";  // Ordena por fecha y hora para mostrar cronológicamente
