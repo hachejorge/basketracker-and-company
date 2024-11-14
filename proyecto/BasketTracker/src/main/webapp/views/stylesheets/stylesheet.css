@@ -41,7 +41,7 @@ body {
 	flex-direction: column;
 }
 
-.container {
+.container { /* Contenedor básico */
     display: flex;
     width: auto; /* Asegura que el contenedor ocupe el 100% */
     height: auto;
