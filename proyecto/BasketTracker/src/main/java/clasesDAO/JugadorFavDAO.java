@@ -4,7 +4,6 @@ import clasesVO.JugadorFavVO; // Asegúrate de importar la clase desde el paquet
 import clasesVO.UsuarioVO;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,9 +12,18 @@ import java.util.List;
 
 import utils.PoolConnectionManager;
 
+/**
+ * Clase que maneja las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) relacionadas con los jugadores favoritos
+ * de los usuarios en la base de datos.
+ * Utiliza el PoolConnectionManager para manejar las conexiones a la base de datos de manera eficiente.
+ */
 public class JugadorFavDAO {
 
-    // Método para guardar un jugador favorito
+    /**
+     * Guarda un jugador como favorito de un usuario en la base de datos.
+     * 
+     * @param jugadorFav Objeto JugadorFavVO que contiene la información del jugador y el usuario.
+     */
     public void guardarJugadorFav(JugadorFavVO jugadorFav) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -45,7 +53,12 @@ public class JugadorFavDAO {
         }
     }
 
-    // Método para obtener jugadores favoritos por nombre de usuario
+    /**
+     * Obtiene una lista de jugadores favoritos de un usuario desde la base de datos.
+     * 
+     * @param nombreUsuario El nombre de usuario para obtener sus jugadores favoritos.
+     * @return Una lista de objetos JugadorFavVO que representan los jugadores favoritos del usuario.
+     */
     public static List<JugadorFavVO> obtenerJugadoresFavPorUsuario(String nombreUsuario) {
         List<JugadorFavVO> jugadoresFavoritos = new ArrayList<>();
         Connection conn = null;
@@ -87,7 +100,11 @@ public class JugadorFavDAO {
         return jugadoresFavoritos;
     }
 
-    // Método para listar jugadores favoritos de un usuario
+    /**
+     * Lista los jugadores favoritos de un usuario.
+     * 
+     * @param usuario El objeto UsuarioVO que representa al usuario cuyos jugadores favoritos se quieren listar.
+     */
     public void listarJugadoresFavPorUsuario(UsuarioVO usuario) {
         List<JugadorFavVO> jugadoresFavoritos = obtenerJugadoresFavPorUsuario(usuario.getNombreUsuario());
         System.out.println("Jugadores favoritos de " + usuario.getNombreUsuario() + ":");
@@ -96,7 +113,12 @@ public class JugadorFavDAO {
         }
     }
 
-    // Método para eliminar un jugador favorito por nombre de usuario y nombre del jugador
+    /**
+     * Elimina un jugador favorito de un usuario específico en la base de datos.
+     * 
+     * @param nombreUsuario El nombre de usuario del que se desea eliminar el jugador favorito.
+     * @param jugador El nombre del jugador que se desea eliminar como favorito.
+     */
     public void eliminarJugadorFav(String nombreUsuario, String jugador) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -123,7 +145,13 @@ public class JugadorFavDAO {
         }
     }
 
-    // Método para verificar si un jugador es favorito para un usuario específico
+    /**
+     * Verifica si un jugador es favorito de un usuario específico.
+     * 
+     * @param nombreUsuario El nombre de usuario que se desea verificar.
+     * @param jugador El nombre del jugador que se desea verificar si es favorito.
+     * @return true si el jugador es favorito del usuario, false en caso contrario.
+     */
     public static boolean esFavorito(String nombreUsuario, String jugador) {
         boolean esFavorito = false;
         String query = "SELECT COUNT(*) FROM sisinf_db.jugador_fav WHERE nombre_usuario = ? AND jugador = ?";
@@ -145,8 +173,13 @@ public class JugadorFavDAO {
 
         return esFavorito;
     }
-    
- // Método para contar cuántos seguidores tiene un jugador
+
+    /**
+     * Cuenta cuántos seguidores tiene un jugador (es decir, cuántos usuarios lo han marcado como favorito).
+     * 
+     * @param nombreJugador El nombre del jugador cuyo número de seguidores se desea contar.
+     * @return El número de seguidores del jugador.
+     */
     public static int contarSeguidores(String nombreJugador) {
         int seguidores = 0;
         String query = "SELECT COUNT(*) FROM sisinf_db.jugador_fav WHERE jugador = ?";
@@ -167,5 +200,4 @@ public class JugadorFavDAO {
 
         return seguidores;
     }
-
 }

@@ -5,80 +5,82 @@ import clasesVO.UsuarioVO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import utils.PoolConnectionManager;
 
+/**
+ * Clase de acceso a datos para la entidad Usuario. Proporciona métodos para realizar operaciones
+ * CRUD en la base de datos para la tabla `usuario`, tales como guardar, actualizar, listar, 
+ * eliminar y buscar usuarios por nombre o correo electrónico.
+ */
 public class UsuarioDAO {
 
-    // Crear una fábrica de EntityManagers
-    //private EntityManagerFactory emf;
-    
     public UsuarioDAO() {
-    	//this.emf = Persistence.createEntityManagerFactory("miUnidadPersistencia");
+        // Constructor vacío, se puede inicializar EntityManagerFactory aquí si se usa JPA en el futuro.
     }
-    // Método para guardar un usuario
+
+    /**
+     * Guarda un nuevo usuario en la base de datos.
+     *
+     * @param usuario El objeto UsuarioVO que contiene la información del usuario a guardar.
+     */
     public static void guardarUsuario(UsuarioVO usuario) {
         Connection conn = null;
         PreparedStatement ps = null;
         
         try {
             conn = PoolConnectionManager.getConnection();
-            
-            // SQL para insertar un nuevo usuario en la base de datos
             String query = "INSERT INTO sisinf_db.usuario (nombre_usuario, correo_elec, password) VALUES (?, ?, ?)";
             
             ps = conn.prepareStatement(query);
-            ps.setString(1, usuario.getNombreUsuario());  // Nombre de usuario
-            ps.setString(2, usuario.getCorreoElect());  // Correo electrónico
-            ps.setString(3, usuario.getPassword());  // Contraseña
-            
-            // Ejecutar la inserción
+            ps.setString(1, usuario.getNombreUsuario());
+            ps.setString(2, usuario.getCorreoElect());
+            ps.setString(3, usuario.getPassword());
             ps.executeUpdate();
             
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Liberar la conexión y el PreparedStatement
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            if (ps != null) try { ps.close(); } catch (SQLException e) { e.printStackTrace(); }
             PoolConnectionManager.releaseConnection(conn);
         }
     }
 
-    // Método para obtener un usuario por su nombre de usuario
+    /**
+     * Busca un usuario en la base de datos utilizando su nombre de usuario.
+     *
+     * @param nombreUsuario El nombre de usuario del usuario que se desea buscar.
+     * @return UsuarioVO El objeto UsuarioVO si se encuentra, o null si no se encuentra.
+     */
     public static UsuarioVO obtenerUsuarioPorNombre(String nombreUsuario) {
         UsuarioVO user = null;
         ResultSet rs = null;
         Connection conn = null;
         try {
-        	conn = PoolConnectionManager.getConnection();
-        	String query = "SELECT * FROM sisinf_db.usuario WHERE nombre_usuario = ?";
-        	
-        	PreparedStatement ps = conn.prepareStatement(query);
-        	ps.setString(1, nombreUsuario);
-        	rs = ps.executeQuery();
-        	
-        	if(rs.next()) {
-        		String nameuser = rs.getString("nombre_usuario");
-        		String email = rs.getString("correo_elec");
-        		String password = rs.getString("password");
-        		user = new UsuarioVO(nameuser, email, password);
-        	} 
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.usuario WHERE nombre_usuario = ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, nombreUsuario);
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                String nameuser = rs.getString("nombre_usuario");
+                String email = rs.getString("correo_elec");
+                String password = rs.getString("password");
+                user = new UsuarioVO(nameuser, email, password);
+            } 
         } catch (SQLException e) {
-        	e.printStackTrace();
-        	
+            e.printStackTrace();
         } finally {
-        	PoolConnectionManager.releaseConnection(conn);
+            PoolConnectionManager.releaseConnection(conn);
         }
         return user;
     }
 
-    // Método para listar todos los usuarios
+    /**
+     * Lista todos los usuarios registrados en la base de datos.
+     *
+     * @return List<UsuarioVO> Lista de todos los usuarios.
+     */
     public static List<UsuarioVO> listarUsuarios() {
         List<UsuarioVO> usuarios = new ArrayList<>();
         Connection conn = null;
@@ -101,26 +103,18 @@ public class UsuarioDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            if (ps != null) try { ps.close(); } catch (SQLException e) { e.printStackTrace(); }
             PoolConnectionManager.releaseConnection(conn);
         }
         return usuarios;
     }
     
-    // Método para actualizar la información de un usuario
+    /**
+     * Actualiza la información de un usuario en la base de datos.
+     *
+     * @param usuario El objeto UsuarioVO que contiene los nuevos datos del usuario.
+     */
     public static void actualizarUsuario(UsuarioVO usuario) {
         Connection conn = null;
         PreparedStatement psCheck = null;
@@ -129,24 +123,20 @@ public class UsuarioDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-
-            // Verificar si el usuario existe en la base de datos
             String checkQuery = "SELECT 1 FROM sisinf_db.usuario WHERE nombre_usuario = ?";
             psCheck = conn.prepareStatement(checkQuery);
             psCheck.setString(1, usuario.getNombreUsuario());
             rs = psCheck.executeQuery();
 
             if (rs.next()) {
-                // Si el usuario existe, proceder con la actualización
                 String updateQuery = "UPDATE sisinf_db.usuario SET correo_elec = ?, password = ? WHERE nombre_usuario = ?";
                 psUpdate = conn.prepareStatement(updateQuery);
                 psUpdate.setString(1, usuario.getCorreoElect());
                 psUpdate.setString(2, usuario.getPassword());
-                psUpdate.setString(3, usuario.getNombreUsuario()); // Usar el nombre de usuario existente
+                psUpdate.setString(3, usuario.getNombreUsuario());
                 psUpdate.executeUpdate();
                 System.out.println("Usuario actualizado correctamente.");
             } else {
-                // Si el usuario no existe, mostrar un mensaje de advertencia o lanzar una excepción
                 System.out.println("El usuario con nombre '" + usuario.getNombreUsuario() + "' no existe en la base de datos.");
             }
 
@@ -154,36 +144,18 @@ public class UsuarioDAO {
             e.printStackTrace();
             throw new RuntimeException("Error actualizando el usuario en la base de datos", e);
         } finally {
-            // Cerrar recursos en el bloque finally
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (psCheck != null) {
-                try {
-                    psCheck.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (psUpdate != null) {
-                try {
-                    psUpdate.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            if (psCheck != null) try { psCheck.close(); } catch (SQLException e) { e.printStackTrace(); }
+            if (psUpdate != null) try { psUpdate.close(); } catch (SQLException e) { e.printStackTrace(); }
             PoolConnectionManager.releaseConnection(conn);
         }
     }
 
-   
-
-
-    // Método para eliminar un usuario por su nombre de usuario
+    /**
+     * Elimina un usuario de la base de datos basado en su nombre de usuario.
+     *
+     * @param nombreUsuario El nombre de usuario del usuario a eliminar.
+     */
     public static void eliminarUsuario(String nombreUsuario) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -198,17 +170,17 @@ public class UsuarioDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            if (ps != null) try { ps.close(); } catch (SQLException e) { e.printStackTrace(); }
             PoolConnectionManager.releaseConnection(conn);
         }
     }
     
+    /**
+     * Busca un usuario en la base de datos utilizando su correo electrónico.
+     *
+     * @param correo El correo electrónico del usuario que se desea buscar.
+     * @return UsuarioVO El objeto UsuarioVO si se encuentra, o null si no se encuentra.
+     */
     public static UsuarioVO obtenerUsuarioPorCorreo(String correo) {
         UsuarioVO usuario = null;
         Connection conn = null;
@@ -217,8 +189,6 @@ public class UsuarioDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            
-            // Consulta SQL para buscar un usuario por correo electrónico
             String query = "SELECT * FROM sisinf_db.usuario WHERE correo_elec = ?";
             
             ps = conn.prepareStatement(query);
@@ -226,33 +196,17 @@ public class UsuarioDAO {
             rs = ps.executeQuery();
             
             if (rs.next()) {
-                // Si se encuentra el usuario, extraer los datos
                 String nombreUsuario = rs.getString("nombre_usuario");
                 String correoElec = rs.getString("correo_elec");
                 String password = rs.getString("password");
-                
-                // Crear el objeto UsuarioVO con los datos obtenidos
                 usuario = new UsuarioVO(nombreUsuario, correoElec, password);
             } 
             
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Cerrar los recursos en el bloque finally
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            if (ps != null) try { ps.close(); } catch (SQLException e) { e.printStackTrace(); }
             PoolConnectionManager.releaseConnection(conn);
         }
         

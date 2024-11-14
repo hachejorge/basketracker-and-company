@@ -12,9 +12,18 @@ import java.util.List;
 
 import utils.PoolConnectionManager;
 
+/**
+ * La clase CompeticionFavDAO proporciona acceso a la base de datos para realizar operaciones CRUD
+ * sobre las competiciones favoritas de los usuarios. Permite guardar, obtener, listar, eliminar y verificar
+ * las competiciones favoritas de un usuario.
+ */
 public class CompeticionFavDAO {
 
-    // Método para guardar una competición favorita
+    /**
+     * Guarda una competición como favorita para un usuario.
+     * 
+     * @param competicionFav El objeto CompeticionFavVO que contiene el nombre del usuario y la competición.
+     */
     public void guardarCompeticionFav(CompeticionFavVO competicionFav) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -33,6 +42,7 @@ public class CompeticionFavDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            // Cerrar el PreparedStatement y liberar la conexión
             if (ps != null) {
                 try {
                     ps.close();
@@ -44,7 +54,12 @@ public class CompeticionFavDAO {
         }
     }
 
-    // Método para obtener competiciones favoritas por nombre de usuario
+    /**
+     * Obtiene una lista de las competiciones favoritas de un usuario específico.
+     * 
+     * @param nombreUsuario El nombre del usuario cuyas competiciones favoritas se desean obtener.
+     * @return Una lista de objetos CompeticionFavVO que representan las competiciones favoritas del usuario.
+     */
     public List<CompeticionFavVO> obtenerCompeticionesFavPorUsuario(String nombreUsuario) {
         List<CompeticionFavVO> competicionesFavoritas = new ArrayList<>();
         Connection conn = null;
@@ -86,7 +101,11 @@ public class CompeticionFavDAO {
         return competicionesFavoritas;
     }
 
-    // Método para listar competiciones favoritas de un usuario
+    /**
+     * Muestra las competiciones favoritas de un usuario en la consola.
+     * 
+     * @param usuario El objeto UsuarioVO que contiene la información del usuario.
+     */
     public void listarCompeticionesFavPorUsuario(UsuarioVO usuario) {
         List<CompeticionFavVO> competicionesFavoritas = obtenerCompeticionesFavPorUsuario(usuario.getNombreUsuario());
         System.out.println("Competiciones favoritas de " + usuario.getNombreUsuario() + ":");
@@ -95,7 +114,12 @@ public class CompeticionFavDAO {
         }
     }
 
-    // Método para eliminar una competición favorita por nombre de usuario y nombre de la competición
+    /**
+     * Elimina una competición favorita de un usuario específico.
+     * 
+     * @param nombreUsuario El nombre del usuario cuya competición favorita se desea eliminar.
+     * @param competicion El nombre de la competición que se desea eliminar de las favoritas del usuario.
+     */
     public void eliminarCompeticionFav(String nombreUsuario, String competicion) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -122,7 +146,13 @@ public class CompeticionFavDAO {
         }
     }
 
-    // Método para verificar si una competición es favorita para un usuario específico
+    /**
+     * Verifica si una competición es una de las favoritas de un usuario.
+     * 
+     * @param nombreUsuario El nombre del usuario que tiene la competición favorita.
+     * @param competicion El nombre de la competición que se desea verificar.
+     * @return true si la competición es una de las favoritas del usuario, false en caso contrario.
+     */
     public static boolean esFavorito(String nombreUsuario, String competicion) {
         boolean esFavorito = false;
         String query = "SELECT COUNT(*) FROM sisinf_db.competicion_fav WHERE nombre_usuario = ? AND competicion = ?";

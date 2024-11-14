@@ -7,13 +7,24 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que maneja las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) relacionadas con los jugadores en la base de datos.
+ * Utiliza el PoolConnectionManager para manejar las conexiones a la base de datos de manera eficiente.
+ */
 public class JugadorDAO {
 
+    /**
+     * Constructor vacío para la clase JugadorDAO.
+     */
     public JugadorDAO() {
         // Constructor vacío
     }
 
-    // Método para guardar un jugador
+    /**
+     * Guarda un jugador en la base de datos.
+     * 
+     * @param jugador Objeto JugadorVO que contiene la información del jugador a guardar.
+     */
     public static void guardarJugador(JugadorVO jugador) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -46,7 +57,12 @@ public class JugadorDAO {
         }
     }
 
-    // Método para obtener un jugador por su nombre de usuario
+    /**
+     * Obtiene un jugador desde la base de datos utilizando su nombre de usuario.
+     * 
+     * @param nombreUsuario El nombre de usuario del jugador a buscar.
+     * @return Un objeto JugadorVO con la información del jugador encontrado, o null si no se encuentra.
+     */
     public static JugadorVO obtenerJugadorPorNombreUsuario(String nombreUsuario) {
         JugadorVO jugador = null;
         Connection conn = null;
@@ -88,7 +104,11 @@ public class JugadorDAO {
         return jugador;
     }
 
-    // Método para listar todos los jugadores
+    /**
+     * Obtiene una lista de todos los jugadores registrados en la base de datos.
+     * 
+     * @return Una lista de objetos JugadorVO con la información de todos los jugadores.
+     */
     public List<JugadorVO> listarJugadores() {
         List<JugadorVO> jugadores = new ArrayList<>();
         Connection conn = null;
@@ -130,7 +150,12 @@ public class JugadorDAO {
         return jugadores;
     }
 
-    // Método para actualizar un jugador
+    /**
+     * Actualiza los datos de un jugador en la base de datos.
+     * Verifica si el jugador existe antes de intentar la actualización.
+     * 
+     * @param jugador El objeto JugadorVO con los nuevos datos del jugador.
+     */
     public static void actualizarJugador(JugadorVO jugador) {
         Connection conn = null;
         PreparedStatement psCheck = null;
@@ -187,7 +212,11 @@ public class JugadorDAO {
         }
     }
 
-    // Método para eliminar un jugador por nombre de usuario
+    /**
+     * Elimina un jugador de la base de datos dado su nombre de usuario.
+     * 
+     * @param nombreUsuario El nombre de usuario del jugador a eliminar.
+     */
     public void eliminarJugador(String nombreUsuario) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -213,7 +242,12 @@ public class JugadorDAO {
         }
     }
     
-    // Método para listar todos los jugadores que juegan en una competición específica
+    /**
+     * Obtiene una lista de jugadores que pertenecen a un equipo en una competición específica.
+     * 
+     * @param nombreCompeticion El nombre de la competición para filtrar los jugadores.
+     * @return Una lista de objetos JugadorVO que pertenecen a equipos en la competición especificada.
+     */
     public static List<JugadorVO> listarJugadoresPorCompeticion(String nombreCompeticion) {
         List<JugadorVO> jugadores = new ArrayList<>();
         Connection conn = null;
@@ -258,10 +292,14 @@ public class JugadorDAO {
         }
         return jugadores;
     }
-    
- // Método para verificar si un jugador existe por su nombre de usuario
+
+    /**
+     * Verifica si un jugador con el nombre de usuario especificado existe en la base de datos.
+     * 
+     * @param nombreUsuario El nombre de usuario del jugador a verificar.
+     * @return true si el jugador existe, false en caso contrario.
+     */
     public static boolean existeJugador(String nombreUsuario) {
-        boolean existe = false;
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -273,8 +311,8 @@ public class JugadorDAO {
             ps.setString(1, nombreUsuario);
             rs = ps.executeQuery();
 
-            // Si hay un resultado, el jugador existe
-            existe = rs.next();
+            return rs.next();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -294,27 +332,31 @@ public class JugadorDAO {
             }
             PoolConnectionManager.releaseConnection(conn);
         }
-        return existe;
+        return false;
     }
 
- // Método para verificar si existe un jugador por nombre y que pertenezca a un equipo con un ID dado
-    public static boolean existeJugadorEnEquipo(String nombreJugador, int idEquipo) {
-        boolean existe = false;
+    /**
+     * Verifica si un jugador con el nombre y equipo especificados existe en la base de datos.
+     * 
+     * @param nombreJugador El nombre del jugador a verificar.
+     * @param equipo El ID del equipo donde se verifica la existencia del jugador.
+     * @return true si el jugador existe en el equipo, false en caso contrario.
+     */
+    public static boolean existeJugadorEnEquipo(String nombreJugador, int equipo) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
             conn = PoolConnectionManager.getConnection();
-            // Consulta SQL para verificar si existe el jugador con el nombre dado y en el equipo especificado
             String query = "SELECT 1 FROM sisinf_db.jugador WHERE nombre_jugador = ? AND equipo = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreJugador);
-            ps.setInt(2, idEquipo);
+            ps.setInt(2, equipo);
             rs = ps.executeQuery();
 
-            // Si hay un resultado, el jugador existe en ese equipo
-            existe = rs.next();
+            return rs.next();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -334,53 +376,103 @@ public class JugadorDAO {
             }
             PoolConnectionManager.releaseConnection(conn);
         }
-        return existe;
+        return false;
     }
-    
-    public static List<JugadorVO> buscarJugadores(String searchTerm) throws SQLException {
+
+    /**
+     * Busca jugadores por un término parcial en su nombre de usuario o nombre de jugador.
+     * 
+     * @param termino El término de búsqueda para nombre de usuario o nombre de jugador.
+     * @return Una lista de jugadores cuyo nombre de usuario o nombre de jugador coincidan parcialmente con el término dado.
+     */
+    public static List<JugadorVO> buscarJugadores(String termino) {
         List<JugadorVO> jugadores = new ArrayList<>();
-        String query = "SELECT * FROM sisinf_db.jugador WHERE nombre_usuario ILIKE ? OR nombre_jugador ILIKE ?";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
-        try (Connection conn = PoolConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-             
-            stmt.setString(1, "%" + searchTerm + "%");
-            stmt.setString(2, "%" + searchTerm + "%");
+        try {
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.jugador WHERE nombre_usuario ILIKE ? OR nombre_jugador ILIKE ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, "%" + termino + "%");
+            ps.setString(2, "%" + termino + "%");
+            rs = ps.executeQuery();
 
-            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 String nombreUsuario = rs.getString("nombre_usuario");
                 String nombreJugador = rs.getString("nombre_jugador");
                 int equipo = rs.getInt("equipo");
-
                 jugadores.add(new JugadorVO(nombreUsuario, nombreJugador, equipo));
             }
-        }
-        return jugadores;
-    }
 
-    // Método para buscar jugadores específicamente por nombre del jugador
-    public static List<JugadorVO> buscarJugadoresPorNombre(String nombreJugador) {
-        List<JugadorVO> jugadores = new ArrayList<>();
-        String sql = "SELECT * FROM sisinf_db.jugador WHERE nombre_jugador ILIKE ?";
-
-        try (Connection conn = PoolConnectionManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-             
-            stmt.setString(1, "%" + nombreJugador + "%");
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                String nombreUsuario = rs.getString("nombre_usuario");
-                String nombreJugadorDb = rs.getString("nombre_jugador");
-                int equipo = rs.getInt("equipo");
-
-                jugadores.add(new JugadorVO(nombreUsuario, nombreJugadorDb, equipo));
-            }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
         }
         return jugadores;
     }
-    
+
+    /**
+     * Busca jugadores por su nombre de jugador.
+     * 
+     * @param nombre El nombre del jugador a buscar.
+     * @return Una lista de jugadores cuyo nombre coincida parcialmente con el nombre dado.
+     */
+    public static List<JugadorVO> buscarJugadoresPorNombre(String nombre) {
+        List<JugadorVO> jugadores = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = PoolConnectionManager.getConnection();
+            String query = "SELECT * FROM sisinf_db.jugador WHERE nombre_jugador ILIKE ?";
+            ps = conn.prepareStatement(query);
+            ps.setString(1, "%" + nombre + "%");
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String nombreUsuario = rs.getString("nombre_usuario");
+                String nombreJugador = rs.getString("nombre_jugador");
+                int equipo = rs.getInt("equipo");
+                jugadores.add(new JugadorVO(nombreUsuario, nombreJugador, equipo));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            PoolConnectionManager.releaseConnection(conn);
+        }
+        return jugadores;
+    }
 }

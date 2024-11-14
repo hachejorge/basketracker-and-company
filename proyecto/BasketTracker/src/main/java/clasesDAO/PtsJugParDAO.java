@@ -7,10 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 import utils.PoolConnectionManager;
 
+/**
+ * Clase de acceso a datos para manejar los registros de puntos de jugadores en partidos.
+ * Proporciona métodos para almacenar, actualizar, obtener y eliminar los registros de puntos,
+ * además de métodos adicionales para el análisis histórico y estadísticas.
+ */
 public class PtsJugParDAO {
 
-    // Método para guardar un registro de puntos de jugador en un partido
-    public static void guardarPtsJugPar(PtsJugParVO ptsJugPar) {
+	  /**
+     * Guarda un registro de puntos de un jugador en un partido.
+     *
+     * @param ptsJugPar Objeto PtsJugParVO que contiene los datos de puntos del jugador en el partido.
+     */    
+	public static void guardarPtsJugPar(PtsJugParVO ptsJugPar) {
         Connection conn = null;
         PreparedStatement ps = null;
 
@@ -46,7 +55,13 @@ public class PtsJugParDAO {
         }
     }
 
-    // Método para obtener un registro por ID de partido y nombre de usuario
+	/**
+     * Obtiene un registro de puntos de un jugador en un partido específico.
+     *
+     * @param idPartido ID del partido.
+     * @param nombreUsuario Nombre del usuario.
+     * @return Objeto PtsJugParVO que contiene los datos de puntos del jugador en el partido, o null si no se encuentra.
+     */
     public static PtsJugParVO obtenerPtsJugPar(int idPartido, String nombreUsuario) {
         PtsJugParVO ptsJugPar = null;
         Connection conn = null;
@@ -98,7 +113,11 @@ public class PtsJugParDAO {
         return ptsJugPar;
     }
 
-    // Método para listar todos los registros de puntos de jugadores en partidos
+    /**
+     * Lista todos los registros de puntos de jugadores en partidos.
+     *
+     * @return Lista de objetos PtsJugParVO que contiene los datos de todos los jugadores en todos los partidos.
+     */
     public List<PtsJugParVO> listarPtsJugPar() {
         List<PtsJugParVO> ptsJugParList = new ArrayList<>();
         Connection conn = null;
@@ -148,7 +167,11 @@ public class PtsJugParDAO {
         return ptsJugParList;
     }
 
-    // Método para actualizar un registro de puntos de jugador en un partido
+    /**
+     * Actualiza un registro de puntos de un jugador en un partido.
+     *
+     * @param ptsJugPar Objeto PtsJugParVO con los datos actualizados del jugador.
+     */    
     public static void actualizarPtsJugPar(PtsJugParVO ptsJugPar) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -185,7 +208,12 @@ public class PtsJugParDAO {
         }
     }
 
-    // Método para eliminar un registro de puntos de jugador en un partido
+    /**
+     * Elimina un registro de puntos de un jugador en un partido.
+     *
+     * @param idPartido ID del partido.
+     * @param nombreUsuario Nombre del usuario.
+     */
     public void eliminarPtsJugPar(int idPartido, String nombreUsuario) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -214,7 +242,12 @@ public class PtsJugParDAO {
         }
     }
 
-    // Método para obtener el histórico de un jugador
+    /**
+     * Obtiene el histórico de puntos de un jugador en todos los partidos.
+     *
+     * @param nombreUsuario Nombre del usuario.
+     * @return Lista de objetos PtsJugParVO que contiene el histórico de puntos del jugador.
+     */
     public static List<PtsJugParVO> obtenerHistoricoPorJugador(String nombreUsuario) {
         List<PtsJugParVO> historico = new ArrayList<>();
         Connection conn = null;

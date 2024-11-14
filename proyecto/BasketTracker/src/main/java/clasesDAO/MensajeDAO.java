@@ -7,13 +7,25 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que maneja las operaciones CRUD (Crear, Leer, Actualizar, Eliminar) relacionadas con los mensajes
+ * en la base de datos.
+ * Utiliza el PoolConnectionManager para manejar las conexiones a la base de datos de manera eficiente.
+ */
 public class MensajeDAO {
 
+    /**
+     * Constructor vacío para la clase MensajeDAO.
+     */
     public MensajeDAO() {
         // Constructor vacío
     }
 
-    // Método para obtener el ID máximo en la tabla MENSAJE
+    /**
+     * Obtiene el ID máximo en la tabla MENSAJE para generar un nuevo ID único para los mensajes.
+     * 
+     * @return El ID máximo de los mensajes actuales, o 0 si no hay mensajes en la base de datos.
+     */
     public static int obtenerIdMaximo() {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -52,7 +64,11 @@ public class MensajeDAO {
         return idMaximo;
     }
 
-    // Método para guardar un mensaje
+    /**
+     * Guarda un nuevo mensaje en la base de datos.
+     * 
+     * @param mensaje El objeto MensajeVO que contiene los datos del mensaje a guardar.
+     */
     public static void guardarMensaje(MensajeVO mensaje) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -85,7 +101,12 @@ public class MensajeDAO {
         }
     }
 
-    // Método para obtener un mensaje por su ID
+    /**
+     * Obtiene un mensaje por su ID.
+     * 
+     * @param idMensaje El ID del mensaje que se desea obtener.
+     * @return Un objeto MensajeVO que representa el mensaje encontrado, o null si no se encuentra el mensaje.
+     */
     public MensajeVO obtenerMensajePorId(int idMensaje) {
         MensajeVO mensaje = null;
         Connection conn = null;
@@ -130,7 +151,11 @@ public class MensajeDAO {
         return mensaje;
     }
 
-    // Método para listar todos los mensajes
+    /**
+     * Lista todos los mensajes almacenados en la base de datos.
+     * 
+     * @return Una lista de objetos MensajeVO que representan todos los mensajes en la base de datos.
+     */
     public List<MensajeVO> listarMensajes() {
         List<MensajeVO> mensajes = new ArrayList<>();
         Connection conn = null;
@@ -175,7 +200,11 @@ public class MensajeDAO {
         return mensajes;
     }
 
-    // Método para actualizar un mensaje
+    /**
+     * Actualiza los datos de un mensaje existente en la base de datos.
+     * 
+     * @param mensaje El objeto MensajeVO que contiene los datos del mensaje a actualizar.
+     */
     public void actualizarMensaje(MensajeVO mensaje) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -206,7 +235,11 @@ public class MensajeDAO {
         }
     }
 
-    // Método para eliminar un mensaje por ID
+    /**
+     * Elimina un mensaje de la base de datos por su ID.
+     * 
+     * @param idMensaje El ID del mensaje que se desea eliminar.
+     */
     public static void eliminarMensaje(int idMensaje) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -233,7 +266,12 @@ public class MensajeDAO {
         }
     }
     
-    // Método para obtener mensajes de un usuario ordenados de más antiguo a más reciente
+    /**
+     * Obtiene todos los mensajes de un usuario ordenados por fecha y hora, de más antiguo a más reciente.
+     * 
+     * @param nombreUsuario El nombre del usuario cuyos mensajes se desean obtener.
+     * @return Una lista de objetos MensajeVO que representan los mensajes del usuario ordenados cronológicamente.
+     */
     public static List<MensajeVO> obtenerMensajesPorUsuario(String nombreUsuario) {
         List<MensajeVO> mensajes = new ArrayList<>();
         Connection conn = null;

@@ -14,7 +14,11 @@ import utils.PoolConnectionManager;
 
 public class EquipoFavDAO {
 
-    // Método para guardar un equipo favorito
+    /**
+     * Guarda un equipo como favorito de un usuario en la base de datos.
+     * 
+     * @param equipoFav El objeto EquipoFavVO que contiene los datos del equipo favorito.
+     */
     public void guardarEquipoFav(EquipoFavVO equipoFav) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -44,7 +48,12 @@ public class EquipoFavDAO {
         }
     }
 
-    // Método para obtener equipos favoritos por nombre de usuario
+    /**
+     * Obtiene los equipos favoritos de un usuario desde la base de datos.
+     * 
+     * @param nombreUsuario El nombre del usuario cuyos equipos favoritos se desean obtener.
+     * @return Una lista de objetos EquipoFavVO representando los equipos favoritos del usuario.
+     */
     public List<EquipoFavVO> obtenerEquiposFavPorUsuario(String nombreUsuario) {
         List<EquipoFavVO> equiposFavoritos = new ArrayList<>();
         Connection conn = null;
@@ -86,7 +95,11 @@ public class EquipoFavDAO {
         return equiposFavoritos;
     }
 
-    // Método para listar equipos favoritos de un usuario
+    /**
+     * Muestra los equipos favoritos de un usuario.
+     * 
+     * @param usuario El objeto UsuarioVO que representa al usuario cuyo listado de equipos favoritos se desea mostrar.
+     */
     public void listarEquiposFavPorUsuario(UsuarioVO usuario) {
         List<EquipoFavVO> equiposFavoritos = obtenerEquiposFavPorUsuario(usuario.getNombreUsuario());
         System.out.println("Equipos favoritos de " + usuario.getNombreUsuario() + ":");
@@ -95,7 +108,12 @@ public class EquipoFavDAO {
         }
     }
 
-    // Método para eliminar un equipo favorito por nombre de usuario y ID del equipo
+    /**
+     * Elimina un equipo de la lista de favoritos de un usuario.
+     * 
+     * @param nombreUsuario El nombre del usuario.
+     * @param equipo El ID del equipo que se desea eliminar de la lista de favoritos.
+     */
     public void eliminarEquipoFav(String nombreUsuario, int equipo) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -122,7 +140,13 @@ public class EquipoFavDAO {
         }
     }
 
-    // Método para verificar si un equipo es favorito para un usuario específico
+    /**
+     * Verifica si un equipo es favorito para un usuario específico.
+     * 
+     * @param nombreUsuario El nombre del usuario.
+     * @param equipo El ID del equipo que se desea verificar.
+     * @return true si el equipo es favorito del usuario, false si no lo es.
+     */
     public static boolean esFavorito(String nombreUsuario, int equipo) {
         boolean esFavorito = false;
         String query = "SELECT COUNT(*) FROM sisinf_db.equipo_fav WHERE nombre_usuario = ? AND equipo = ?";

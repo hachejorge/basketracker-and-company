@@ -1,6 +1,6 @@
 package clasesDAO;
 
-import clasesVO.PartidoVO; // Asegúrate de importar la clase desde el paquete correcto.
+import clasesVO.PartidoVO; 
 import clasesVO.JugadorVO; // Importa la clase JugadorVO.
 import clasesVO.EquipoRankingVO; // Importa la clase JugadorVO.
 
@@ -14,11 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Collections;
 import java.util.Comparator;
 
 import utils.PoolConnectionManager;
 
+
+/**
+ * Esta clase gestiona la interacción con la base de datos para obtener, guardar y manipular partidos
+ * en una competición deportiva. Proporciona métodos para obtener partidos de un equipo, una competición
+ * o una jornada específica, así como para insertar nuevos partidos en la base de datos.
+ */
 public class PartidoDAO {
 
 

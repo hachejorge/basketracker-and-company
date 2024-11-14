@@ -1,5 +1,5 @@
 -- Insertar usuarios en la tabla USUARIO
-INSERT INTO usuarios (nombre_usuario, correo_elec, password) VALUES
+INSERT INTO sisinf_db.usuario(nombre_usuario, correo_elec, password) VALUES
 ('admin', 'admin@unizar.es', '$2a$10$f5.f1UuxTvadZi1TeOZf6O3Ecwy3/qofzxJIRMVjiSwoHIToAKszy'),
 ('andrea', 'andrea@gmail.com', '$2a$10$UgBL0oR/gyJSS1no.ufVfegC3kPm5qrnb0.CnHHh8zxOx7i.Gl1pu'),
 ('mario', 'mario@gmail.com', '$2a$10$YMbpUFWBRTyxLTEzYU5x2.5svM4SsNA3pRz9e2qcOSrxPYagA4xH6'),
