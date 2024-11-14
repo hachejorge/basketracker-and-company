@@ -85,8 +85,17 @@
           	</div>
           </div>
 		  <div id="homeSection" class="content-section active">
-			<h2>Inicio</h2>
-			<p>Contenido de la página principal...</p>
+			<div class="container">
+			<div class="form-section">
+				<h2>Añadir estadística de un jugador</h2>
+				<div class="form-group">
+                    	<label for="jugadorStats">Jugador</label>
+                    	<input type="text" id="jugador" name="jugador" placeholder="Buscar jugador" autocomplete="off" oninput="buscarJugador(this.value,1)">
+                    	<div id="sugerenciasJugador" class="suggestions"> <!-- Contenedor para las sugerencias -->
+                    	</div> 
+                	</div>
+			</div>
+			</div>
           </div>
 		  <div id="addPlayerSection" class="content-section">
             <div class="container">
@@ -230,6 +239,35 @@
         // Mostrar alerta si success no es null
         if (event) {
             alert(event);
+        }
+        
+        function buscarJugador(termino) {
+            if (termino.length === 0) {
+                document.getElementById("sugerenciasJugador").innerHTML = "";
+                return;
+            }
+
+            // Llamada AJAX para obtener sugerencias
+            fetch('<%= request.getContextPath() %>/BuscarJugador?termino=' + encodeURIComponent(termino))
+                .then(response => response.json())
+                .then(data => {
+                    var sugerenciasHTML = "";
+                    data.forEach(jugador => {
+						console.log(jugador.nombreJugador)
+                        if (jugador.nombreJugador) {
+                        	sugerenciasHTML += "<div class=\"suggestion-item\" onclick=\"window.location.href='<%= request.getContextPath() %>/views/jsp/admin/seleccionarPartido.jsp?nombreJugador=" + encodeURIComponent(jugador.nombreUsuario) + "'\">" 
+                        							+ jugador.nombreJugador + 
+                        							"<div class=\"suggestion-desc\">" +
+                    									jugador.nombreUsuario + 
+                    								"</div>" +
+                        						"</div>";
+                        } else {
+        					console.error('Nombre de la competición es nulo o indefinido', competicion);
+    					}
+                    });
+                    document.getElementById("sugerenciasJugador").innerHTML = sugerenciasHTML;
+                })
+                .catch(error => console.error('Error:', error));
         }
         
         function buscarCompeticion(termino) {

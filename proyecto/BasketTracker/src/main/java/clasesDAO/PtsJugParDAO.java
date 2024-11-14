@@ -10,7 +10,7 @@ import utils.PoolConnectionManager;
 public class PtsJugParDAO {
 
     // Método para guardar un registro de puntos de jugador en un partido
-    public void guardarPtsJugPar(PtsJugParVO ptsJugPar) {
+    public static void guardarPtsJugPar(PtsJugParVO ptsJugPar) {
         Connection conn = null;
         PreparedStatement ps = null;
 
@@ -149,7 +149,7 @@ public class PtsJugParDAO {
     }
 
     // Método para actualizar un registro de puntos de jugador en un partido
-    public void actualizarPtsJugPar(PtsJugParVO ptsJugPar) {
+    public static void actualizarPtsJugPar(PtsJugParVO ptsJugPar) {
         Connection conn = null;
         PreparedStatement ps = null;
 

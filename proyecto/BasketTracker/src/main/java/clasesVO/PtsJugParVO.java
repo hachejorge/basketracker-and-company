@@ -10,6 +10,10 @@ public class PtsJugParVO {
     private Integer faltas; // Puede ser null
     private Integer mntJd; // Puede ser null
 
+    public PtsJugParVO() {
+    	
+    }
+    
     // Constructor
     public PtsJugParVO(int idPartido, String nombreUsuario, Integer ptsAnt, Integer trpAnt,
                      Integer tlbLan, Integer tlbAnt, Integer faltas, Integer mntJd) {

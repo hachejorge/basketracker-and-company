@@ -239,3 +239,137 @@ body {
     border-bottom: 1px solid var(--color-primary);
     border-right: 1px solid var(--color-primary);
 }
+
+.container-partidos {
+    padding: 10px 300px; /* Añadir un poco de espacio interno para mejor apariencia */
+    display: block; /* Cambia flex por block */
+}
+
+/* Contenedor principal */
+.partido-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 10px auto;
+}
+
+.partido {
+    display: flex;
+    align-items: center; /* Centra verticalmente los elementos dentro del partido */
+    border: 1px solid black;
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box; /* Asegura que el padding no aumente el ancho total */
+	cursor: pointer;
+}
+
+.partido:hover {
+	background-color: rgb(251, 210, 148);
+}
+
+/* Fecha y hora */
+.partido-fecha {
+    background-color: #d35400;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+}
+
+
+.partido-fecha .dia {
+    font-size: 18px;
+}
+
+.partido-fecha .mes {
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.partido-hora {
+    font-size: 14px;
+    text-align: center;
+}
+
+.equipos-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1; /* Ocupa el espacio restante */
+}
+
+.equipo {
+    display: flex;
+    align-items: center;
+}
+
+.equipo-logo {
+    width: 24px;
+    height: 24px;
+    background-color: #000;
+    border-radius: 50%;
+    margin: 0 10px;
+}
+
+.puntaje {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 5px;
+}
+
+.puntaje-local {
+    background-color: #d35400; /* Color para el equipo local */
+}
+
+.puntaje-visitante {
+    background-color: #34495e; /* Color para el equipo visitante */
+}
+
+/* Nombres de los equipos */
+.equipos-nombres {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Icono de ubicación */
+.ubicacion-container {
+    display: flex;
+    align-items: center;
+}
+
+.ubicacion-icono {
+    width: 24px;
+    height: 24px;
+    background-color: #ccc;
+    mask: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg#location-pin') center / contain;
+    margin-right: 5px;
+}
+
+.equipo i.fa-shield {
+    font-size: 30px; /* Cambia el tamaño del icono */
+    padding: 10px;   /* Agrega un padding alrededor del icono */
+    color: black;  /* Cambia el color si deseas */
+    border-radius: 50%; /* Para hacer que el fondo sea circular */
+}
+
+.ver-mas {
+    font-size: 16px;
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
