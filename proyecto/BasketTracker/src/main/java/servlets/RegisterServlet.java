@@ -2,9 +2,9 @@ package servlets;
 
 import clasesDAO.UsuarioDAO;
 import clasesVO.UsuarioVO;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.ServletException;
-//import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,22 +30,25 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        // Crear un objeto UsuarioVO
-        UsuarioVO usuario = new UsuarioVO(nombreUsuario, correoElect, password);
+        // Encriptar la contraseña usando BCrypt
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+        // Crear un objeto UsuarioVO con la contraseña encriptada
+        UsuarioVO usuario = new UsuarioVO(nombreUsuario, correoElect, hashedPassword);
 
         // Validar si el usuario ya existe
         try {
             UsuarioVO usuarioExistente = UsuarioDAO.obtenerUsuarioPorNombre(nombreUsuario);
             if (usuarioExistente != null) {
-                response.sendRedirect("views/jsp/register.jsp?event=El nombre de usuario " + nombreUsuario + " ya esta en uso");
+                response.sendRedirect("views/jsp/register.jsp?event=El nombre de usuario " + nombreUsuario + " ya está en uso");
                 return;
             }
 
             // Guardar el usuario en la base de datos
             UsuarioDAO.guardarUsuario(usuario);
             
+            // Redirigir al usuario a la página de login después del registro exitoso
             response.sendRedirect("views/jsp/login.jsp?event=El usuario " + nombreUsuario + " ha sido registrado correctamente");
-            // Redirigir al usuario a la página de inicio o login después del registro
             
         } catch (Exception e) {
             e.printStackTrace();

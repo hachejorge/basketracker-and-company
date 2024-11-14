@@ -30,10 +30,12 @@ public class MandarCorreoCambioContraseñaServlet extends HttpServlet {
             // Enviar correo de restablecimiento
             enviarCorreoRestablecimiento(correo, token);
             response.setStatus(HttpServletResponse.SC_OK); // Respuesta exitosa
-            response.sendRedirect(request.getContextPath() + "/views/jsp/confirmacion_envio.jsp");
+            response.getWriter().write("<script>alert('El correo ha sido mandado');</script>");
+            response.sendRedirect(request.getContextPath() + "/views/jsp/login.jsp?event=El correo ha sido mandado");
+            
         } else {
             // Si el correo no existe, redirigir a una página de error
-            response.sendRedirect(request.getContextPath() + "/views/jsp/error_correo_no_registrado.jsp");
+        	 response.sendRedirect(request.getContextPath() + "/views/jsp/recuperar_password.jsp?event=El correo no esta registrado");
         }
     }
 
@@ -62,7 +64,7 @@ public class MandarCorreoCambioContraseñaServlet extends HttpServlet {
             message.setSubject("Restablecimiento de contraseña - Basketracker");
 
             String urlRestablecimiento = "http://localhost:8081/BasketTracker/views/jsp/restablecer_contraseña.jsp?token=" + token;
-            message.setText("Hola, \n\nPara restablecer tu contraseña, por favor haz clic en el siguiente enlace:\n" + urlRestablecimiento + "\n\nSi no solicitaste este cambio, ignora este correo.");
+            message.setText("Hola, \n\nPara restablecer tu contraseña, por favor haz clic en el siguiente enlace:\n" + urlRestablecimiento + ".\nEl token es: " + token + "\n\nSi no solicitaste este cambio, ignora este correo.");
 
             // Enviar el mensaje
             Transport.send(message);

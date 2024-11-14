@@ -45,9 +45,7 @@
 	    </div>
 	    <%@ include file="footer.jsp" %>
     </div>
-    
-    
-
+</body>
     <script>
 	 	// Obtener el valor del parámetro success de la URL
 	    const urlParams = new URLSearchParams(window.location.search);
@@ -72,9 +70,8 @@
                 toggleIcon.classList.add("fa-eye");
             }
         }
+
     </script>
-    
-</body>
 </html>
 
 

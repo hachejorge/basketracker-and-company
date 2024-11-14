@@ -29,4 +29,10 @@
 		<%@ include file="footer.jsp" %>
 	</div>
 </body>
+<script>
+if (event) {
+    alert(event);
+}
+</script>
+
 </html>

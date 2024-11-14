@@ -3,6 +3,7 @@ package servlets;
 import clasesDAO.UsuarioDAO;
 import clasesVO.UsuarioVO;
 import clasesDAO.TokenDAO;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,21 +36,26 @@ public class CambiarContraseñaServlet extends HttpServlet {
 
                 // Si se encontró el usuario y el correo coincide, actualizar la contraseña
                 if (usuario != null && usuario.getCorreoElect().equals(correo)) {
-                    usuario.setPassword(nuevaContrasena); // Establecer la nueva contraseña
-                    UsuarioDAO.actualizarUsuario(usuario); // Guardar en la base de datos
-                    TokenDAO.eliminarTokenRestablecimiento(nombreUsuario); // Eliminar el token después del uso
+                    // Encriptar la nueva contraseña con BCrypt
+                    String nuevaContrasenaEncriptada = BCrypt.hashpw(nuevaContrasena, BCrypt.gensalt());
 
-                    request.setAttribute("message", "Contraseña actualizada correctamente.");
-                    response.sendRedirect(request.getContextPath() + "/views/jsp/login.jsp");
+                    // Establecer la nueva contraseña encriptada
+                    usuario.setPassword(nuevaContrasenaEncriptada); 
+                    UsuarioDAO.actualizarUsuario(usuario); // Guardar en la base de datos
+
+                    // Eliminar el token después del uso
+                    TokenDAO.eliminarTokenRestablecimiento(nombreUsuario);
+
+                    // Redirigir al usuario con un mensaje de éxito
+                    response.sendRedirect(request.getContextPath() + "/views/jsp/login.jsp?event=Contraseña actualizada correctamente");
+
                 } else {
                     // Usuario no encontrado o correo incorrecto
-                    request.setAttribute("error", "Usuario o correo incorrecto.");
-                    request.getRequestDispatcher("/views/jsp/restablecer_contraseña.jsp").forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "views/jsp/restablecer_contraseña?event=Usuario o correo incorrecto.");
                 }
             } else {
                 // Token inválido o expirado
-                request.setAttribute("error", "Token inválido o expirado.");
-                request.getRequestDispatcher("/views/jsp/restablecer_contraseña.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "views/jsp/restablecer_contraseña?event=Token inválido o expirado.");
             }
         } catch (Exception e) {
             e.printStackTrace();

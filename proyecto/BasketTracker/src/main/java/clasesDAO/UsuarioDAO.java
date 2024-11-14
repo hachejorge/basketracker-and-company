@@ -79,7 +79,7 @@ public class UsuarioDAO {
     }
 
     // Método para listar todos los usuarios
-    public List<UsuarioVO> listarUsuarios() {
+    public static List<UsuarioVO> listarUsuarios() {
         List<UsuarioVO> usuarios = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;
