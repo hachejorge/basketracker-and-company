@@ -4,34 +4,32 @@
 	--color-admin: #001E2B;
 }
 
-/* Aquí puedes usar las variables en lugar de los colores hexadecimales */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
-    background-color: #f0f0f0; /* Color de fondo */
+    background-color: #f0f0f0;
 }
 
-/* Cabecera */
 .cabecera-section {
-    background-color: var(--color-primary); /* Color de fondo usando la variable */
-    text-align: center; /* Centra el contenido */
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
-    height: 138px; /* Establece una altura fija para la cabecera */
+    background-color: var(--color-primary);
+    text-align: center; 
+    z-index: 1000; 
+    height: 138px;
     
 }
 
 .cabecera-rect {
-    margin: 0 auto; /* Centra el div horizontalmente */
-    height: 100%; /* Asegura que el div de la cabecera ocupe el 100% de la altura de la cabecera */
-    display: flex; /* Flexbox para centrar verticalmente la imagen */
-    justify-content: center; /* Centra horizontalmente la imagen */
-    align-items: center; /* Centra verticalmente la imagen */
+    margin: 0 auto; 
+    height: 100%; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
 }
 
 .cabecera-image {
-    height: 100%; /* Ajusta la altura de la imagen al 100% de la cabecera */
+    height: 100%; 
     width: 136px; /* Mantiene la proporción de la imagen */
     border-radius: 5px; /* Esquinas redondeadas */
 }
@@ -782,14 +780,13 @@ h1 {
 }
 
 .equipo-team, .equipo-calendar {
-    display: none; /* Oculto inicialmente */
+    display: none;
 }
 
 .equipo-team.active, .equipo-calendar.active {
-    display: block; /* Mostrar contenido activo */
+    display: block;
 }
 
-/* Estilos adicionales para el contenido */
 .equipo-team, .equipo-calendar {
     padding: 20px;
     border-radius: 10px;
@@ -807,7 +804,7 @@ h1 {
 .equipo-background-img img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Para asegurar que la imagen se ajuste al contenedor */
+    object-fit: cover;
 }
 
 .equipo-container {
