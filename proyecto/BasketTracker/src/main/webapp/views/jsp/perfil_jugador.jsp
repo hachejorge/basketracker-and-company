@@ -21,7 +21,7 @@
     }
     
     boolean esFavorito = JugadorDAO.existeJugador(usuario.getNombreUsuario());
-%>
+    esFavorito = esFavorito && usuario.getNombreUsuario().equals(jugadorVO.getNombreUsuario());%>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -29,7 +29,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/views/stylesheets/stylesheet.css">
-    <title><%= jugadorVO.getNombreJugador() %> | Basketracker</title>
+    <title><%= jugadorVO.getNombreJugador() %>| Basketracker</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <div class="thecontainer">
@@ -88,7 +88,9 @@
 		        <div class="profile-header">
 			        <div class="banner">
 			            <img src="<%= request.getContextPath() %>/views/images/banner.png" alt="Banner Image">
+			            <% if (esFavorito) { %>
 			            <button class="editar-perfil-btn <%= esFavorito ? "active" : "" %>"  onclick="window.location.href='<%= request.getContextPath() %>/views/jsp/editar_perfil.jsp'" >Editar Perfil</button> 
+			        	<% } %>
 			        </div>
 			        <div class="profile-content">
 			            <div class="profile-details">
