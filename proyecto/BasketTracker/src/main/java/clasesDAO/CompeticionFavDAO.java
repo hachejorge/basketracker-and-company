@@ -31,7 +31,7 @@ public class CompeticionFavDAO {
         try {
             conn = PoolConnectionManager.getConnection();
             // SQL para insertar una nueva competición favorita
-            String query = "INSERT INTO sisinf_db.competicion_fav (nombre_usuario, competicion) VALUES (?, ?)";
+            String query = "INSERT INTO sisinf.competicion_fav (nombre_usuario, competicion) VALUES (?, ?)";
             ps = conn.prepareStatement(query);
             ps.setString(1, competicionFav.getNombreUsuario());  // Nombre de usuario
             ps.setString(2, competicionFav.getCompeticion());  // Nombre de la competición
@@ -68,7 +68,7 @@ public class CompeticionFavDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.competicion_fav WHERE nombre_usuario = ?";
+            String query = "SELECT * FROM sisinf.competicion_fav WHERE nombre_usuario = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             rs = ps.executeQuery();
@@ -126,7 +126,7 @@ public class CompeticionFavDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "DELETE FROM sisinf_db.competicion_fav WHERE nombre_usuario = ? AND competicion = ?";
+            String query = "DELETE FROM sisinf.competicion_fav WHERE nombre_usuario = ? AND competicion = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             ps.setString(2, competicion);
@@ -155,7 +155,7 @@ public class CompeticionFavDAO {
      */
     public static boolean esFavorito(String nombreUsuario, String competicion) {
         boolean esFavorito = false;
-        String query = "SELECT COUNT(*) FROM sisinf_db.competicion_fav WHERE nombre_usuario = ? AND competicion = ?";
+        String query = "SELECT COUNT(*) FROM sisinf.competicion_fav WHERE nombre_usuario = ? AND competicion = ?";
 
         try (Connection conn = PoolConnectionManager.getConnection(); 
              PreparedStatement pstmt = conn.prepareStatement(query)) {

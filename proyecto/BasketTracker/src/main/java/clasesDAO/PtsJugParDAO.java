@@ -25,7 +25,7 @@ public class PtsJugParDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "INSERT INTO sisinf_db.pts_jug_par (id_partido, nombre_usuario, pts_ant, trp_ant, " +
+            String query = "INSERT INTO sisinf.pts_jug_par (id_partido, nombre_usuario, pts_ant, trp_ant, " +
                            "tlb_lan, tlb_ant, faltas, mnt_jd) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             ps = conn.prepareStatement(query);
             ps.setInt(1, ptsJugPar.getIdPartido());
@@ -70,7 +70,7 @@ public class PtsJugParDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.pts_jug_par WHERE id_partido = ? AND nombre_usuario = ?";
+            String query = "SELECT * FROM sisinf.pts_jug_par WHERE id_partido = ? AND nombre_usuario = ?";
             ps = conn.prepareStatement(query);
             ps.setInt(1, idPartido);
             ps.setString(2, nombreUsuario);
@@ -126,7 +126,7 @@ public class PtsJugParDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.pts_jug_par";
+            String query = "SELECT * FROM sisinf.pts_jug_par";
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
 
@@ -178,7 +178,7 @@ public class PtsJugParDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "UPDATE sisinf_db.pts_jug_par SET pts_ant = ?, trp_ant = ?, tlb_lan = ?, tlb_ant = ?, " +
+            String query = "UPDATE sisinf.pts_jug_par SET pts_ant = ?, trp_ant = ?, tlb_lan = ?, tlb_ant = ?, " +
                            "faltas = ?, mnt_jd = ? WHERE id_partido = ? AND nombre_usuario = ?";
             ps = conn.prepareStatement(query);
             ps.setObject(1, ptsJugPar.getPtsAnt());
@@ -220,7 +220,7 @@ public class PtsJugParDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "DELETE FROM sisinf_db.pts_jug_par WHERE id_partido = ? AND nombre_usuario = ?";
+            String query = "DELETE FROM sisinf.pts_jug_par WHERE id_partido = ? AND nombre_usuario = ?";
             ps = conn.prepareStatement(query);
             ps.setInt(1, idPartido);
             ps.setString(2, nombreUsuario);
@@ -257,7 +257,7 @@ public class PtsJugParDAO {
         try {
             conn = PoolConnectionManager.getConnection();
             String query = "SELECT id_partido, nombre_usuario, pts_ant, mnt_jd, tlb_ant, trp_ant, tlb_lan, faltas " +
-                           "FROM sisinf_db.pts_jug_par WHERE nombre_usuario = ? ORDER BY id_partido";
+                           "FROM sisinf.pts_jug_par WHERE nombre_usuario = ? ORDER BY id_partido";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             rs = ps.executeQuery();
@@ -335,7 +335,7 @@ public class PtsJugParDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.pts_jug_par WHERE id_partido = ? AND nombre_usuario = ?";
+            String query = "SELECT * FROM sisinf.pts_jug_par WHERE id_partido = ? AND nombre_usuario = ?";
             ps = conn.prepareStatement(query);
             ps.setInt(1, idPartido);
             ps.setString(2, nombreUsuario);
@@ -423,7 +423,7 @@ public class PtsJugParDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.pts_jug_par WHERE id_partido = ?";
+            String query = "SELECT * FROM sisinf.pts_jug_par WHERE id_partido = ?";
             ps = conn.prepareStatement(query);
             ps.setInt(1, idPartido);
             rs = ps.executeQuery();

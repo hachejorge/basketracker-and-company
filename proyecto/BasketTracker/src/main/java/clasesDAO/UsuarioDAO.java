@@ -29,7 +29,7 @@ public class UsuarioDAO {
         
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "INSERT INTO sisinf_db.usuario (nombre_usuario, correo_elec, password) VALUES (?, ?, ?)";
+            String query = "INSERT INTO sisinf.usuario (nombre_usuario, correo_elec, password) VALUES (?, ?, ?)";
             
             ps = conn.prepareStatement(query);
             ps.setString(1, usuario.getNombreUsuario());
@@ -57,7 +57,7 @@ public class UsuarioDAO {
         Connection conn = null;
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.usuario WHERE nombre_usuario = ?";
+            String query = "SELECT * FROM sisinf.usuario WHERE nombre_usuario = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             rs = ps.executeQuery();
@@ -89,7 +89,7 @@ public class UsuarioDAO {
         
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.usuario";
+            String query = "SELECT * FROM sisinf.usuario";
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             
@@ -123,13 +123,13 @@ public class UsuarioDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String checkQuery = "SELECT 1 FROM sisinf_db.usuario WHERE nombre_usuario = ?";
+            String checkQuery = "SELECT 1 FROM sisinf.usuario WHERE nombre_usuario = ?";
             psCheck = conn.prepareStatement(checkQuery);
             psCheck.setString(1, usuario.getNombreUsuario());
             rs = psCheck.executeQuery();
 
             if (rs.next()) {
-                String updateQuery = "UPDATE sisinf_db.usuario SET correo_elec = ?, password = ? WHERE nombre_usuario = ?";
+                String updateQuery = "UPDATE sisinf.usuario SET correo_elec = ?, password = ? WHERE nombre_usuario = ?";
                 psUpdate = conn.prepareStatement(updateQuery);
                 psUpdate.setString(1, usuario.getCorreoElect());
                 psUpdate.setString(2, usuario.getPassword());
@@ -162,7 +162,7 @@ public class UsuarioDAO {
         
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "DELETE FROM sisinf_db.usuario WHERE nombre_usuario = ?";
+            String query = "DELETE FROM sisinf.usuario WHERE nombre_usuario = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             ps.executeUpdate();
@@ -189,7 +189,7 @@ public class UsuarioDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.usuario WHERE correo_elec = ?";
+            String query = "SELECT * FROM sisinf.usuario WHERE correo_elec = ?";
             
             ps = conn.prepareStatement(query);
             ps.setString(1, correo);

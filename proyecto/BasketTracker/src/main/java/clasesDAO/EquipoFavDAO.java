@@ -26,7 +26,7 @@ public class EquipoFavDAO {
         try {
             conn = PoolConnectionManager.getConnection();
             // SQL para insertar un nuevo equipo favorito
-            String query = "INSERT INTO sisinf_db.equipo_fav (nombre_usuario, equipo) VALUES (?, ?)";
+            String query = "INSERT INTO sisinf.equipo_fav (nombre_usuario, equipo) VALUES (?, ?)";
             ps = conn.prepareStatement(query);
             ps.setString(1, equipoFav.getNombreUsuario());  // Nombre de usuario
             ps.setInt(2, equipoFav.getEquipo());  // ID del equipo
@@ -62,7 +62,7 @@ public class EquipoFavDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.equipo_fav WHERE nombre_usuario = ?";
+            String query = "SELECT * FROM sisinf.equipo_fav WHERE nombre_usuario = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             rs = ps.executeQuery();
@@ -120,7 +120,7 @@ public class EquipoFavDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "DELETE FROM sisinf_db.equipo_fav WHERE nombre_usuario = ? AND equipo = ?";
+            String query = "DELETE FROM sisinf.equipo_fav WHERE nombre_usuario = ? AND equipo = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             ps.setInt(2, equipo);
@@ -149,7 +149,7 @@ public class EquipoFavDAO {
      */
     public static boolean esFavorito(String nombreUsuario, int equipo) {
         boolean esFavorito = false;
-        String query = "SELECT COUNT(*) FROM sisinf_db.equipo_fav WHERE nombre_usuario = ? AND equipo = ?";
+        String query = "SELECT COUNT(*) FROM sisinf.equipo_fav WHERE nombre_usuario = ? AND equipo = ?";
 
         try (Connection conn = PoolConnectionManager.getConnection(); 
              PreparedStatement pstmt = conn.prepareStatement(query)) {

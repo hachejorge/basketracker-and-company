@@ -25,7 +25,7 @@ public class TokenDAO {
             conn = PoolConnectionManager.getConnection();
 
             // Inserta o actualiza el token de restablecimiento con una fecha de expiración de una hora
-            String query = "INSERT INTO sisinf_db.tokens_restablecimiento (nombre_usuario, token, fecha_expiracion) " +
+            String query = "INSERT INTO sisinf.tokens_restablecimiento (nombre_usuario, token, fecha_expiracion) " +
                            "VALUES (?, ?, NOW() + INTERVAL '1 hour') " +
                            "ON CONFLICT (nombre_usuario) DO UPDATE SET token = EXCLUDED.token, " +
                            "fecha_expiracion = NOW() + INTERVAL '1 hour'";
@@ -71,8 +71,8 @@ public class TokenDAO {
             conn = PoolConnectionManager.getConnection();
 
             // Consulta para verificar que el token y usuario coinciden y que el token no ha expirado
-            String query = "SELECT 1 FROM sisinf_db.tokens_restablecimiento tr " +
-                           "JOIN sisinf_db.USUARIO u ON tr.nombre_usuario = u.nombre_usuario " +
+            String query = "SELECT 1 FROM sisinf.tokens_restablecimiento tr " +
+                           "JOIN sisinf.USUARIO u ON tr.nombre_usuario = u.nombre_usuario " +
                            "WHERE tr.nombre_usuario = ? AND tr.token = ? AND u.correo_elec = ? AND tr.fecha_expiracion > NOW()";
 
             ps = conn.prepareStatement(query);
@@ -112,7 +112,7 @@ public class TokenDAO {
             conn = PoolConnectionManager.getConnection();
 
             // Consulta para eliminar el token asociado al nombre de usuario
-            String query = "DELETE FROM sisinf_db.tokens_restablecimiento WHERE nombre_usuario = ?";
+            String query = "DELETE FROM sisinf.tokens_restablecimiento WHERE nombre_usuario = ?";
 
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);

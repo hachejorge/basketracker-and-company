@@ -27,7 +27,7 @@ public class EquipoDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "INSERT INTO sisinf_db.equipo (nombre_equipo, ubicacion, competicion) VALUES (?, ?, ?)";
+            String query = "INSERT INTO sisinf.equipo (nombre_equipo, ubicacion, competicion) VALUES (?, ?, ?)";
             ps = conn.prepareStatement(query);
             ps.setString(1, equipo.getNombreEquipo());
             ps.setString(2, equipo.getUbicacion());
@@ -63,7 +63,7 @@ public class EquipoDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.equipo WHERE id_equipo = ?";
+            String query = "SELECT * FROM sisinf.equipo WHERE id_equipo = ?";
             ps = conn.prepareStatement(query);
             ps.setInt(1, idEquipo);
             rs = ps.executeQuery();
@@ -110,7 +110,7 @@ public class EquipoDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.equipo";
+            String query = "SELECT * FROM sisinf.equipo";
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
 
@@ -155,7 +155,7 @@ public class EquipoDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "UPDATE sisinf_db.equipo SET nombre_equipo = ?, ubicacion = ?, competicion = ? WHERE id_equipo = ?";
+            String query = "UPDATE sisinf.equipo SET nombre_equipo = ?, ubicacion = ?, competicion = ? WHERE id_equipo = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, equipo.getNombreEquipo());
             ps.setString(2, equipo.getUbicacion());
@@ -192,7 +192,7 @@ public class EquipoDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT nombre_usuario, nombre_jugador, equipo FROM sisinf_db.jugador WHERE equipo = ?";
+            String query = "SELECT nombre_usuario, nombre_jugador, equipo FROM sisinf.jugador WHERE equipo = ?";
             ps = conn.prepareStatement(query);
             ps.setInt(1, idEquipo);
             rs = ps.executeQuery();
@@ -243,7 +243,7 @@ public class EquipoDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.equipo WHERE competicion = ?";
+            String query = "SELECT * FROM sisinf.equipo WHERE competicion = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, competicion);
             rs = ps.executeQuery();
@@ -288,7 +288,7 @@ public class EquipoDAO {
      */
     public static List<EquipoVO> buscarEquipos(String searchTerm) throws SQLException {
         List<EquipoVO> equipos = new ArrayList<>();
-        String query = "SELECT * FROM sisinf_db.EQUIPO WHERE nombre_equipo ILIKE ?";
+        String query = "SELECT * FROM sisinf.EQUIPO WHERE nombre_equipo ILIKE ?";
 
         try (Connection conn = PoolConnectionManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -320,7 +320,7 @@ public class EquipoDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT competicion FROM sisinf_db.equipo WHERE id_equipo = ?";
+            String query = "SELECT competicion FROM sisinf.equipo WHERE id_equipo = ?";
             ps = conn.prepareStatement(query);
             ps.setInt(1, idEquipo);
             rs = ps.executeQuery();
@@ -367,7 +367,7 @@ public class EquipoDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT COUNT(*) FROM sisinf_db.equipo WHERE nombre_equipo = ? AND competicion = ?";
+            String query = "SELECT COUNT(*) FROM sisinf.equipo WHERE nombre_equipo = ? AND competicion = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreEquipo);
             ps.setString(2, competicion);
@@ -409,7 +409,7 @@ public class EquipoDAO {
      */
     public static List<EquipoVO> buscarEquiposPorNombre(String nombreParcial) throws SQLException {
         List<EquipoVO> equipos = new ArrayList<>();
-        String query = "SELECT * FROM sisinf_db.equipo WHERE nombre_equipo ILIKE ?";
+        String query = "SELECT * FROM sisinf.equipo WHERE nombre_equipo ILIKE ?";
 
         try (Connection conn = PoolConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {

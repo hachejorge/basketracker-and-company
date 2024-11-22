@@ -31,7 +31,7 @@ public class JugadorFavDAO {
         try {
             conn = PoolConnectionManager.getConnection();
             // SQL para insertar un nuevo jugador favorito
-            String query = "INSERT INTO sisinf_db.jugador_fav (nombre_usuario, jugador) VALUES (?, ?)";
+            String query = "INSERT INTO sisinf.jugador_fav (nombre_usuario, jugador) VALUES (?, ?)";
             ps = conn.prepareStatement(query);
             ps.setString(1, jugadorFav.getNombreUsuario());  // Nombre de usuario
             ps.setString(2, jugadorFav.getJugador());  // Nombre del jugador
@@ -67,7 +67,7 @@ public class JugadorFavDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.jugador_fav WHERE nombre_usuario = ?";
+            String query = "SELECT * FROM sisinf.jugador_fav WHERE nombre_usuario = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             rs = ps.executeQuery();
@@ -125,7 +125,7 @@ public class JugadorFavDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "DELETE FROM sisinf_db.jugador_fav WHERE nombre_usuario = ? AND jugador = ?";
+            String query = "DELETE FROM sisinf.jugador_fav WHERE nombre_usuario = ? AND jugador = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             ps.setString(2, jugador);
@@ -154,7 +154,7 @@ public class JugadorFavDAO {
      */
     public static boolean esFavorito(String nombreUsuario, String jugador) {
         boolean esFavorito = false;
-        String query = "SELECT COUNT(*) FROM sisinf_db.jugador_fav WHERE nombre_usuario = ? AND jugador = ?";
+        String query = "SELECT COUNT(*) FROM sisinf.jugador_fav WHERE nombre_usuario = ? AND jugador = ?";
 
         try (Connection conn = PoolConnectionManager.getConnection(); 
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -182,7 +182,7 @@ public class JugadorFavDAO {
      */
     public static int contarSeguidores(String nombreJugador) {
         int seguidores = 0;
-        String query = "SELECT COUNT(*) FROM sisinf_db.jugador_fav WHERE jugador = ?";
+        String query = "SELECT COUNT(*) FROM sisinf.jugador_fav WHERE jugador = ?";
 
         try (Connection conn = PoolConnectionManager.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {

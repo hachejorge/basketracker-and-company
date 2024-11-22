@@ -36,7 +36,7 @@ public class PartidoDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.partido WHERE id_partido = ?";
+            String query = "SELECT * FROM sisinf.partido WHERE id_partido = ?";
             ps = conn.prepareStatement(query);
             ps.setInt(1, idPartido);
             rs = ps.executeQuery();
@@ -93,7 +93,7 @@ public class PartidoDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.partido";
+            String query = "SELECT * FROM sisinf.partido";
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
 
@@ -147,7 +147,7 @@ public class PartidoDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "UPDATE sisinf_db.partido SET equipo_local = ?, equipo_visitante = ?, jornada = ?, " +
+            String query = "UPDATE sisinf.partido SET equipo_local = ?, equipo_visitante = ?, jornada = ?, " +
                            "pts_c1_local = ?, pts_c2_local = ?, pts_c3_local = ?, pts_c4_local = ?, " +
                            "pts_c1_visit = ?, pts_c2_visit = ?, pts_c3_visit = ?, pts_c4_visit = ?, hora = ?, fecha = ? WHERE id_partido = ?";
             ps = conn.prepareStatement(query);
@@ -191,7 +191,7 @@ public class PartidoDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "DELETE FROM sisinf_db.partido WHERE id_partido = ?";
+            String query = "DELETE FROM sisinf.partido WHERE id_partido = ?";
             ps = conn.prepareStatement(query);
             ps.setInt(1, idPartido);
             // Ejecutar la eliminación
@@ -226,8 +226,8 @@ public class PartidoDAO {
                            "p.pts_c1_local, p.pts_c2_local, p.pts_c3_local, p.pts_c4_local, " +
                            "p.pts_c1_visit, p.pts_c2_visit, p.pts_c3_visit, p.pts_c4_visit, " +
                            "p.hora, p.fecha " +
-                           "FROM sisinf_db.partido p " +
-                           "JOIN sisinf_db.pts_jug_par pj ON p.id_partido = pj.id_partido " +
+                           "FROM sisinf.partido p " +
+                           "JOIN sisinf.pts_jug_par pj ON p.id_partido = pj.id_partido " +
                            "WHERE pj.nombre_usuario = ? " +  // Cambiado a nombre_jugador
                            "ORDER BY p.fecha DESC, p.hora DESC LIMIT 1";
             ps = conn.prepareStatement(query);
@@ -287,7 +287,7 @@ public class PartidoDAO {
             conn = PoolConnectionManager.getConnection();
 
             // Primero, obtenemos todos los equipos que participan en la competición
-            String queryEquipos = "SELECT id_equipo, nombre_equipo FROM sisinf_db.EQUIPO WHERE competicion = ?";
+            String queryEquipos = "SELECT id_equipo, nombre_equipo FROM sisinf.EQUIPO WHERE competicion = ?";
             ps = conn.prepareStatement(queryEquipos);
             ps.setString(1, nombreCompeticion);
             rs = ps.executeQuery();
@@ -312,9 +312,9 @@ public class PartidoDAO {
             String queryPartidos = "SELECT equipo_local, equipo_visitante, " +
                                    "(pts_c1_local + pts_c2_local + pts_c3_local + pts_c4_local) AS puntos_local, " +
                                    "(pts_c1_visit + pts_c2_visit + pts_c3_visit + pts_c4_visit) AS puntos_visit " +
-                                   "FROM sisinf_db.PARTIDO " +
-                                   "WHERE equipo_local IN (SELECT id_equipo FROM sisinf_db.EQUIPO WHERE competicion = ?) " +
-                                   "OR equipo_visitante IN (SELECT id_equipo FROM sisinf_db.EQUIPO WHERE competicion = ?)";
+                                   "FROM sisinf.PARTIDO " +
+                                   "WHERE equipo_local IN (SELECT id_equipo FROM sisinf.EQUIPO WHERE competicion = ?) " +
+                                   "OR equipo_visitante IN (SELECT id_equipo FROM sisinf.EQUIPO WHERE competicion = ?)";
             ps = conn.prepareStatement(queryPartidos);
             ps.setString(1, nombreCompeticion);
             ps.setString(2, nombreCompeticion);
@@ -401,7 +401,7 @@ public class PartidoDAO {
             conn = PoolConnectionManager.getConnection();
             // SQL para obtener los partidos futuros en los que participa el equipo (como local o visitante)
             // Se usa CURRENT_TIMESTAMP para comparar tanto la fecha como la hora actuales
-            String query = "SELECT * FROM sisinf_db.partido " +
+            String query = "SELECT * FROM sisinf.partido " +
                            "WHERE (equipo_local = ? OR equipo_visitante = ?) AND " +
                            "(fecha > CURRENT_DATE OR (fecha = CURRENT_DATE AND hora > CURRENT_TIME)) " +
                            "ORDER BY fecha ASC, hora ASC"; // Cambiado a ASC para obtener partidos más cercanos primero
@@ -463,7 +463,7 @@ public class PartidoDAO {
         try {
             conn = PoolConnectionManager.getConnection();
             // Consulta SQL para obtener partidos donde el equipo sea local o visitante
-            String query = "SELECT * FROM sisinf_db.partido " +
+            String query = "SELECT * FROM sisinf.partido " +
                            "WHERE equipo_local = ? OR equipo_visitante = ? " +
                            "ORDER BY fecha ASC, hora ASC";  // Ordena por fecha y hora para ver cronológicamente
             ps = conn.prepareStatement(query);
@@ -525,8 +525,8 @@ public class PartidoDAO {
         try {
             conn = PoolConnectionManager.getConnection();
             // Consulta SQL para obtener partidos en función de la competición
-            String query = "SELECT p.* FROM sisinf_db.partido p " +
-                           "JOIN sisinf_db.equipo e ON p.equipo_local = e.id_equipo OR p.equipo_visitante = e.id_equipo " +
+            String query = "SELECT p.* FROM sisinf.partido p " +
+                           "JOIN sisinf.equipo e ON p.equipo_local = e.id_equipo OR p.equipo_visitante = e.id_equipo " +
                            "WHERE e.competicion = ? " +
                            "ORDER BY p.fecha ASC, p.hora ASC";  // Ordena por fecha y hora
             ps = conn.prepareStatement(query);
@@ -587,8 +587,8 @@ public class PartidoDAO {
         try {
             conn = PoolConnectionManager.getConnection();
             // Consulta SQL para obtener los números de jornada únicos
-            String query = "SELECT DISTINCT p.jornada FROM sisinf_db.partido p " +
-                           "JOIN sisinf_db.equipo e ON p.equipo_local = e.id_equipo OR p.equipo_visitante = e.id_equipo " +
+            String query = "SELECT DISTINCT p.jornada FROM sisinf.partido p " +
+                           "JOIN sisinf.equipo e ON p.equipo_local = e.id_equipo OR p.equipo_visitante = e.id_equipo " +
                            "WHERE e.competicion = ? " +
                            "ORDER BY p.jornada ASC";  // Ordena por número de jornada
             ps = conn.prepareStatement(query);
@@ -634,8 +634,8 @@ public class PartidoDAO {
             conn = PoolConnectionManager.getConnection();
             
             // Consulta SQL para obtener los partidos de una competición específica y jornada
-            String query = "SELECT DISTINCT p.* FROM sisinf_db.partido p " +
-                           "JOIN sisinf_db.equipo e ON p.equipo_local = e.id_equipo OR p.equipo_visitante = e.id_equipo " +
+            String query = "SELECT DISTINCT p.* FROM sisinf.partido p " +
+                           "JOIN sisinf.equipo e ON p.equipo_local = e.id_equipo OR p.equipo_visitante = e.id_equipo " +
                            "WHERE e.competicion = ? AND p.jornada = ? " +
                            "ORDER BY p.fecha ASC, p.hora ASC";  // Ordena por fecha y hora para mostrar cronológicamente
             
@@ -695,7 +695,7 @@ public class PartidoDAO {
         try {
             conn = PoolConnectionManager.getConnection();
             // SQL para insertar un nuevo partido, omitiendo el campo id_partido
-            String query = "INSERT INTO sisinf_db.partido (equipo_local, equipo_visitante, jornada, " +
+            String query = "INSERT INTO sisinf.partido (equipo_local, equipo_visitante, jornada, " +
                            "pts_c1_local, pts_c2_local, pts_c3_local, pts_c4_local, " +
                            "pts_c1_visit, pts_c2_visit, pts_c3_visit, pts_c4_visit, hora, fecha) " +
                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

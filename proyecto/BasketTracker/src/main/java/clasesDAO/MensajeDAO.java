@@ -34,7 +34,7 @@ public class MensajeDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT COALESCE(MAX(id_mensaje), 0) FROM sisinf_db.MENSAJE";
+            String query = "SELECT COALESCE(MAX(id_mensaje), 0) FROM sisinf.MENSAJE";
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
 
@@ -77,7 +77,7 @@ public class MensajeDAO {
             conn = PoolConnectionManager.getConnection();
             int nuevoId = obtenerIdMaximo() + 1;
 
-            String query = "INSERT INTO sisinf_db.MENSAJE (id_mensaje, nombre_usuario, mensaje, hora, fecha) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO sisinf.MENSAJE (id_mensaje, nombre_usuario, mensaje, hora, fecha) VALUES (?, ?, ?, ?, ?)";
             ps = conn.prepareStatement(query);
             ps.setInt(1, nuevoId);
             ps.setString(2, mensaje.getNombreUsuario());
@@ -115,7 +115,7 @@ public class MensajeDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.MENSAJE WHERE id_mensaje = ?";
+            String query = "SELECT * FROM sisinf.MENSAJE WHERE id_mensaje = ?";
             ps = conn.prepareStatement(query);
             ps.setInt(1, idMensaje);
             rs = ps.executeQuery();
@@ -164,7 +164,7 @@ public class MensajeDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.MENSAJE";
+            String query = "SELECT * FROM sisinf.MENSAJE";
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
 
@@ -211,7 +211,7 @@ public class MensajeDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "UPDATE sisinf_db.MENSAJE SET nombre_usuario = ?, mensaje = ?, hora = ?, fecha = ? WHERE id_mensaje = ?";
+            String query = "UPDATE sisinf.MENSAJE SET nombre_usuario = ?, mensaje = ?, hora = ?, fecha = ? WHERE id_mensaje = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, mensaje.getNombreUsuario());
             ps.setString(2, mensaje.getMensaje());
@@ -246,7 +246,7 @@ public class MensajeDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "DELETE FROM sisinf_db.MENSAJE WHERE id_mensaje = ?";
+            String query = "DELETE FROM sisinf.MENSAJE WHERE id_mensaje = ?";
             ps = conn.prepareStatement(query);
             ps.setInt(1, idMensaje);
 
@@ -280,7 +280,7 @@ public class MensajeDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.MENSAJE WHERE nombre_usuario = ? ORDER BY fecha ASC, hora ASC";
+            String query = "SELECT * FROM sisinf.MENSAJE WHERE nombre_usuario = ? ORDER BY fecha ASC, hora ASC";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             rs = ps.executeQuery();

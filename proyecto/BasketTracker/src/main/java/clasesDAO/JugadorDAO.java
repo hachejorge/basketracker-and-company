@@ -33,7 +33,7 @@ public class JugadorDAO {
             conn = PoolConnectionManager.getConnection();
 
             // SQL para insertar un nuevo jugador en la base de datos
-            String query = "INSERT INTO sisinf_db.jugador (nombre_usuario, nombre_jugador, equipo) VALUES (?, ?, ?)";
+            String query = "INSERT INTO sisinf.jugador (nombre_usuario, nombre_jugador, equipo) VALUES (?, ?, ?)";
 
             ps = conn.prepareStatement(query);
             ps.setString(1, jugador.getNombreUsuario());  // Nombre de usuario
@@ -71,7 +71,7 @@ public class JugadorDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.jugador WHERE nombre_usuario = ?";
+            String query = "SELECT * FROM sisinf.jugador WHERE nombre_usuario = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             rs = ps.executeQuery();
@@ -117,7 +117,7 @@ public class JugadorDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.jugador";
+            String query = "SELECT * FROM sisinf.jugador";
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
 
@@ -166,14 +166,14 @@ public class JugadorDAO {
             conn = PoolConnectionManager.getConnection();
 
             // Verificar si el jugador existe en la base de datos
-            String checkQuery = "SELECT 1 FROM sisinf_db.jugador WHERE nombre_usuario = ?";
+            String checkQuery = "SELECT 1 FROM sisinf.jugador WHERE nombre_usuario = ?";
             psCheck = conn.prepareStatement(checkQuery);
             psCheck.setString(1, jugador.getNombreUsuario());
             rs = psCheck.executeQuery();
 
             if (rs.next()) {
                 // Si el jugador existe, proceder con la actualización
-                String updateQuery = "UPDATE sisinf_db.jugador SET nombre_jugador = ?, equipo = ? WHERE nombre_usuario = ?";
+                String updateQuery = "UPDATE sisinf.jugador SET nombre_jugador = ?, equipo = ? WHERE nombre_usuario = ?";
                 psUpdate = conn.prepareStatement(updateQuery);
                 psUpdate.setString(1, jugador.getNombreJugador());
                 psUpdate.setInt(2, jugador.getEquipo());
@@ -223,7 +223,7 @@ public class JugadorDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "DELETE FROM sisinf_db.jugador WHERE nombre_usuario = ?";
+            String query = "DELETE FROM sisinf.jugador WHERE nombre_usuario = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             ps.executeUpdate();
@@ -257,8 +257,8 @@ public class JugadorDAO {
         try {
             conn = PoolConnectionManager.getConnection();
             String query = "SELECT j.nombre_usuario, j.nombre_jugador, j.equipo " +
-                           "FROM sisinf_db.JUGADOR j " +
-                           "JOIN sisinf_db.EQUIPO e ON j.equipo = e.id_equipo " +
+                           "FROM sisinf.JUGADOR j " +
+                           "JOIN sisinf.EQUIPO e ON j.equipo = e.id_equipo " +
                            "WHERE e.competicion = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreCompeticion);
@@ -306,7 +306,7 @@ public class JugadorDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT 1 FROM sisinf_db.jugador WHERE nombre_usuario = ?";
+            String query = "SELECT 1 FROM sisinf.jugador WHERE nombre_usuario = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             rs = ps.executeQuery();
@@ -349,7 +349,7 @@ public class JugadorDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT 1 FROM sisinf_db.jugador WHERE nombre_jugador = ? AND equipo = ?";
+            String query = "SELECT 1 FROM sisinf.jugador WHERE nombre_jugador = ? AND equipo = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreJugador);
             ps.setInt(2, equipo);
@@ -393,7 +393,7 @@ public class JugadorDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.jugador WHERE nombre_usuario ILIKE ? OR nombre_jugador ILIKE ?";
+            String query = "SELECT * FROM sisinf.jugador WHERE nombre_usuario ILIKE ? OR nombre_jugador ILIKE ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, "%" + termino + "%");
             ps.setString(2, "%" + termino + "%");
@@ -442,7 +442,7 @@ public class JugadorDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.jugador WHERE nombre_jugador ILIKE ?";
+            String query = "SELECT * FROM sisinf.jugador WHERE nombre_jugador ILIKE ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, "%" + nombre + "%");
             rs = ps.executeQuery();
