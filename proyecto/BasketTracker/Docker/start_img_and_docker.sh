@@ -26,6 +26,7 @@ sudo docker build -t sisinf/tomcat:latest .
 # Paso 3: Crear la imagen de PostgreSQL
 echo "Creando la imagen de PostgreSQL..."
 cd ../postgres
+sudo unzip main.zip
 sudo docker build -t sisinf/postgresql:latest .
 
 # Paso 4: Crear los contenedores

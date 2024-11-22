@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+
+    <!-- Monitoreo de recursos por si necesitas reiniciar la aplicación al modificar -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+    <!-- Configuración del DataSource para PostgreSQL -->
+    <Resource name="jdbc/SIDB"
+              auth="Container"
+              type="javax.sql.DataSource"
+              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+              username="postgres"
+              password="shishinf"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://sisinf-database:5432/postgres"
+              maxActive="20"
+              maxIdle="10"
+              maxWaitMillis="-1"
+              testOnBorrow="true"
+              validationQuery="SELECT 1"/>
+
+</Context>
