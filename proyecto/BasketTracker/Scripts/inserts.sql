@@ -1,5 +1,5 @@
 -- Insertar usuarios en la tabla USUARIO
-INSERT INTO sisinf_db.usuario(nombre_usuario, correo_elec, password) VALUES
+INSERT INTO sisinf.usuario(nombre_usuario, correo_elec, password) VALUES
 ('admin', 'admin@unizar.es', '$2a$10$f5.f1UuxTvadZi1TeOZf6O3Ecwy3/qofzxJIRMVjiSwoHIToAKszy'),
 ('andrea', 'andrea@gmail.com', '$2a$10$UgBL0oR/gyJSS1no.ufVfegC3kPm5qrnb0.CnHHh8zxOx7i.Gl1pu'),
 ('mario', 'mario@gmail.com', '$2a$10$YMbpUFWBRTyxLTEzYU5x2.5svM4SsNA3pRz9e2qcOSrxPYagA4xH6'),
@@ -43,7 +43,7 @@ INSERT INTO sisinf_db.usuario(nombre_usuario, correo_elec, password) VALUES
 
 
 -- Insertar competición
-INSERT INTO sisinf_db.COMPETICION (nombre) VALUES 
+INSERT INTO sisinf.COMPETICION (nombre) VALUES 
     ('2a Aragonesa Femenina'),
     ('Social Plata'),
     ('3a Aragonesa Masculina'),
@@ -82,7 +82,7 @@ INSERT INTO sisinf_db.COMPETICION (nombre) VALUES
     ('Copa Nacional Femenina Sub-23');
 
 -- Insertar equipos
-INSERT INTO sisinf_db.EQUIPO (nombre_equipo, ubicacion, competicion) VALUES 
+INSERT INTO sisinf.EQUIPO (nombre_equipo, ubicacion, competicion) VALUES 
     -- 2a Aragonesa Femenina
     ('Boscos', 'Zaragoza', '2a Aragonesa Femenina'),
     ('Cristo Rey', 'Zaragoza', '2a Aragonesa Femenina'),
@@ -156,7 +156,7 @@ INSERT INTO sisinf_db.EQUIPO (nombre_equipo, ubicacion, competicion) VALUES
     ('Elche Eagles', 'Elche', 'Copa Nacional Femenina Sub-23');
 
 -- Insertar jugadores
-INSERT INTO sisinf_db.JUGADOR (nombre_usuario, nombre_jugador, equipo) VALUES 
+INSERT INTO sisinf.JUGADOR (nombre_usuario, nombre_jugador, equipo) VALUES 
     ('andrea', 'Andrea Hernández Artal', 1),
     ('mario', 'Mario Ferradas Aznar', 1),
     ('jorge', 'Jorge Clavero Agudo', 2),
@@ -197,7 +197,7 @@ INSERT INTO sisinf_db.JUGADOR (nombre_usuario, nombre_jugador, equipo) VALUES
     ('roberto', 'Roberto Martín Sánchez', 19),
     ('paula', 'Paula García Ramírez', 20);
 
-INSERT INTO sisinf_db.PARTIDO (equipo_local, equipo_visitante, jornada, 
+INSERT INTO sisinf.PARTIDO (equipo_local, equipo_visitante, jornada, 
     pts_c1_local, pts_c2_local, pts_c3_local, pts_c4_local, 
     pts_c1_visit, pts_c2_visit, pts_c3_visit, pts_c4_visit, hora, fecha) VALUES 
     
@@ -270,7 +270,7 @@ INSERT INTO sisinf_db.PARTIDO (equipo_local, equipo_visitante, jornada,
 
 
 -- Insertar estadísticas de jugadores en partidos
-INSERT INTO sisinf_db.PTS_JUG_PAR (id_partido, nombre_usuario, pts_ant, trp_ant, tlb_lan, tlb_ant, faltas, mnt_jd) VALUES 
+INSERT INTO sisinf.PTS_JUG_PAR (id_partido, nombre_usuario, pts_ant, trp_ant, tlb_lan, tlb_ant, faltas, mnt_jd) VALUES 
     -- Partido 1
     (1, 'andrea', 15, 2, 5, 3, 2, 20),
     (1, 'mario', 20, 1, 4, 2, 1, 22),
@@ -302,7 +302,7 @@ INSERT INTO sisinf_db.PTS_JUG_PAR (id_partido, nombre_usuario, pts_ant, trp_ant,
     (5, 'martin', 11, 1, 4, 2, 2, 27);      
 
 -- Insertar jugadores favoritos de usuarios
-INSERT INTO sisinf_db.JUGADOR_FAV (nombre_usuario, jugador) VALUES 
+INSERT INTO sisinf.JUGADOR_FAV (nombre_usuario, jugador) VALUES 
     ('andrea', 'andrea'),
     ('andrea', 'mario'),
     ('andrea', 'jorge'),
@@ -316,7 +316,7 @@ INSERT INTO sisinf_db.JUGADOR_FAV (nombre_usuario, jugador) VALUES
     ('pablo', 'carla');
 
 -- Insertar equipos favoritos de usuarios
-INSERT INTO sisinf_db.EQUIPO_FAV (nombre_usuario, equipo) VALUES 
+INSERT INTO sisinf.EQUIPO_FAV (nombre_usuario, equipo) VALUES 
     ('andrea', 1),
     ('andrea', 2),
     ('andrea', 3),
@@ -329,7 +329,7 @@ INSERT INTO sisinf_db.EQUIPO_FAV (nombre_usuario, equipo) VALUES
     ('sara', 8);
 
 -- Insertar competiciones favoritas de usuarios
-INSERT INTO sisinf_db.COMPETICION_FAV (nombre_usuario, competicion) VALUES 
+INSERT INTO sisinf.COMPETICION_FAV (nombre_usuario, competicion) VALUES 
     ('andrea', '2a Aragonesa Femenina'),
     ('mario', '2a Aragonesa Femenina'),
     ('jorge', '2a Aragonesa Femenina'),

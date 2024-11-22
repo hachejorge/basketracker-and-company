@@ -29,7 +29,7 @@ public class ComentarioDAO {
             // Obtener la conexión a la base de datos
             conn = PoolConnectionManager.getConnection();
             // Consulta SQL para insertar el comentario
-            String query = "INSERT INTO sisinf_db.comentario (nombre_usuario, id_partido, comentario) VALUES (?, ?, ?)";
+            String query = "INSERT INTO sisinf.comentario (nombre_usuario, id_partido, comentario) VALUES (?, ?, ?)";
             ps = conn.prepareStatement(query);
             ps.setString(1, comentario.getNombreUsuario());
             ps.setInt(2, comentario.getIdPartido());
@@ -68,7 +68,7 @@ public class ComentarioDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.comentario WHERE nombre_usuario = ? AND id_partido = ?";
+            String query = "SELECT * FROM sisinf.comentario WHERE nombre_usuario = ? AND id_partido = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             ps.setInt(2, idPartido);
@@ -118,7 +118,7 @@ public class ComentarioDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.comentario";
+            String query = "SELECT * FROM sisinf.comentario";
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
 
@@ -168,7 +168,7 @@ public class ComentarioDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.comentario WHERE nombre_usuario = ?";
+            String query = "SELECT * FROM sisinf.comentario WHERE nombre_usuario = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             rs = ps.executeQuery();
@@ -219,7 +219,7 @@ public class ComentarioDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.comentario WHERE id_partido = ?";
+            String query = "SELECT * FROM sisinf.comentario WHERE id_partido = ?";
             ps = conn.prepareStatement(query);
             ps.setInt(1, idPartido);
             rs = ps.executeQuery();
@@ -269,7 +269,7 @@ public class ComentarioDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "DELETE FROM sisinf_db.comentario WHERE nombre_usuario = ? AND id_partido = ? AND comentario = ?";
+            String query = "DELETE FROM sisinf.comentario WHERE nombre_usuario = ? AND id_partido = ? AND comentario = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombreUsuario);
             ps.setInt(2, idPartido);

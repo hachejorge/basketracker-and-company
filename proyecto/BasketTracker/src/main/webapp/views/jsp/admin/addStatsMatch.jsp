@@ -18,7 +18,6 @@
     EquipoVO equipoVisitante = EquipoDAO.obtenerEquipoPorId(partido.getEquipoVisitante());
     
     PtsJugParVO datosPartidoJugador = PtsJugParDAO.obtenerPtsJugPar(Integer.parseInt(partidoId), nombreJugador);
-
 %>
 
 <!DOCTYPE html>

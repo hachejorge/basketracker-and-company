@@ -28,7 +28,7 @@ public class CompeticionDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "INSERT INTO sisinf_db.competicion (nombre) VALUES (?)";
+            String query = "INSERT INTO sisinf.competicion (nombre) VALUES (?)";
             ps = conn.prepareStatement(query);
             ps.setString(1, competicion.getNombre());
             
@@ -64,7 +64,7 @@ public class CompeticionDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.competicion WHERE nombre = ?";
+            String query = "SELECT * FROM sisinf.competicion WHERE nombre = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombre);
             rs = ps.executeQuery();
@@ -105,7 +105,7 @@ public class CompeticionDAO {
      */
     public List<CompeticionVO> buscarCompeticiones(String termino, int limite) {
         List<CompeticionVO> competiciones = new ArrayList<>();
-        String sql = "SELECT nombre FROM sisinf_db.competicion WHERE nombre LIKE ? LIMIT ?";
+        String sql = "SELECT nombre FROM sisinf.competicion WHERE nombre LIKE ? LIMIT ?";
 
         try (
         	Connection conn = PoolConnectionManager.getConnection();
@@ -143,7 +143,7 @@ public class CompeticionDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "SELECT * FROM sisinf_db.competicion";
+            String query = "SELECT * FROM sisinf.competicion";
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
 
@@ -186,7 +186,7 @@ public class CompeticionDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "UPDATE sisinf_db.competicion SET nombre = ? WHERE nombre = ?";
+            String query = "UPDATE sisinf.competicion SET nombre = ? WHERE nombre = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nuevoNombre);
             ps.setString(2, competicion.getNombre());
@@ -219,7 +219,7 @@ public class CompeticionDAO {
 
         try {
             conn = PoolConnectionManager.getConnection();
-            String query = "DELETE FROM sisinf_db.competicion WHERE nombre = ?";
+            String query = "DELETE FROM sisinf.competicion WHERE nombre = ?";
             ps = conn.prepareStatement(query);
             ps.setString(1, nombre);
             ps.executeUpdate();
@@ -247,7 +247,7 @@ public class CompeticionDAO {
      */
     public static List<CompeticionVO> buscarCompeticiones(String searchTerm) throws SQLException {
         List<CompeticionVO> competiciones = new ArrayList<>();
-        String query = "SELECT * FROM sisinf_db.COMPETICION WHERE nombre ILIKE ?";
+        String query = "SELECT * FROM sisinf.COMPETICION WHERE nombre ILIKE ?";
         
         try (Connection conn = PoolConnectionManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -270,7 +270,7 @@ public class CompeticionDAO {
      */
     public static List<CompeticionVO> buscarCompeticionesPorNombre(String nombre) {
         List<CompeticionVO> competiciones = new ArrayList<>();
-        String sql = "SELECT nombre FROM sisinf_db.COMPETICION WHERE nombre ILIKE ?";
+        String sql = "SELECT nombre FROM sisinf.COMPETICION WHERE nombre ILIKE ?";
 
         try (Connection conn = PoolConnectionManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
