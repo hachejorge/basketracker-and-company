@@ -25,6 +25,10 @@ docker_up() {
 
 # Ejecución del script
 remove_containers
+
+cd postgres/
+sudo unzip main.zip
+
 docker_build
 docker_up
 
