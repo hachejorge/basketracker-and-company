@@ -32,6 +32,9 @@ import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.io.BufferedReader;
 
+import java.io.File;
+import java.util.Scanner;
+import java.nio.file.Files;
 
 /**
  * Clase de ejemplo de un indexador y buscador usando Lucene
@@ -102,9 +105,9 @@ public class IndexadorYBuscadorP6{
 	 * @return un índice (Directory) en memoria, con los índices de los ficheros
 	 * @throws IOException
 	 */
-	private Directory crearIndiceEnUnDirectorio() throws IOException{
+	private Directory crearIndiceEnUnDirectorio(String directorio) throws IOException{
 		IndexWriter indice = null;
-		Directory directorioAlmacenarIndice = new MMapDirectory(Paths.get(INDEXDIR));
+		Directory directorioAlmacenarIndice = new MMapDirectory(Paths.get("./" + directorio + "/indice"));
 
 		IndexWriterConfig configuracionIndice = new IndexWriterConfig(analizador);
 
@@ -167,7 +170,7 @@ public class IndexadorYBuscadorP6{
 	 * @param paginas 
 	 * @param hitsPorPagina
 	 * @throws IOException
-	 */
+	 
 	private void buscarQueries(Directory directorioDelIndice, int paginas, int hitsPorPagina)
 	throws IOException{
 		for (String palabra : queries) {
@@ -177,8 +180,33 @@ public class IndexadorYBuscadorP6{
 								palabra);			
 		}
 	}
+	*/
 	
+	/**
+	 * 
+	 */
+	private static void menuInicial() {
+		System.out.println("Seleccione una opción:");
+		System.out.println("1.-Indexar un directorio");
+		System.out.println("2.-Añadir un documento al índice");
+		System.out.println("3.-Buscar término");
+		System.out.println("4.-Salir\n");
+	}
 	
+	/**
+	 * Se guarda en la colección fichs todos los ficheros a indexar dentro del directorio con ruta path
+	 * @param fichs colección de ficheros para indexar
+	 * @param path ruta del directorio donde se encuentran los ficheros a indexar
+	 */
+	private static void buscadorFichs(Collection<String> fichs, String path) {
+		File directorio = new File(path);
+		File[] listFichs = directorio.listFiles();
+		for (int i=0; i < listFichs.length; i++) {
+			if (listFichs[i].isFile()) {
+				fichs.add(path + "/" + listFichs[i].getName());
+			}
+		}
+	}
 	
 	/**
 	 * Programa principal de prueba. Rellena las colecciones "ficheros" y "queries"
@@ -186,6 +214,58 @@ public class IndexadorYBuscadorP6{
 	 * @throws IOException
 	 */
 	public static void main(String[]args) throws IOException{
+		int numero = 0;
+		Scanner input = new Scanner(System.in);
+		while (numero != 4) { // mientras que no quiera salir
+			menuInicial();
+			numero = input.nextInt();
+			input.nextLine();
+			
+			if (numero == 1) { // indexar un directorio
+				System.out.println("Introducir directorio: ");
+				String directorio = input.nextLine();
+				
+				Collection<String> fichs = new ArrayList<String>();
+				buscadorFichs(fichs, "./" + directorio);
+				
+				IndexadorYBuscadorP6 index = new IndexadorYBuscadorP6(fichs);
+				index.crearIndiceEnUnDirectorio(directorio);
+				System.out.println("Índice creado correctamente");
+				
+			} else if (numero == 2) { // añadir un documento al indice
+				
+			} else if (numero == 3) { // buscar término
+				System.out.println("Introducir directorio: ");
+				String directorio = input.nextLine();
+				
+				if (Files.isDirectory(Paths.get("./" + directorio))) {
+					Collection<String> fichs = new ArrayList<String>();
+					buscadorFichs(fichs, "./" + directorio);
+					IndexadorYBuscadorP6 index = new IndexadorYBuscadorP6(fichs);
+					
+					System.out.println("Introducir término: ");
+					String query = input.nextLine();
+					
+					if (query != "") { // si no es vacía
+						Directory dir = null; // directorio del indice que se ha creado
+						if (Files.isDirectory(Paths.get("./" + directorio + "/indice"))) {
+							dir = MMapDirectory.open(Paths.get("./" + directorio + "/indice"));
+						} else {
+							dir = index.crearIndiceEnUnDirectorio(directorio);
+						}
+						index.buscarQueryEnIndice(dir, fichs.size(), 1, query);
+					}
+					
+				} else {
+					System.out.println("No existe el directorio introducido");
+				}
+			}
+			System.out.println();
+		}
+		input.close();
+		
+		
+		/**
 		// Establecemos la lista de ficheros a indexar
 		Collection <String> ficheros = new ArrayList <String>();
 		ficheros.add("./ficheros/uno.txt");
@@ -214,6 +294,7 @@ public class IndexadorYBuscadorP6{
 		
 		// Ejecutamos la búsqueda de las palabras clave
 		ejemplo.buscarQueries(directorioDelIndiceCreado, ficheros.size(), 1);
+		*/
 	}
 	
 }
