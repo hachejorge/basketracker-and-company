@@ -38,9 +38,7 @@ import java.nio.file.Files;
 import java.util.InputMismatchException;
 
 /**
- * Clase de ejemplo de un indexador y buscador usando Lucene
  * @author GrupoPracticasB04_Viernes12_14
- *
  */
 public class IndexadorYBuscadorP6{
 
@@ -60,7 +58,6 @@ public class IndexadorYBuscadorP6{
 	 */
 	public IndexadorYBuscadorP6(Collection<String> ficherosAIndexar){
 		this.ficherosAIndexar = ficherosAIndexar;
-		
 		analizador = new SpanishAnalyzer();	
 	}
 		
@@ -73,8 +70,7 @@ public class IndexadorYBuscadorP6{
 	private void anyadirFichero(IndexWriter indice, String path) 
 	throws IOException {
 		InputStream inputStream = new FileInputStream(path);
-		BufferedReader inputStreamReader = new BufferedReader(
-				new InputStreamReader(inputStream,"UTF-8"));
+		BufferedReader inputStreamReader = new BufferedReader(new InputStreamReader(inputStream,"UTF-8"));
 		
 		Document doc = new Document();   
 		doc.add(new TextField("contenido", inputStreamReader));
@@ -111,12 +107,8 @@ public class IndexadorYBuscadorP6{
 	 * @param queryAsString
 	 * @throws IOException
 	 */
-	private void buscarQueryEnIndice(Directory directorioDelIndice, 
-										int paginas, 
-										int hitsPorPagina, 
-										String queryAsString)
+	private void buscarQueryEnIndice(Directory directorioDelIndice, int paginas, int hitsPorPagina, String queryAsString)
 	throws IOException{
-
 		DirectoryReader directoryReader = DirectoryReader.open(directorioDelIndice);
 		IndexSearcher buscador = new IndexSearcher(directoryReader);
 		
@@ -136,7 +128,8 @@ public class IndexadorYBuscadorP6{
 				System.out.println((++i) + ". " + doc.get("path") + "\t" + hit.score);
 			}
 
-		}catch (ParseException e){
+		}
+		catch (ParseException e){
 			throw new IOException(e);
 		}	
 	}
@@ -160,10 +153,15 @@ public class IndexadorYBuscadorP6{
 		File directorio = new File(path);
 		if (directorio.exists() && directorio.isDirectory()) {
 			File[] listFichs = directorio.listFiles();
-			for (int i=0; i < listFichs.length; i++) {
-				if (listFichs[i].isFile()) {
-					fichs.add(path + "/" + listFichs[i].getName());
+			if (listFichs != null) {
+				for (File fichero : listFichs) {
+					if (fichero.isFile()) {
+						fichs.add(path + "/" + fichero.getName());
+					}
 				}
+			}
+			else {
+				System.out.println("El directorio está vacío");
 			}
 		}
 	}
@@ -179,7 +177,7 @@ public class IndexadorYBuscadorP6{
 		String directorio;
 		Collection<String> fichs = new ArrayList<String>();
 		
-		while (numero != 3) { // mientras que no quiera salir
+		while (numero != 3) { // mientras que el usuario no quiera salir
 			menuInicial();
 			try {
 				numero = input.nextInt();
@@ -188,13 +186,17 @@ public class IndexadorYBuscadorP6{
 					case 1 : // indexar un directorio
 						System.out.println("Introducir directorio: ");
 						directorio = input.nextLine();
-						
-						fichs = new ArrayList<String>();
-						buscadorFichs(fichs, "./" + directorio);
-						if (fichs != null) {
-							IndexadorYBuscadorP6 index = new IndexadorYBuscadorP6(fichs);
-							index.crearIndiceEnUnDirectorio(directorio);
-							System.out.println("Índice creado correctamente");
+						if (Files.isDirectory(Paths.get("./" + directorio + "/indice"))) { // si existe indice en el directorio
+							System.out.println("Ya existe el directorio introducido");
+						}
+						else { // si no tiene indice
+							fichs = new ArrayList<String>();
+							buscadorFichs(fichs, "./" + directorio);
+							if (fichs != null) {
+								IndexadorYBuscadorP6 index = new IndexadorYBuscadorP6(fichs);
+								index.crearIndiceEnUnDirectorio(directorio);
+								System.out.println("Índice creado correctamente");
+							}
 						}
 						break;
 					case 2 : // buscar término

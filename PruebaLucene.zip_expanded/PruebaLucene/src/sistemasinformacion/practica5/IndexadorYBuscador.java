@@ -201,13 +201,12 @@ public class IndexadorYBuscador{
 
 		// Establecemos las palabras clave a utilizar en la búsqueda
 		Collection <String> queries = new ArrayList <String>();
-		queries.add("Contaminacion");
+		//queries.add("Contaminacion");
+		//queries.add("cambio climatico");
+		queries.add("contaminacion");
 		queries.add("cambio climatico");
-		queries.add("cambio climatico");
-		queries.add("cambio");
-		queries.add("climatico");
 		queries.add("por");
-		queries.add("aeropuerto");
+		queries.add("Aeropuerto");
 
 		// Creamos el idexador / buscador
 		IndexadorYBuscador ejemplo = new IndexadorYBuscador(ficheros, queries);
