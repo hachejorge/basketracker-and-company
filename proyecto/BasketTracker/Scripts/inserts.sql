@@ -236,6 +236,13 @@ INSERT INTO sisinf.PARTIDO (equipo_local, equipo_visitante, jornada,
     (4, 2, 5, 21, 20, 19, 17, 19, 17, 22, 21, '20:00', '2023-02-04'),
     (10, 3, 5, 19, 18, 21, 20, 17, 19, 18, 22, '17:00', '2023-02-04'),
     (8, 6, 5, 18, 21, 20, 19, 20, 18, 17, 22, '18:30', '2023-02-04'),
+    
+    -- Jornada 12
+    (7, 1, 5, 20, 21, 18, 19, 22, 17, 18, 20, '18:00', '2025-02-04'),
+    (5, 9, 5, 18, 20, 21, 19, 17, 22, 18, 20, '19:00', '2025-02-04'),
+    (4, 2, 5, 21, 20, 19, 17, 19, 17, 22, 21, '20:00', '2025-02-04'),
+    (10, 3, 5, 19, 18, 21, 20, 17, 19, 18, 22, '17:00', '2025-02-04'),
+    (8, 6, 5, 18, 21, 20, 19, 20, 18, 17, 22, '18:30', '2025-02-04'),
 
     -- Social Plata
     -- Jornada 1
@@ -441,17 +448,12 @@ INSERT INTO sisinf.COMENTARIO (nombre_usuario, id_partido, comentario) VALUES
     ('ignacio', 3, 'El arbitraje ha sido algo permisivo, pero ha mantenido el orden.'),
     ('jaime', 4, 'Ese mate en el tercer cuarto ha sido el momento más destacado del partido.'),
     ('ines', 5, 'Ambos equipos han demostrado un excelente nivel táctico y técnico.'),
-    ('luis', 6, 'La remontada en la segunda parte ha sido digna de admiración.'),
     ('mario', 7, 'El público ha estado increíble, apoyando hasta el final sin descanso.'),
     ('andrea', 8, 'Hoy los visitantes han demostrado por qué son líderes de la tabla.'),
-    ('lucas', 9, 'El equipo local ha tenido una actuación sobresaliente en defensa.'),
     ('paula', 10, 'Un partido para recordar, lleno de intensidad y emoción.'),
-    ('sofia', 1, 'El entrenador local ha acertado con los cambios, una estrategia brillante.'),
-    ('david', 2, 'El ritmo de juego ha sido altísimo, un espectáculo para los aficionados.'),
     ('laura', 3, 'El trabajo en equipo de los locales ha sido impresionante, han estado muy coordinados.'),
     ('roberto', 4, 'El equipo visitante ha perdido muchas oportunidades clave, una lástima.'),
     ('clara', 5, 'El talento individual de los jugadores locales ha marcado la diferencia.'),
-    ('miguel', 6, 'La afición local ha sido el jugador número 6, qué energía en las gradas.'),
     ('natalia', 7, 'Un partido muy táctico, se ha notado el trabajo de los entrenadores.'),
     ('sergio', 8, 'Los visitantes han controlado el balón con mucha calidad, se han merecido ganar.'),
     ('marta', 9, 'El equipo local ha dado una lección de juego limpio y deportivo.'),
