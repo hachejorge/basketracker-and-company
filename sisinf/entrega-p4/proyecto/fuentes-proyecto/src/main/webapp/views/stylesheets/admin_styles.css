@@ -1,0 +1,375 @@
+:root {
+    --color-primary: #001E2B; /* Color principal */
+    --color-secondary: #F2743D;  /* Color secundario */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0; /* Color de fondo */
+}
+
+/* Cabecera */
+.cabecera-section {
+    background-color: var(--color-primary); /* Color de fondo usando la variable */
+    text-align: center; /* Centra el contenido */
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    height: 138px; /* Establece una altura fija para la cabecera */
+}
+
+.cabecera-rect {
+    margin: 0 auto; /* Centra el div horizontalmente */
+    height: 100%; /* Asegura que el div de la cabecera ocupe el 100% de la altura de la cabecera */
+    display: flex; /* Flexbox para centrar verticalmente la imagen */
+    justify-content: center; /* Centra horizontalmente la imagen */
+    align-items: center; /* Centra verticalmente la imagen */
+}
+
+.cabecera-image {
+    height: 100%; /* Ajusta la altura de la imagen al 100% de la cabecera */
+    width: 136px; /* Mantiene la proporción de la imagen */
+    border-radius: 5px; /* Esquinas redondeadas */
+}
+
+.thecontainer {
+	display: flex;
+	flex-direction: column;
+}
+
+.container-inicio {
+	width: 100vw;
+	height: calc(100vh - 276px);
+	background-color: #FFFFFF;
+}
+
+
+.recuadro {
+	height: 62px;
+	border-bottom: 1px solid #000;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centra el contenido de la navbar */
+    gap: 20px; /* Añade espacio entre cada .navbar-item */
+    background-color: #ffffff;
+    padding: 10px 20px; /* Ajusta el padding para mayor comodidad */
+    margin: 0 auto; /* Centra la barra en el contenedor */
+    width: 80%; /* Ajusta el ancho para que no ocupe todo el ancho */
+    border-radius: 10px; /* Opcional: para dar bordes redondeados */
+}
+
+.navbar-item {
+    display: flex;
+    align-items: center;
+    color: black;
+    font-size: 14px;
+    padding: 10px 15px; /* Ajusta el padding para mejor presentación */
+    cursor: pointer;
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.navbar-item i {
+    width: 20px;
+    height: 20px;
+}
+
+.navbar-item.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+.navbar-item span {
+    margin-left: 5px;
+}
+
+.content-section {
+	display: none;
+}
+.content-section.active {
+	display: block;
+}
+
+.form-section {
+    /*flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column; */
+    width: 50%; /* Ajusta este valor según tus necesidades (ej., 50%, 40%, 600px, etc.) */
+	margin: 20px auto; /* Centra el formulario horizontalmente */
+	padding: 20px;
+	border: 1px solid #ccc;
+    border-radius: 8px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-left: 8px;
+}
+
+.form-group input {
+    box-sizing: border-box;
+    width: 50%;
+    padding: 10px;
+    padding-right: 40px;
+    padding-left: 15px;
+    border: 1px solid rgb(232, 232, 232);
+    border-radius: 20px;
+    margin-left: 0px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-bottom: 1px solid var(--color-primary);
+    border-right: 1px solid var(--color-primary);
+}
+
+.form-group .toggle-password {
+    position: absolute;
+    top: 70%;
+    right: 7%;
+    font-size: 18px;
+    cursor: pointer;
+    color: #000000;
+    transform: translateY(-50%);
+}
+
+.form-group.save-button {
+	text-align: right;
+}
+
+.form-group button {
+    width: 30%;
+    padding: 10px;
+    background-color: var(--color-primary); /* Cambia el color de fondo a la variable */
+    border: none;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.suggestions {
+    /*border: 1px solid #ccc;*/
+    max-height: 150px; /* Ajuste de altura para permitir más espacio */
+    overflow-y: auto; /* Activar scroll si hay muchas sugerencias */
+    background-color: #fff;
+    z-index: 10;
+    width: 50%; /* Mismo ancho que el input */
+    border-radius: 5px;
+}
+
+/* Mantener el mismo tamaño de fuente y estilos */
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+    font-size: 14px; /* Ajustar si es necesario */
+}
+
+.suggestion-item:hover {
+    background-color: rgb(251, 210, 148);
+}
+
+.suggestion-desc {
+	font-size: 11px;
+}
+
+.info-panel {
+    max-height: 0;
+    font-size: 11px;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    border: 0px solid #ccc;
+    border-radius: 5px;
+    transition: max-height 0.2s ease-out, padding 0.2s ease-out;
+}
+
+.info-panel.open {
+    max-height: 200px; /* Ajusta según el contenido del panel */
+    padding-bottom: 15px;
+}
+
+.match-points {
+    display: flex !important;
+    gap: 15px !important; /* Espacio entre cada columna */
+    align-items: center !important;
+}
+
+.match-points label {
+    /*display: block;*/
+    text-align: center !important;
+    font-weight: bold;
+}
+
+.match-points input[type="number"] {
+    width: 20px; /* Ajusta el tamaño del campo de entrada */
+    height: 20px;
+    text-align: center;
+    font-size: 14px;
+    padding: 5px;
+}
+
+.form-group .match-points input {
+    box-sizing: border-box;
+    width: 15%;
+    padding: 10px;
+    padding-right: 40px;
+    padding-left: 15px;
+    border: 1px solid rgb(232, 232, 232);
+    border-radius: 20px;
+    margin-left: 0px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-bottom: 1px solid var(--color-primary);
+    border-right: 1px solid var(--color-primary);
+}
+
+.container-partidos {
+    padding: 10px 300px; /* Añadir un poco de espacio interno para mejor apariencia */
+    display: block; /* Cambia flex por block */
+}
+
+/* Contenedor principal */
+.partido-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 10px auto;
+}
+
+.partido {
+    display: flex;
+    align-items: center; /* Centra verticalmente los elementos dentro del partido */
+    border: 1px solid black;
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box; /* Asegura que el padding no aumente el ancho total */
+	cursor: pointer;
+}
+
+.partido:hover {
+	background-color: rgb(251, 210, 148);
+}
+
+/* Fecha y hora */
+.partido-fecha {
+    background-color: #d35400;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+}
+
+
+.partido-fecha .dia {
+    font-size: 18px;
+}
+
+.partido-fecha .mes {
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.partido-hora {
+    font-size: 14px;
+    text-align: center;
+}
+
+.equipos-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1; /* Ocupa el espacio restante */
+}
+
+.equipo {
+    display: flex;
+    align-items: center;
+}
+
+.equipo-logo {
+    width: 24px;
+    height: 24px;
+    background-color: #000;
+    border-radius: 50%;
+    margin: 0 10px;
+}
+
+.puntaje {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 5px;
+}
+
+.puntaje-local {
+    background-color: #d35400; /* Color para el equipo local */
+}
+
+.puntaje-visitante {
+    background-color: #34495e; /* Color para el equipo visitante */
+}
+
+/* Nombres de los equipos */
+.equipos-nombres {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Icono de ubicación */
+.ubicacion-container {
+    display: flex;
+    align-items: center;
+}
+
+.ubicacion-icono {
+    width: 24px;
+    height: 24px;
+    background-color: #ccc;
+    mask: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.svg#location-pin') center / contain;
+    margin-right: 5px;
+}
+
+.equipo i.fa-shield {
+    font-size: 30px; /* Cambia el tamaño del icono */
+    padding: 10px;   /* Agrega un padding alrededor del icono */
+    color: black;  /* Cambia el color si deseas */
+    border-radius: 50%; /* Para hacer que el fondo sea circular */
+}
+
+.ver-mas {
+    font-size: 16px;
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 10px;
+}
+

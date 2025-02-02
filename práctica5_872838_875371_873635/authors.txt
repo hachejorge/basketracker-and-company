@@ -1,5 +1,0 @@
-NIA     Apellidos        Nombre
-—————————————————————————————————
-873635  Ferradas Agudo   Andrea
-875371  Clavero Artal    Mario
-872838  Hernández Aznar  Jorge
