@@ -1,0 +1,13 @@
+<!-- res/drawable/border.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Color de fondo opcional -->
+    <solid android:color="@android:color/transparent" /> <!-- Fondo transparente si no quieres color de fondo -->
+
+    <!-- Configuración del borde -->
+    <stroke
+        android:width="2dp"
+        android:color="#000000" />   <!-- Color del borde -->
+
+    <!-- Esquinas redondeadas opcional -->
+    <corners android:radius="0dp" /> <!-- Radio de las esquinas -->
+</shape>

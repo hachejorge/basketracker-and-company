@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/border">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:orientation="vertical"
+        android:background="@drawable/border_header"
+        android:gravity="center_horizontal|center_vertical">
+
+        <ImageButton
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/logo_campify_sin_fondo"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Logo"
+            android:scaleType="fitCenter"/>
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            android:indeterminate="true"
+            android:layout_marginTop="16dp"
+            android:id="@+id/progressBar"
+            android:indeterminateTint="#000000" /> <!-- Color negro -->
+    </LinearLayout>
+</LinearLayout>
