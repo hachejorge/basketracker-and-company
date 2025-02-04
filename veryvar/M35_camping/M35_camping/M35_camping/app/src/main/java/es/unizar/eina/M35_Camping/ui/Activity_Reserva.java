@@ -18,8 +18,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import es.unizar.eina.M35_Camping.R;
 import es.unizar.eina.M35_Camping.database.Reserva;
@@ -35,7 +41,7 @@ public class Activity_Reserva extends AppCompatActivity implements ReservaListAd
     private RecyclerView mRecyclerView; /**< RecyclerView para mostrar la lista de reservas. */
     private ReservaListAdapter mAdapter; /**< Adaptador que vincula los datos de las reservas al RecyclerView. */
     private ImageButton mFab; /**< Botón flotante de acción para crear una nueva reserva. */
-    private Spinner mSpinner; /**< Spinner para ordenar la lista de reservas según un criterio seleccionado. */
+    private Spinner mSpinner, mSpinnerFiltar; /**< Spinner para ordenar la lista de reservas según un criterio seleccionado. */
     private List<Reserva> originalReservas = new ArrayList<>(); /**< Lista original de reservas para aplicar ordenación. */
 
     static final int INSERT_ID = Menu.FIRST; /**< ID del elemento del menú para insertar una nueva reserva. */
@@ -90,6 +96,19 @@ public class Activity_Reserva extends AppCompatActivity implements ReservaListAd
                 // No se realiza acción cuando no se selecciona nada
             }
         });
+
+        mSpinnerFiltar = findViewById(R.id.filtar);
+        mSpinnerFiltar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                actualizarListaReservas(); // Actualiza la lista cuando se selecciona un nuevo filtro
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // No se realiza acción cuando no se selecciona nada
+            }
+        });
     }
 
     /**
@@ -97,16 +116,55 @@ public class Activity_Reserva extends AppCompatActivity implements ReservaListAd
      * La lista se ordena según el filtro elegido: ID, Nombre del Cliente o Fecha de Entrada.
      */
     private void actualizarListaReservas() {
-        String selectedOption = (String) mSpinner.getSelectedItem();
-        List<Reserva> reservasOrdenadas = new ArrayList<>(originalReservas);
+        String selectedSortOption = (String) mSpinner.getSelectedItem();
+        String selectedFilterOption = (String) mSpinnerFiltar.getSelectedItem();
 
-        if (selectedOption != null) {
-            switch (selectedOption) {
+        List<Reserva> reservasFiltradas = new ArrayList<>();
+
+        // Formato de fecha (ajustar según el formato real de tus fechas)
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date today = new Date(); // Fecha actual
+
+        // Aplicar el filtro según la selección
+        for (Reserva reserva : originalReservas) {
+            try {
+                Date fechaEntrada = dateFormat.parse(reserva.getFechEnt());
+                Date fechaSalida = dateFormat.parse(reserva.getFechSal());
+
+                switch (selectedFilterOption) {
+                    case "Vigentes":
+                        if (!today.before(fechaEntrada) && !today.after(fechaSalida)) {
+                            reservasFiltradas.add(reserva);
+                        }
+                        break;
+                    case "Previstas":
+                        if (today.before(fechaEntrada)) {
+                            reservasFiltradas.add(reserva);
+                        }
+                        break;
+                    case "Caducadas":
+                        if (today.after(fechaSalida)) {
+                            reservasFiltradas.add(reserva);
+                        }
+                        break;
+                    case "Todas":
+                    default:
+                        reservasFiltradas.add(reserva);
+                        break;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace(); // Manejo de error si la fecha no se puede convertir
+            }
+        }
+
+        // Ordenar la lista filtrada según la opción de ordenamiento seleccionada
+        if (selectedSortOption != null) {
+            switch (selectedSortOption) {
                 case "ID":
-                    reservasOrdenadas.sort((r1, r2) -> Integer.compare(r1.getId(), r2.getId()));
+                    reservasFiltradas.sort(Comparator.comparingInt(Reserva::getId));
                     break;
                 case "Nombre Cliente":
-                    reservasOrdenadas.sort((r1, r2) -> {
+                    reservasFiltradas.sort((r1, r2) -> {
                         if (r1.getCliente() == null && r2.getCliente() == null) return 0;
                         if (r1.getCliente() == null) return 1;
                         if (r2.getCliente() == null) return -1;
@@ -114,14 +172,23 @@ public class Activity_Reserva extends AppCompatActivity implements ReservaListAd
                     });
                     break;
                 case "Fecha de Entrada":
-                    reservasOrdenadas.sort((r1, r2) -> r1.getFechEnt().compareTo(r2.getFechEnt()));
+                    reservasFiltradas.sort((r1, r2) -> {
+                        try {
+                            Date date1 = dateFormat.parse(r1.getFechEnt());
+                            Date date2 = dateFormat.parse(r2.getFechEnt());
+                            return date1.compareTo(date2);
+                        } catch (ParseException e) {
+                            return 0; // Si hay un error, no cambia el orden
+                        }
+                    });
                     break;
             }
         }
 
-        // Actualizar el adaptador con la lista ordenada
-        mAdapter.submitList(reservasOrdenadas);
+        // Actualizar el adaptador con la lista filtrada y ordenada
+        mAdapter.submitList(reservasFiltradas);
     }
+
 
     /**
      * Crea el menú de opciones en la barra de acción.

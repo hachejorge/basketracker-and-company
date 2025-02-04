@@ -22,4 +22,11 @@
         <item>Nombre Cliente</item>
         <item>Fecha de Entrada</item>
     </string-array>
+
+    <string-array name="reserva_types">
+        <item>Todas</item>
+        <item>Vigentes</item>
+        <item>Previstas</item>
+        <item>Caducadas</item>
+    </string-array>
 </resources>

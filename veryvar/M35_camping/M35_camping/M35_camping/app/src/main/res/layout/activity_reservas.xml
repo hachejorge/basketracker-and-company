@@ -39,30 +39,63 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Add"/>
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right">
-        <!-- Texto "Ordenar" -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ordenar"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center" />
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right">
+            <!-- Texto "Ordenar" -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ordenar"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center" />
 
-        <!-- Spinner para seleccionar el criterio de orden -->
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="150dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/border"
-            android:entries="@array/reserva_options" />
+            <!-- Spinner para seleccionar el criterio de orden -->
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/border"
+                android:entries="@array/reserva_options" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right">
+                <!-- Texto "Ordenar" -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Filtrar"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center" />
+
+                <!-- Spinner para seleccionar el criterio de orden -->
+                <Spinner
+                    android:id="@+id/filtar"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/border"
+                    android:entries="@array/reserva_types" />
+
+            </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
