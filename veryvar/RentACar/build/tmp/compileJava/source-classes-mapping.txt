@@ -1,0 +1,8 @@
+se/waymark/rentit/model/entity/Car.java
+ se.waymark.rentit.model.entity.Car
+se/waymark/rentit/model/dao/CarDAO.java
+ se.waymark.rentit.model.dao.CarDAO
+se/waymark/rentit/RentACarSupport.java
+ se.waymark.rentit.RentACarSupport
+se/waymark/rentit/model/dao/InMemoryCarDAO.java
+ se.waymark.rentit.model.dao.InMemoryCarDAO
